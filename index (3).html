@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+    <title>Казино-прост</title>
+    <!-- Подключаем Telegram Web App SDK для возможности расширения -->
+    <script src="https://telegram.org/js/telegram-web-app.js"></script>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            background: #0d0d0d;
+            font-family: 'Arial', sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            color: #fff;
+            padding: 16px;
+        }
+        .game-container {
+            background: #1c1c1c;
+            border-radius: 24px;
+            padding: 24px;
+            max-width: 400px;
+            width: 100%;
+            box-shadow: 0 0 30px rgba(255, 215, 0, 0.2);
+            text-align: center;
+        }
+        .balance {
+            font-size: 22px;
+            margin-bottom: 20px;
+            color: #f5c842;
+            font-weight: bold;
+        }
+        .result-box {
+            background: #2a2a2a;
+            border-radius: 16px;
+            padding: 40px 20px;
+            margin-bottom: 24px;
+            font-size: 48px;
+            min-height: 120px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: 1px solid #333;
+        }
+        .spin-btn {
+            background: linear-gradient(145deg, #f5c842, #d49b1a);
+            border: none;
+            border-radius: 40px;
+            padding: 18px 0;
+            width: 100%;
+            font-size: 24px;
+            font-weight: bold;
+            color: #0d0d0d;
+            cursor: pointer;
+            transition: transform 0.1s, box-shadow 0.2s;
+            box-shadow: 0 8px 0 #8a6110;
+        }
+        .spin-btn:active {
+            transform: translateY(6px);
+            box-shadow: 0 2px 0 #8a6110;
+        }
+        .spin-btn:disabled {
+            opacity: 0.6;
+            transform: translateY(4px);
+            box-shadow: 0 4px 0 #8a6110;
+            pointer-events: none;
+        }
+        .history {
+            margin-top: 20px;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            justify-content: center;
+        }
+        .history span {
+            background: #2a2a2a;
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-size: 18px;
+        }
+        .bet-control {
+            margin: 16px 0;
+        }
+        .bet-control input {
+            background: #2a2a2a;
+            border: 1px solid #444;
+            border-radius: 12px;
+            padding: 12px;
+            width: 80px;
+            text-align: center;
+            font-size: 20px;
+            color: #fff;
+            outline: none;
+        }
+        .bet-control label {
+            color: #aaa;
+            font-size: 16px;
+            margin-right: 8px;
+        }
+        .win { color: #4caf50; }
+        .lose { color: #f44336; }
+    </style>
+</head>
+<body>
+    <div class="game-container">
+        <div class="balance">💰 Баланс: <span id="balance">1000</span></div>
+
+        <div class="bet-control">
+            <label for="bet">Ставка:</label>
+            <input type="number" id="bet" value="10" min="1" step="1">
+        </div>
+
+        <div class="result-box" id="resultDisplay">🎰 Нажми крутить</div>
+
+        <button class="spin-btn" id="spinBtn">КРУТИТЬ</button>
+
+        <div class="history" id="history"></div>
+    </div>
+
+    <script>
+        // Инициализация Telegram Web App (для работы с темой и кнопками)
+        const tg = window.Telegram.WebApp;
+        tg.expand(); // растягиваем на весь экран
+
+        // Элементы
+        const balanceSpan = document.getElementById('balance');
+        const resultDisplay = document.getElementById('resultDisplay');
+        const spinBtn = document.getElementById('spinBtn');
+        const betInput = document.getElementById('bet');
+        const historyDiv = document.getElementById('history');
+
+        let balance = 1000;
+        let history = [];
+
+        // Функция обновления интерфейса
+        function updateUI() {
+            balanceSpan.textContent = balance;
+        }
+
+        // Основная функция игры
+        function spin() {
+            const bet = parseInt(betInput.value);
+            if (isNaN(bet) || bet < 1) {
+                alert('Введите ставку (минимум 1)');
+                return;
+            }
+            if (bet > balance) {
+                alert('Недостаточно средств!');
+                return;
+            }
+
+            // Спин заблокирован на время анимации (чтобы не нажимали много раз)
+            spinBtn.disabled = true;
+
+            // Симуляция вращения: меняем символы несколько раз
+            let counter = 0;
+            const interval = setInterval(() => {
+                const symbols = ['🎰', '🍒', '🍋', '💎', '7️⃣', '⭐', '🔔'];
+                const randomSym = symbols[Math.floor(Math.random() * symbols.length)];
+                resultDisplay.textContent = randomSym;
+                counter++;
+                if (counter > 10) {
+                    clearInterval(interval);
+                    // Финальный результат
+                    const win = Math.random() < 0.4; // 40% вероятность выигрыша
+                    let winAmount = 0;
+                    if (win) {
+                        // Выигрыш от x1 до x3 от ставки
+                        const multiplier = Math.floor(Math.random() * 3) + 1;
+                        winAmount = bet * multiplier;
+                        balance += winAmount;
+                        resultDisplay.textContent = `🎉 ВЫИГРЫШ +${winAmount}! 🎉`;
+                        resultDisplay.style.color = '#4caf50';
+                    } else {
+                        balance -= bet;
+                        resultDisplay.textContent = `😞 ПРОИГРЫШ -${bet}`;
+                        resultDisplay.style.color = '#f44336';
+                    }
+                    // Добавляем в историю (последние 10 записей)
+                    history.push({ win: win, amount: winAmount, bet: bet });
+                    if (history.length > 10) history.shift();
+                    renderHistory();
+
+                    updateUI();
+                    spinBtn.disabled = false;
+                }
+            }, 100);
+        }
+
+        function renderHistory() {
+            historyDiv.innerHTML = '';
+            history.forEach(item => {
+                const span = document.createElement('span');
+                if (item.win) {
+                    span.textContent = `+${item.amount}`;
+                    span.style.color = '#4caf50';
+                } else {
+                    span.textContent = `-${item.bet}`;
+                    span.style.color = '#f44336';
+                }
+                historyDiv.appendChild(span);
+            });
+        }
+
+        // Обработчик кнопки
+        spinBtn.addEventListener('click', spin);
+
+        // Инициализация
+        updateUI();
+        renderHistory();
+    </script>
+</body>
+</html>
