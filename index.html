@@ -9,7 +9,7 @@
         html, body {
             width: 100%;
             height: 100%;
-            background: #0a0a0a;
+            background: #000;
             color: #fff;
             font-family: 'Segoe UI', Roboto, system-ui, sans-serif;
             overflow: hidden;
@@ -24,7 +24,7 @@
             height: 100vh;
             max-width: 480px;
             padding: 12px 16px;
-            background: #111;
+            background: #000;
             display: flex;
             flex-direction: column;
             gap: 12px;
@@ -42,6 +42,7 @@
             flex-shrink: 0;
             gap: 8px;
             flex-wrap: nowrap;
+            background: #000;
         }
         .header-left {
             display: flex;
@@ -228,7 +229,7 @@
 
         .main-area {
             flex: 1;
-            background: #1a1a1a;
+            background: #000;
             border-radius: 20px;
             border: 1px dashed #333;
             display: flex;
@@ -243,13 +244,13 @@
             position: relative;
         }
 
-        /* ===== Plinko с жёлтым фоном ===== */
+        /* ===== Plinko с чёрным фоном ===== */
         .plinko-container {
             width: 100%;
             height: 100%;
             display: flex;
             flex-direction: column;
-            background: #FFD700; /* жёлтый фон */
+            background: #000;
             border-radius: 20px;
             padding: 12px 12px 8px 12px;
             overflow-y: auto;
@@ -259,9 +260,9 @@
             position: absolute;
             top: 8px;
             left: 8px;
-            background: rgba(0,0,0,0.3);
+            background: rgba(255,255,255,0.1);
             border: none;
-            color: #333;
+            color: #aaa;
             font-size: 22px;
             cursor: pointer;
             z-index: 10;
@@ -270,14 +271,14 @@
             transition: 0.2s;
         }
         .plinko-exit:hover {
-            background: rgba(0,0,0,0.5);
+            background: rgba(255,255,255,0.2);
             color: #fff;
         }
         .plinko-title {
             text-align: center;
             font-size: 20px;
             font-weight: 800;
-            color: #333;
+            color: #f5b342;
             letter-spacing: 2px;
             margin-bottom: 8px;
         }
@@ -294,21 +295,21 @@
             font-weight: 700;
             padding: 4px 0;
             border-radius: 4px;
-            border: 2px solid #333;
-            background: #fff; /* белый фон по умолчанию */
-            color: #000;
+            background: #222;
+            color: #fff;
+            border: 1px solid #444;
         }
         .plinko-multipliers .slot-label.high {
-            background: #9b59b6; /* фиолетовый */
+            background: #9b59b6;
             color: #fff;
         }
         .plinko-multipliers .slot-label.mid {
-            background: #ffffff; /* белый */
-            color: #000;
+            background: #2c3e50;
+            color: #fff;
         }
         .plinko-multipliers .slot-label.low {
-            background: #2c3e50; /* чёрный/тёмный */
-            color: #fff;
+            background: #1a1a1a;
+            color: #888;
         }
         .plinko-bet-balance {
             display: flex;
@@ -317,7 +318,7 @@
             margin-bottom: 8px;
             font-size: 14px;
             font-weight: 600;
-            color: #333;
+            color: #aaa;
         }
         .plinko-bet-balance .bet {
             display: flex;
@@ -325,19 +326,19 @@
             gap: 6px;
         }
         .plinko-bet-balance .bet input {
-            background: #fff;
-            border: 1px solid #333;
+            background: #1a1a1a;
+            border: 1px solid #444;
             border-radius: 30px;
             padding: 4px 12px;
             width: 80px;
-            color: #000;
+            color: #fff;
             font-size: 14px;
             font-weight: 600;
             text-align: center;
             outline: none;
         }
         .plinko-bet-balance .balance {
-            color: #333;
+            color: #f5b342;
         }
         .plinko-play-row {
             display: flex;
@@ -371,7 +372,7 @@
         .plinko-mode {
             display: flex;
             gap: 4px;
-            background: rgba(0,0,0,0.2);
+            background: #2a2a3a;
             border-radius: 30px;
             padding: 2px;
         }
@@ -382,7 +383,7 @@
             padding: 4px 14px;
             font-size: 12px;
             font-weight: 600;
-            color: #333;
+            color: #888;
             cursor: pointer;
             transition: 0.2s;
         }
@@ -391,7 +392,7 @@
             color: #111;
         }
         .plinko-mode button:hover {
-            color: #000;
+            color: #f5b342;
         }
 
         .plinko-canvas-wrap {
@@ -399,15 +400,15 @@
             min-height: 0;
             border-radius: 16px;
             overflow: hidden;
-            background: #FFD700; /* жёлтый фон для канваса */
-            border: 2px solid #333;
+            background: #000;
+            border: 1px solid #333;
             margin-top: 4px;
         }
         .plinko-canvas-wrap canvas {
             width: 100%;
             height: 100%;
             display: block;
-            background: #FFD700; /* жёлтый фон */
+            background: #000;
         }
 
         .footer {
@@ -723,7 +724,7 @@
     });
 
     // ============================================================
-    //  ИНТЕРФЕЙС PLINKO (ЖЁЛТЫЙ ФОН, АВТО, ЯРКИЕ ШАРИКИ)
+    //  PLINKO – ЧЁРНЫЙ ФОН, КРАСНЫЕ ШАРИКИ, БЕЛЫЕ КОЛЫШКИ
     // ============================================================
     function startPlinkoGame(container) {
         container.innerHTML = `
@@ -772,10 +773,8 @@
         const betInput = document.getElementById('plinkoBet');
         const plinkoBalanceEl = document.getElementById('plinkoBalance');
 
-        // Состояние авто-режима
         let autoInterval = null;
 
-        // Выход
         exitBtn.addEventListener('click', () => {
             if (animationId) cancelAnimationFrame(animationId);
             animationId = null;
@@ -785,7 +784,6 @@
             container.innerHTML = `<span style="color:#555;">Выберите раздел</span>`;
         });
 
-        // Обработчики режимов
         function setMode(mode) {
             if (mode === 'auto') {
                 modeManual.classList.remove('active');
@@ -793,7 +791,7 @@
                 if (!autoInterval) {
                     autoInterval = setInterval(() => {
                         addBall();
-                    }, 1500 + Math.random() * 500); // 1.5-2 секунды
+                    }, 1500 + Math.random() * 500);
                 }
             } else {
                 modeAuto.classList.remove('active');
@@ -839,14 +837,14 @@
             const spacingX = canvasW / (slotCount + 1);
             const spacingY = (canvasH - 40) / (numRows + 0.5);
 
-            // Колышки без верхнего ряда
+            // Колышки (без верхнего ряда, чтобы шарики падали между)
             for (let row = 1; row < numRows; row++) {
                 const cols = row + 1;
                 const offsetX = (canvasW - (cols - 1) * spacingX) / 2;
                 for (let col = 0; col < cols; col++) {
                     const x = offsetX + col * spacingX;
                     const y = 20 + row * spacingY;
-                    pegs.push({ x, y, radius: 5 }); // увеличил радиус для лучшего отскока
+                    pegs.push({ x, y, radius: 6 });
                 }
             }
 
@@ -858,7 +856,7 @@
                     x: x,
                     y: y,
                     width: slotWidth * 0.7,
-                    height: 14,
+                    height: 16,
                     multiplier: MULTIPLIERS[i],
                     color: getSlotColor(MULTIPLIERS[i])
                 });
@@ -866,61 +864,59 @@
         }
 
         function getSlotColor(m) {
-            if (m >= 5) return '#9b59b6'; // фиолетовый
-            if (m >= 2) return '#ffffff'; // белый
-            return '#2c3e50'; // чёрный
+            if (m >= 5) return '#9b59b6';
+            if (m >= 2) return '#34495e';
+            return '#1a1a1a';
         }
 
         function drawBoard() {
             if (!ctx) return;
             ctx.clearRect(0, 0, canvasW, canvasH);
-            // ФОН – жёлтый
-            ctx.fillStyle = '#FFD700';
+            // Фон чёрный
+            ctx.fillStyle = '#000';
             ctx.fillRect(0, 0, canvasW, canvasH);
 
-            // Колышки – белые, яркие
+            // Колышки – ярко-белые
             for (let p of pegs) {
                 ctx.beginPath();
                 ctx.arc(p.x, p.y, p.radius, 0, Math.PI * 2);
                 ctx.fillStyle = '#ffffff';
-                ctx.shadowColor = 'rgba(255,255,255,0.8)';
-                ctx.shadowBlur = 10;
+                ctx.shadowColor = 'rgba(255,255,255,0.6)';
+                ctx.shadowBlur = 12;
                 ctx.fill();
                 ctx.shadowBlur = 0;
-                // обводка для чёткости
-                ctx.strokeStyle = '#999';
+                ctx.strokeStyle = '#aaa';
                 ctx.lineWidth = 1;
                 ctx.stroke();
             }
 
-            // Слоты с рамками
+            // Слоты (множители) – чётко видны
             for (let s of slots) {
                 const x = s.x - s.width / 2;
                 const y = s.y - s.height / 2;
                 ctx.fillStyle = s.color;
                 ctx.shadowBlur = 0;
                 ctx.fillRect(x, y, s.width, s.height);
-                ctx.strokeStyle = '#333';
+                ctx.strokeStyle = '#555';
                 ctx.lineWidth = 2;
                 ctx.strokeRect(x, y, s.width, s.height);
-                // текст
-                ctx.fillStyle = (s.color === '#ffffff') ? '#000' : '#fff';
-                ctx.font = 'bold 11px Arial';
+                ctx.fillStyle = '#fff';
+                ctx.font = 'bold 12px Arial';
                 ctx.textAlign = 'center';
                 ctx.textBaseline = 'middle';
                 ctx.fillText('x' + s.multiplier, s.x, s.y);
             }
 
-            // Шарики – ярко-жёлтые с белым свечением
+            // Шарики – красные с ярким свечением
             for (let b of balls) {
                 ctx.beginPath();
                 ctx.arc(b.x, b.y, 7, 0, Math.PI * 2);
-                ctx.fillStyle = '#FFD700';
-                ctx.shadowColor = 'rgba(255,255,255,0.9)';
+                ctx.fillStyle = '#ff1744';
+                ctx.shadowColor = 'rgba(255,23,68,0.8)';
                 ctx.shadowBlur = 20;
                 ctx.fill();
                 ctx.shadowBlur = 0;
-                ctx.strokeStyle = '#FFA500';
+                ctx.strokeStyle = '#ff5252';
                 ctx.lineWidth = 2;
                 ctx.stroke();
             }
@@ -954,7 +950,8 @@
         function gameLoop() {
             let anyActive = false;
             const GRAVITY = 0.25;
-            const BOUNCE = 0.65; // увеличен для лучшего отскока
+            const BOUNCE = 0.7; // высокий отскок для лучшего движения
+            const FRICTION = 0.99;
 
             for (let b of balls) {
                 if (b.finished) continue;
@@ -962,6 +959,9 @@
                 b.vy += GRAVITY;
                 b.x += b.vx;
                 b.y += b.vy;
+                // небольшое трение
+                b.vx *= FRICTION;
+                b.vy *= FRICTION;
 
                 // Столкновения с колышками
                 for (let p of pegs) {
@@ -976,11 +976,11 @@
                         const speed = Math.sqrt(b.vx * b.vx + b.vy * b.vy);
                         const newVx = Math.cos(angle) * speed * BOUNCE;
                         const newVy = Math.sin(angle) * speed * BOUNCE;
-                        b.vx = newVx + (Math.random() - 0.5) * 0.3;
-                        b.vy = newVy + (Math.random() - 0.5) * 0.3;
-                        // добавим небольшое случайное смещение, чтобы избежать застревания
-                        b.x += (Math.random() - 0.5) * 0.5;
-                        b.y += (Math.random() - 0.5) * 0.5;
+                        b.vx = newVx + (Math.random() - 0.5) * 0.4;
+                        b.vy = newVy + (Math.random() - 0.5) * 0.4;
+                        // Смещение для предотвращения застревания
+                        b.x += (Math.random() - 0.5) * 1.0;
+                        b.y += (Math.random() - 0.5) * 1.0;
                     }
                 }
 
@@ -988,7 +988,7 @@
                 if (b.x < b.radius) { b.x = b.radius; b.vx = -b.vx * 0.8; }
                 if (b.x > canvasW - b.radius) { b.x = canvasW - b.radius; b.vx = -b.vx * 0.8; }
 
-                // Проверка попадания в слот
+                // Попадание в слот – шарик удаляется, не застревает
                 if (b.y + b.radius > canvasH - 10) {
                     let targetSlot = slots[0];
                     for (let s of slots) {
@@ -1005,29 +1005,29 @@
                     updateBalanceUI();
                     if (plinkoBalanceEl) plinkoBalanceEl.textContent = balance.toFixed(2);
                     b.finished = true;
-                    b.y = canvasH - 15;
-                    b.vy = 0;
-                    b.vx = 0;
+                    // Шарик удаляется из массива, не остаётся на месте
                 }
             }
 
+            // Удаляем завершённые шарики (чтобы они не мешали и не заслоняли множители)
+            balls = balls.filter(b => !b.finished);
+
             drawBoard();
 
-            if (anyActive || balls.some(b => !b.finished)) {
+            if (anyActive || balls.length > 0) {
                 animationId = requestAnimationFrame(gameLoop);
             } else {
                 animationId = null;
             }
         }
 
-        // Кнопка PLAY запускает один шарик
         playBtn.addEventListener('click', addBall);
 
         setTimeout(() => {
             resizeCanvas();
         }, 50);
 
-        // Переопределим функции обновления баланса
+        // Обновление баланса в этом окне
         window.updateBalanceUI = function() {
             document.getElementById('balanceDisplay').textContent = balance;
             document.getElementById('panelBalance').textContent = balance;
@@ -1039,9 +1039,7 @@
             if (plinkoBalanceEl) plinkoBalanceEl.textContent = balance.toFixed(2);
         };
 
-        // При переключении на ручной режим, если авто был включён – отключаем
-        // (обрабатывается в setMode)
-        // По умолчанию ручной, авто выключен
+        // По умолчанию ручной
         setMode('manual');
     }
 
