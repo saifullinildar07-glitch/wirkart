@@ -27,11 +27,12 @@
             background: #111;
             display: flex;
             flex-direction: column;
-            gap: 16px;
+            gap: 12px;
             border-radius: 0;
             border: none;
             position: relative;
         }
+        /* Шапка */
         .header {
             display: flex;
             justify-content: space-between;
@@ -45,7 +46,6 @@
             align-items: center;
             gap: 16px;
         }
-        /* Логотип TWIN BOL */
         .brand {
             background: #6a1b9a;
             padding: 4px 16px;
@@ -98,11 +98,10 @@
             align-items: center;
             gap: 12px;
         }
-        /* Новая кнопка баланса – квадратная, с подписью сверху */
         .balance-top {
             background: #1a1a1a;
             padding: 6px 18px 8px 18px;
-            border-radius: 12px; /* квадратная, но с небольшим скруглением */
+            border-radius: 12px;
             border: 1px solid #444;
             cursor: pointer;
             transition: 0.2s;
@@ -153,6 +152,48 @@
             transition: 0.3s;
         }
 
+        /* Основная часть: слева меню, справа контент */
+        .body-row {
+            display: flex;
+            gap: 16px;
+            flex: 1;
+            min-height: 0;
+        }
+        .sidebar {
+            width: 12%;
+            min-width: 70px;
+            max-width: 120px;
+            background: #1a1a1a;
+            border-radius: 20px;
+            padding: 12px 8px;
+            border: 1px solid #2a2a2a;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            flex-shrink: 0;
+        }
+        .sidebar .menu-item {
+            font-size: 13px;
+            font-weight: 600;
+            color: #ccc;
+            padding: 8px 6px;
+            border-radius: 12px;
+            cursor: pointer;
+            transition: 0.15s;
+            text-align: center;
+            letter-spacing: 0.3px;
+            font-family: 'Segoe UI', Roboto, system-ui, sans-serif;
+            border: 1px solid transparent;
+        }
+        .sidebar .menu-item:hover {
+            background: #2a2a3a;
+            color: #f5b342;
+            border-color: #f5b342;
+        }
+        .sidebar .menu-item:active {
+            transform: scale(0.95);
+        }
+
         .main-area {
             flex: 1;
             background: transparent;
@@ -163,6 +204,9 @@
             font-size: 18px;
             min-height: 0;
             border: none;
+            border-radius: 20px;
+            background: #1a1a1a;
+            border: 1px dashed #333;
         }
 
         .footer {
@@ -172,7 +216,7 @@
             flex-shrink: 0;
         }
 
-        /* Меню */
+        /* Меню-бургер (выездное) */
         .menu-overlay {
             position: fixed;
             top: 0;
@@ -194,7 +238,7 @@
         .menu-overlay.open {
             transform: translateX(0);
         }
-        .menu-item {
+        .menu-item-burger {
             font-size: 20px;
             font-weight: 600;
             color: #eee;
@@ -203,7 +247,7 @@
             cursor: pointer;
             transition: 0.15s;
         }
-        .menu-item:active {
+        .menu-item-burger:active {
             color: #f5b342;
             transform: translateX(6px);
         }
@@ -313,6 +357,8 @@
             .brand { font-size: 16px; padding: 2px 12px; }
             .balance-top { padding: 4px 12px 6px; min-width: 60px; }
             .balance-amount { font-size: 16px; }
+            .sidebar { min-width: 60px; padding: 8px 4px; }
+            .sidebar .menu-item { font-size: 11px; padding: 6px 4px; }
         }
     </style>
 </head>
@@ -328,7 +374,6 @@
             </div>
         </div>
         <div class="header-right">
-            <!-- Кнопка баланса с подписью -->
             <div class="balance-top" id="balanceTop">
                 <div class="balance-label">Ваш баланс</div>
                 <div class="balance-amount">💰 <span id="balanceDisplay">1000</span></div>
@@ -341,8 +386,18 @@
         </div>
     </div>
 
-    <!-- Центральная область -->
-    <div class="main-area" id="mainArea"></div>
+    <!-- Основной ряд: слева меню, справа контент -->
+    <div class="body-row">
+        <div class="sidebar" id="sidebar">
+            <div class="menu-item" data-action="quick">Quick Games</div>
+            <div class="menu-item" data-action="bonuses">Bonuses</div>
+            <div class="menu-item" data-action="vip">VIP Club</div>
+            <div class="menu-item" data-action="promotions">Promotions</div>
+        </div>
+        <div class="main-area" id="mainArea">
+            <!-- Здесь будет основной контент -->
+        </div>
+    </div>
 
     <div class="footer">Готов к твоим командам</div>
 </div>
@@ -350,12 +405,12 @@
 <!-- Бэкдроп -->
 <div class="backdrop" id="backdrop"></div>
 
-<!-- Меню -->
+<!-- Меню-бургер -->
 <div class="menu-overlay" id="menuOverlay">
-    <div class="menu-item" data-action="settings">⚙️ Настройки</div>
-    <div class="menu-item" data-action="history">📜 История</div>
-    <div class="menu-item" data-action="support">🆘 Поддержка</div>
-    <div class="menu-item" data-action="bonus">🎁 Бонуски</div>
+    <div class="menu-item-burger" data-action="settings">⚙️ Настройки</div>
+    <div class="menu-item-burger" data-action="history">📜 История</div>
+    <div class="menu-item-burger" data-action="support">🆘 Поддержка</div>
+    <div class="menu-item-burger" data-action="bonus">🎁 Бонуски</div>
 </div>
 
 <!-- Панель баланса -->
@@ -444,7 +499,7 @@
     backdrop.addEventListener('click', closeMenu);
     document.addEventListener('keydown', (e) => { if (e.key === 'Escape') closeMenu(); });
 
-    document.querySelectorAll('.menu-item').forEach(item => {
+    document.querySelectorAll('.menu-item-burger').forEach(item => {
         item.addEventListener('click', () => {
             const action = item.dataset.action;
             let message = '';
@@ -466,6 +521,22 @@
     });
     document.getElementById('registerBtn').addEventListener('click', () => {
         alert('Форма регистрации (скоро)');
+    });
+
+    // ===== БОКОВОЕ МЕНЮ =====
+    document.querySelectorAll('.sidebar .menu-item').forEach(item => {
+        item.addEventListener('click', () => {
+            const action = item.dataset.action;
+            let message = '';
+            switch(action) {
+                case 'quick': message = '🚀 Быстрые игры (скоро)'; break;
+                case 'bonuses': message = '🎁 Бонусы (скоро)'; break;
+                case 'vip': message = '👑 VIP клуб (скоро)'; break;
+                case 'promotions': message = '🔥 Акции (скоро)'; break;
+                default: message = 'Пункт меню';
+            }
+            document.getElementById('mainArea').innerHTML = `<span>${message}</span>`;
+        });
     });
 </script>
 </body>
