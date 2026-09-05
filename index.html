@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>ТВИНБАТЛ</title>
+    <title>TWIN BOL</title>
     <style>
         * { margin:0; padding:0; box-sizing:border-box; }
         html, body {
@@ -45,16 +45,16 @@
             align-items: center;
             gap: 16px;
         }
-        /* Новый логотип */
+        /* Логотип TWIN BOL */
         .brand {
-            background: #6a1b9a; /* фиолетовый фон */
+            background: #6a1b9a;
             padding: 4px 16px;
             border-radius: 12px;
-            border: 2px solid #f5b342; /* жёлтая рамка */
+            border: 2px solid #f5b342;
             box-shadow: 0 0 15px rgba(245, 179, 66, 0.2);
             font-size: 20px;
             font-weight: 900;
-            color: #f5b342; /* жёлтый текст */
+            color: #f5b342;
             letter-spacing: 1px;
             text-transform: uppercase;
             user-select: none;
@@ -98,20 +98,42 @@
             align-items: center;
             gap: 12px;
         }
+        /* Новая кнопка баланса – квадратная, с подписью сверху */
         .balance-top {
             background: #1a1a1a;
-            padding: 6px 18px;
-            border-radius: 40px;
-            font-weight: 700;
+            padding: 6px 18px 8px 18px;
+            border-radius: 12px; /* квадратная, но с небольшим скруглением */
             border: 1px solid #444;
             cursor: pointer;
-            transition: 0.15s;
+            transition: 0.2s;
             user-select: none;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-width: 80px;
         }
         .balance-top:hover {
             border-color: #f5b342;
+            background: #222;
+            box-shadow: 0 0 15px rgba(245, 179, 66, 0.15);
         }
-        .balance-top span { color: #f5b342; }
+        .balance-label {
+            font-size: 11px;
+            color: #f5b342;
+            font-weight: 400;
+            letter-spacing: 0.5px;
+            opacity: 0.8;
+            line-height: 1.2;
+        }
+        .balance-amount {
+            font-size: 18px;
+            font-weight: 700;
+            color: #f5b342;
+            line-height: 1.4;
+        }
+        .balance-amount span {
+            color: #f5b342;
+        }
 
         .burger {
             background: transparent;
@@ -226,7 +248,7 @@
             margin-bottom: 8px;
             color: #aaa;
         }
-        .balance-panel .balance-amount {
+        .balance-panel .panel-balance-amount {
             font-size: 32px;
             font-weight: 900;
             text-align: center;
@@ -289,6 +311,8 @@
             .container { padding: 12px 16px; }
             .auth-buttons button { padding: 4px 12px; font-size: 12px; }
             .brand { font-size: 16px; padding: 2px 12px; }
+            .balance-top { padding: 4px 12px 6px; min-width: 60px; }
+            .balance-amount { font-size: 16px; }
         }
     </style>
 </head>
@@ -297,16 +321,18 @@
     <!-- Шапка -->
     <div class="header">
         <div class="header-left">
-            <!-- Логотип ТВИНБАТЛ -->
-            <div class="brand">ТВИНБАТЛ</div>
-            <!-- Кнопки Вход и Регистрация -->
+            <div class="brand">TWIN BOL</div>
             <div class="auth-buttons">
                 <button class="login" id="loginBtn">Вход</button>
                 <button class="register" id="registerBtn">Регистрация</button>
             </div>
         </div>
         <div class="header-right">
-            <div class="balance-top" id="balanceTop">💰 <span id="balanceDisplay">1000</span></div>
+            <!-- Кнопка баланса с подписью -->
+            <div class="balance-top" id="balanceTop">
+                <div class="balance-label">Ваш баланс</div>
+                <div class="balance-amount">💰 <span id="balanceDisplay">1000</span></div>
+            </div>
             <button class="burger" id="burgerBtn" aria-label="Меню">
                 <span></span>
                 <span></span>
@@ -315,10 +341,8 @@
         </div>
     </div>
 
-    <!-- Центральная область – пустая -->
-    <div class="main-area" id="mainArea">
-        <!-- Здесь будет основной контент -->
-    </div>
+    <!-- Центральная область -->
+    <div class="main-area" id="mainArea"></div>
 
     <div class="footer">Готов к твоим командам</div>
 </div>
@@ -338,7 +362,7 @@
 <div class="balance-panel" id="balancePanel">
     <button class="panel-close" id="panelClose">✕</button>
     <div class="balance-title">Ваш баланс</div>
-    <div class="balance-amount" id="panelBalance">1000</div>
+    <div class="panel-balance-amount" id="panelBalance">1000</div>
     <div class="balance-actions">
         <button class="btn-deposit">💰 Пополнение</button>
         <button class="btn-withdraw">💳 Вывод</button>
