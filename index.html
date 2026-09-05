@@ -6,11 +6,7 @@
     <title>SHAHID ROCKET</title>
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
         body {
             background: #0a0a1a;
             color: #f0f0f0;
@@ -20,7 +16,6 @@
             overflow-x: hidden;
         }
         ::-webkit-scrollbar { width: 0; }
-
         :root {
             --bg: #0a0a1a;
             --card: #14142a;
@@ -28,14 +23,11 @@
             --gold-glow: #ffd700;
             --border: #2a2a4a;
         }
-
         .container {
             max-width: 480px;
             margin: 0 auto;
             padding: 16px 16px 20px;
         }
-
-        /* ===== ШАПКА ===== */
         .header {
             display: flex;
             justify-content: space-between;
@@ -49,7 +41,6 @@
             background: linear-gradient(135deg, var(--gold), var(--gold-glow));
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
-            letter-spacing: -0.5px;
         }
         .balance-top {
             background: var(--card);
@@ -62,18 +53,10 @@
             display: flex;
             align-items: center;
             gap: 8px;
-            transition: 0.2s;
         }
-        .balance-top:active {
-            transform: scale(0.96);
-            border-color: var(--gold);
-        }
-        .balance-top span {
-            color: var(--gold);
-            font-size: 20px;
-        }
+        .balance-top:active { transform: scale(0.96); border-color: var(--gold); }
+        .balance-top span { color: var(--gold); font-size: 20px; }
 
-        /* ===== БАННЕР ===== */
         .banner {
             background: linear-gradient(135deg, #1a1a2e, #0d0d1a);
             border-radius: 30px;
@@ -81,21 +64,10 @@
             margin: 20px 0 24px;
             text-align: center;
             border: 1px solid #2a2a4a;
-            box-shadow: 0 8px 32px rgba(0,0,0,0.6);
         }
-        .banner .title {
-            font-size: 28px;
-            font-weight: 800;
-            color: var(--gold);
-            text-shadow: 0 0 40px rgba(245,179,66,0.3);
-        }
-        .banner .sub {
-            font-size: 16px;
-            color: #aaa;
-            margin-top: 6px;
-        }
+        .banner .title { font-size: 28px; font-weight: 800; color: var(--gold); text-shadow: 0 0 40px rgba(245,179,66,0.3); }
+        .banner .sub { font-size: 16px; color: #aaa; margin-top: 6px; }
 
-        /* ===== СЕТКА ИГР ===== */
         .game-grid {
             display: grid;
             grid-template-columns: repeat(2, 1fr);
@@ -108,33 +80,15 @@
             padding: 24px 12px 18px;
             text-align: center;
             border: 1px solid #222;
-            transition: 0.15s;
             cursor: pointer;
-            box-shadow: 0 4px 16px rgba(0,0,0,0.3);
             position: relative;
+            box-shadow: 0 4px 16px rgba(0,0,0,0.3);
         }
-        .game-card:active {
-            transform: scale(0.95);
-            border-color: var(--gold);
-        }
-        .game-card .icon {
-            font-size: 44px;
-            margin-bottom: 6px;
-        }
-        .game-card .name {
-            font-weight: 700;
-            font-size: 17px;
-        }
-        .game-card .desc {
-            font-size: 12px;
-            color: #777;
-            margin-top: 4px;
-        }
-        .game-card.highlight {
-            border-color: var(--gold);
-            background: #1e1a0e;
-        }
-        /* Подсказка при наведении на карточку "Ракетка" */
+        .game-card:active { transform: scale(0.95); border-color: var(--gold); }
+        .game-card .icon { font-size: 44px; margin-bottom: 6px; }
+        .game-card .name { font-weight: 700; font-size: 17px; }
+        .game-card .desc { font-size: 12px; color: #777; margin-top: 4px; }
+        .game-card.highlight { border-color: var(--gold); background: #1e1a0e; }
         .game-card .hover-title {
             display: none;
             position: absolute;
@@ -152,24 +106,12 @@
             box-shadow: 0 0 20px rgba(245,179,66,0.3);
             z-index: 10;
         }
-        .game-card:hover .hover-title {
-            display: block;
-        }
+        .game-card:hover .hover-title { display: block; }
 
-        /* ===== СТРАНИЦЫ ===== */
-        .page {
-            display: none;
-            animation: fadeIn 0.25s ease;
-        }
-        .page.active {
-            display: block;
-        }
-        @keyframes fadeIn {
-            0% { opacity: 0.3; transform: translateY(12px); }
-            100% { opacity: 1; transform: translateY(0); }
-        }
+        .page { display: none; animation: fadeIn 0.25s ease; }
+        .page.active { display: block; }
+        @keyframes fadeIn { 0% { opacity: 0.3; transform: translateY(12px); } 100% { opacity: 1; transform: translateY(0); } }
 
-        /* ===== СТРАНИЦА ИГРЫ (SHAHID ROCKET) ===== */
         .game-wrapper {
             background: linear-gradient(145deg, #1a0a2e, #0d0a2a);
             border-radius: 30px;
@@ -189,7 +131,6 @@
             font-weight: 800;
             color: #b388ff;
             text-shadow: 0 0 20px rgba(179, 136, 255, 0.4);
-            letter-spacing: 1px;
         }
         .game-header .round {
             background: #2a1a3a;
@@ -199,7 +140,6 @@
             color: #b388ff;
         }
 
-        /* Canvas */
         .canvas-container {
             position: relative;
             background: #0a0a1a;
@@ -243,7 +183,6 @@
             backdrop-filter: blur(4px);
         }
 
-        /* Панель управления */
         .control-panel {
             display: flex;
             flex-wrap: wrap;
@@ -304,17 +243,13 @@
             cursor: pointer;
             transition: 0.1s;
             text-transform: uppercase;
-            letter-spacing: 0.5px;
         }
         .btn-bet {
             background: linear-gradient(145deg, #b388ff, #7c4dff);
             color: #0a0a1a;
             box-shadow: 0 6px 0 #4a2a8a;
         }
-        .btn-bet:active {
-            transform: translateY(4px);
-            box-shadow: 0 2px 0 #4a2a8a;
-        }
+        .btn-bet:active { transform: translateY(4px); box-shadow: 0 2px 0 #4a2a8a; }
         .btn-bet:disabled {
             opacity: 0.5;
             transform: translateY(4px);
@@ -326,10 +261,7 @@
             color: #fff;
             box-shadow: 0 6px 0 #1b5e20;
         }
-        .btn-cashout:active {
-            transform: translateY(4px);
-            box-shadow: 0 2px 0 #1b5e20;
-        }
+        .btn-cashout:active { transform: translateY(4px); box-shadow: 0 2px 0 #1b5e20; }
         .btn-cashout:disabled {
             opacity: 0.5;
             transform: translateY(4px);
@@ -337,7 +269,6 @@
             pointer-events: none;
         }
 
-        /* Список игроков */
         .players-list {
             margin-top: 16px;
             background: #14142a;
@@ -354,22 +285,11 @@
             border-bottom: 1px solid #1a1a2e;
             font-size: 14px;
         }
-        .players-list .player-item .nick {
-            color: #b388ff;
-        }
-        .players-list .player-item .bet {
-            color: #aaa;
-        }
-        .players-list .player-item .bet span {
-            color: #ffd54f;
-        }
-        .empty-players {
-            text-align: center;
-            color: #555;
-            padding: 12px 0;
-        }
+        .players-list .player-item .nick { color: #b388ff; }
+        .players-list .player-item .bet { color: #aaa; }
+        .players-list .player-item .bet span { color: #ffd54f; }
+        .empty-players { text-align: center; color: #555; padding: 12px 0; }
 
-        /* ===== ПРОФИЛЬ ===== */
         .profile-card {
             background: var(--card);
             border-radius: 30px;
@@ -377,18 +297,9 @@
             border: 1px solid #2a2a4a;
             text-align: center;
         }
-        .avatar {
-            font-size: 72px;
-            margin-bottom: 4px;
-        }
-        .profile-name {
-            font-size: 22px;
-            font-weight: 700;
-        }
-        .profile-id {
-            color: #888;
-            font-size: 14px;
-        }
+        .avatar { font-size: 72px; margin-bottom: 4px; }
+        .profile-name { font-size: 22px; font-weight: 700; }
+        .profile-id { color: #888; font-size: 14px; }
         .profile-stats {
             display: flex;
             justify-content: space-around;
@@ -401,17 +312,8 @@
             min-width: 80px;
             border: 1px solid #1a1a2e;
         }
-        .profile-stats .label {
-            font-size: 12px;
-            color: #888;
-            text-transform: uppercase;
-        }
-        .profile-stats .value {
-            font-size: 22px;
-            font-weight: 800;
-            color: var(--gold);
-            margin-top: 4px;
-        }
+        .profile-stats .label { font-size: 12px; color: #888; text-transform: uppercase; }
+        .profile-stats .value { font-size: 22px; font-weight: 800; color: var(--gold); margin-top: 4px; }
         .profile-btn {
             background: var(--gold);
             border: none;
@@ -422,12 +324,9 @@
             color: #0a0a1a;
             width: 100%;
             cursor: pointer;
-            transition: 0.15s;
             box-shadow: 0 0 30px rgba(245,179,66,0.15);
         }
-        .profile-btn:active {
-            transform: scale(0.97);
-        }
+        .profile-btn:active { transform: scale(0.97); }
         .history-list {
             margin-top: 20px;
             max-height: 180px;
@@ -444,7 +343,6 @@
         .history-item .win { color: #4caf50; font-weight: 600; }
         .history-item .lose { color: #f44336; font-weight: 600; }
 
-        /* ===== НИЖНЯЯ НАВИГАЦИЯ ===== */
         .bottom-nav {
             position: fixed;
             bottom: 0;
@@ -473,18 +371,10 @@
             border: none;
             font-family: inherit;
         }
-        .nav-item .nav-icon {
-            font-size: 28px;
-            margin-bottom: 2px;
-        }
-        .nav-item.active {
-            color: var(--gold);
-        }
-        .nav-item:active {
-            transform: scale(0.9);
-        }
+        .nav-item .nav-icon { font-size: 28px; margin-bottom: 2px; }
+        .nav-item.active { color: var(--gold); }
+        .nav-item:active { transform: scale(0.9); }
 
-        /* ===== МОДАЛКА ===== */
         .modal-overlay {
             display: none;
             position: fixed;
@@ -495,9 +385,7 @@
             justify-content: center;
             z-index: 2000;
         }
-        .modal-overlay.open {
-            display: flex;
-        }
+        .modal-overlay.open { display: flex; }
         .modal-box {
             background: var(--card);
             border-radius: 40px;
@@ -528,7 +416,6 @@
             font-weight: 700;
             font-size: 18px;
             cursor: pointer;
-            transition: 0.15s;
         }
         .modal-grid button:active {
             background: var(--gold);
@@ -547,10 +434,7 @@
             font-size: 16px;
             cursor: pointer;
         }
-        .modal-close:active {
-            background: #444;
-        }
-
+        .modal-close:active { background: #444; }
         .btn-back {
             background: #1e1e2e;
             border: none;
@@ -560,20 +444,14 @@
             width: 100%;
             font-weight: 600;
             cursor: pointer;
-            transition: 0.15s;
             margin-top: 12px;
         }
-        .btn-back:active {
-            background: #2a2a3e;
-        }
-        .mt-2 { margin-top: 16px; }
-        .text-gold { color: var(--gold); }
+        .btn-back:active { background: #2a2a3e; }
     </style>
 </head>
 <body>
     <div class="container">
-
-        <!-- ===== ШАПКА ===== -->
+        <!-- ШАПКА -->
         <div class="header">
             <div class="logo">🎰 SHAHID</div>
             <div class="balance-top" id="balanceTop">
@@ -581,13 +459,12 @@
             </div>
         </div>
 
-        <!-- ===== СТРАНИЦА ГЛАВНАЯ ===== -->
+        <!-- ГЛАВНАЯ -->
         <div id="pageHome" class="page active">
             <div class="banner">
                 <div class="title">🔥 ЗАПУСКАЙ РАКЕТУ</div>
                 <div class="sub">Собирай звёзды и умножай ставку</div>
             </div>
-
             <div class="game-grid">
                 <div class="game-card highlight" onclick="navigateTo('game')">
                     <div class="icon">🚀</div>
@@ -613,20 +490,18 @@
             </div>
         </div>
 
-        <!-- ===== СТРАНИЦА ИГРЫ ===== -->
+        <!-- ИГРА -->
         <div id="pageGame" class="page">
             <div class="game-wrapper">
                 <div class="game-header">
                     <div class="title">🚀 SHAHID ROCKET</div>
                     <div class="round">#A7F3</div>
                 </div>
-
                 <div class="canvas-container">
                     <canvas id="gameCanvas"></canvas>
                     <div class="multiplier-overlay" id="multiplierDisplay">1.00x</div>
                     <div class="stars-counter" id="starsCounter">⭐ 0</div>
                 </div>
-
                 <div class="control-panel">
                     <div class="bet-control">
                         <button id="betDec">−</button>
@@ -638,7 +513,6 @@
                         <button class="btn-cashout" id="cashoutBtn" disabled>ЗАБРАТЬ</button>
                     </div>
                 </div>
-
                 <div class="players-list" id="playersList">
                     <div class="empty-players">Ожидание игроков...</div>
                 </div>
@@ -646,25 +520,16 @@
             <button class="btn-back" onclick="navigateTo('home')">← На главную</button>
         </div>
 
-        <!-- ===== СТРАНИЦА ПРОФИЛЬ ===== -->
+        <!-- ПРОФИЛЬ -->
         <div id="pageProfile" class="page">
             <div class="profile-card">
                 <div class="avatar">👤</div>
                 <div class="profile-name">Игрок</div>
                 <div class="profile-id">ID: 0001</div>
                 <div class="profile-stats">
-                    <div class="stat">
-                        <div class="label">Баланс</div>
-                        <div class="value" id="profileBalance">1000</div>
-                    </div>
-                    <div class="stat">
-                        <div class="label">Игр</div>
-                        <div class="value" id="gamesPlayed">0</div>
-                    </div>
-                    <div class="stat">
-                        <div class="label">Выигрыши</div>
-                        <div class="value" id="totalWins">0</div>
-                    </div>
+                    <div class="stat"><div class="label">Баланс</div><div class="value" id="profileBalance">1000</div></div>
+                    <div class="stat"><div class="label">Игр</div><div class="value" id="gamesPlayed">0</div></div>
+                    <div class="stat"><div class="label">Выигрыши</div><div class="value" id="totalWins">0</div></div>
                 </div>
                 <button class="profile-btn" onclick="openDeposit()">💰 Пополнить</button>
                 <div class="history-list" id="profileHistory">
@@ -672,10 +537,9 @@
                 </div>
             </div>
         </div>
-
     </div>
 
-    <!-- ===== НИЖНЯЯ НАВИГАЦИЯ ===== -->
+    <!-- НАВИГАЦИЯ -->
     <div class="bottom-nav">
         <button class="nav-item active" data-page="home" onclick="navigateTo('home')">
             <span class="nav-icon">🏠</span>Главная
@@ -688,7 +552,7 @@
         </button>
     </div>
 
-    <!-- ===== МОДАЛКА ПОПОЛНЕНИЯ ===== -->
+    <!-- МОДАЛКА -->
     <div class="modal-overlay" id="depositModal">
         <div class="modal-box">
             <h3>Пополнить баланс</h3>
@@ -705,11 +569,11 @@
     </div>
 
     <script>
-        // ===== ИНИЦИАЛИЗАЦИЯ TELEGRAM =====
+        // ===== TELEGRAM =====
         const tg = window.Telegram.WebApp;
         tg.expand();
 
-        // ===== БАЛАНС И ХРАНЕНИЕ =====
+        // ===== БАЛАНС =====
         let balance = parseInt(localStorage.getItem('ms_balance')) || 1000;
         let history = JSON.parse(localStorage.getItem('ms_history')) || [];
         let games = parseInt(localStorage.getItem('ms_games')) || 0;
@@ -745,52 +609,37 @@
             container.innerHTML = html;
         }
 
-        // ===== НАВИГАЦИЯ =====
         function navigateTo(page) {
             document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
-            const pageMap = {
-                'home': 'pageHome',
-                'game': 'pageGame',
-                'profile': 'pageProfile'
-            };
-            document.getElementById(pageMap[page]).classList.add('active');
+            const map = { home: 'pageHome', game: 'pageGame', profile: 'pageProfile' };
+            document.getElementById(map[page]).classList.add('active');
             document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
             document.querySelector(`.nav-item[data-page="${page}"]`).classList.add('active');
 
-            // Если уходим с игры — сбрасываем
             if (page !== 'game') {
-                if (gameInterval) {
-                    cancelAnimationFrame(gameInterval);
-                    gameInterval = null;
-                }
+                if (gameInterval) cancelAnimationFrame(gameInterval);
                 gameRunning = false;
                 document.getElementById('actionBtn').disabled = false;
                 document.getElementById('actionBtn').textContent = 'СТАВКА';
                 document.getElementById('cashoutBtn').disabled = true;
                 document.getElementById('multiplierDisplay').textContent = '1.00x';
                 document.getElementById('starsCounter').textContent = '⭐ 0';
-                // Очищаем список игроков
                 document.getElementById('playersList').innerHTML = '<div class="empty-players">Ожидание игроков...</div>';
+                // сброс взрыва
+                particles = [];
             }
             updateUI();
         }
 
-        // ===== ДЕПОЗИТ =====
-        function openDeposit() {
-            document.getElementById('depositModal').classList.add('open');
-        }
-        function closeDeposit() {
-            document.getElementById('depositModal').classList.remove('open');
-        }
+        function openDeposit() { document.getElementById('depositModal').classList.add('open'); }
+        function closeDeposit() { document.getElementById('depositModal').classList.remove('open'); }
         function deposit(amount) {
             balance += amount;
             history.push({ game: 'Пополнение', win: true, amount: amount });
-            saveState();
-            updateUI();
-            closeDeposit();
+            saveState(); updateUI(); closeDeposit();
         }
 
-        // ===== ИГРА (SHAHID ROCKET) =====
+        // ===== CANVAS =====
         const canvas = document.getElementById('gameCanvas');
         const ctx = canvas.getContext('2d');
         let canvasWidth, canvasHeight;
@@ -805,108 +654,78 @@
         resizeCanvas();
         window.addEventListener('resize', resizeCanvas);
 
-        // Игровые переменные
+        // ===== ИГРОВЫЕ ПЕРЕМЕННЫЕ =====
         let gameRunning = false;
         let multiplier = 1.0;
         let stars = 0;
         let betAmount = 0;
-        let crashPoint = 0;
+        let crashPoint = 1.0;
         let gameInterval = null;
 
-        // Персонаж
-        let playerY = 0;
-        let playerX = 0;
-        let velocityY = 0;
-        const GRAVITY = 0.15;
-        const JUMP_FORCE = -5;
-        let starArray = [];
-        let frameCount = 0;
+        // Ракета
+        let rocketX, rocketY;
+        let rocketSpeed = 1.2; // пикселей за кадр
+        let rocketAngle = 0;
 
-        // Элементы управления
-        const actionBtn = document.getElementById('actionBtn');
-        const cashoutBtn = document.getElementById('cashoutBtn');
-        const betInput = document.getElementById('betInput');
-        const multiplierDisplay = document.getElementById('multiplierDisplay');
-        const starsCounter = document.getElementById('starsCounter');
-        const playersList = document.getElementById('playersList');
+        // Звёзды
+        let starsArray = [];
+        let starGenCounter = 0;
 
-        // Кнопки +/-
-        document.getElementById('betDec').addEventListener('click', () => {
-            let val = parseInt(betInput.value) || 1;
-            if (val > 1) val--;
-            betInput.value = val;
-        });
-        document.getElementById('betInc').addEventListener('click', () => {
-            let val = parseInt(betInput.value) || 1;
-            val++;
-            betInput.value = val;
-        });
+        // Частицы взрыва
+        let particles = [];
 
-        // Генерация случайных игроков (заглушка)
-        const fakeNames = ['xX_Shahid_Xx', 'RocketMan', 'StarGazer', 'CryptoKing', 'MoonWalker', 'NeonGhost', 'LuckyStrike', 'FireFly'];
-        function generatePlayers() {
-            const count = 3 + Math.floor(Math.random() * 5);
-            const players = [];
-            for (let i = 0; i < count; i++) {
-                const name = fakeNames[Math.floor(Math.random() * fakeNames.length)] + (Math.random() > 0.5 ? Math.floor(Math.random() * 100) : '');
-                const bet = Math.floor(Math.random() * 50) + 5;
-                players.push({ nick: name, bet: bet });
+        // Для генерации краш-точки с нужным винрейтом (40%)
+        function generateCrashPoint() {
+            // 60% шанс краша от 1.05 до 2.0 (почти всегда проигрыш)
+            // 40% шанс краша от 2.0 до 30.0 (возможен выигрыш)
+            if (Math.random() < 0.6) {
+                return 1.05 + Math.random() * 0.95; // 1.05 - 2.0
+            } else {
+                return 2.0 + Math.random() * 28.0; // 2.0 - 30.0
             }
-            return players;
         }
 
-        function renderPlayers(players) {
-            if (!players || players.length === 0) {
-                playersList.innerHTML = '<div class="empty-players">Ожидание игроков...</div>';
-                return;
-            }
-            let html = '';
-            players.forEach(p => {
-                html += `<div class="player-item"><span class="nick">${p.nick}</span><span class="bet">ставка: <span>${p.bet}</span></span></div>`;
-            });
-            playersList.innerHTML = html;
-        }
-
-        // Инициализируем список игроков при загрузке
-        let currentPlayers = generatePlayers();
-        renderPlayers(currentPlayers);
-
-        // Основная функция игры (запуск)
+        // ===== ИНИЦИАЛИЗАЦИЯ ИГРЫ =====
         function startGame() {
             if (gameRunning) return;
-            const bet = parseInt(betInput.value);
+            const bet = parseInt(document.getElementById('betInput').value);
             if (isNaN(bet) || bet < 1) { alert('Введите ставку'); return; }
             if (bet > balance) { alert('Недостаточно средств!'); return; }
 
-            // Списываем ставку
             balance -= bet;
             betAmount = bet;
             saveState();
             updateUI();
 
-            // Сброс переменных
+            // Сброс
             multiplier = 1.0;
             stars = 0;
-            playerY = canvasHeight * 0.7;
-            playerX = canvasWidth * 0.3;
-            velocityY = -3; // начальный толчок вверх
-            starArray = [];
-            frameCount = 0;
-            crashPoint = 1.0 + Math.random() * 15; // краш между 1 и 16
+            rocketX = canvasWidth / 2;
+            rocketY = canvasHeight * 0.85;
+            rocketAngle = 0;
+            starsArray = [];
+            particles = [];
+            starGenCounter = 0;
+            crashPoint = generateCrashPoint();
 
             gameRunning = true;
-            actionBtn.disabled = true;
-            actionBtn.textContent = 'ИГРА...';
-            cashoutBtn.disabled = false;
-            cashoutBtn.style.display = 'block';
-            multiplierDisplay.textContent = '1.00x';
-            starsCounter.textContent = '⭐ 0';
+            document.getElementById('actionBtn').disabled = true;
+            document.getElementById('actionBtn').textContent = 'ИГРА...';
+            document.getElementById('cashoutBtn').disabled = false;
+            document.getElementById('multiplierDisplay').textContent = '1.00x';
+            document.getElementById('starsCounter').textContent = '⭐ 0';
 
-            // Генерируем новых игроков для этого раунда
-            currentPlayers = generatePlayers();
-            renderPlayers(currentPlayers);
+            // Список игроков
+            const fakeNames = ['xX_Shahid_Xx', 'RocketMan', 'StarGazer', 'CryptoKing', 'MoonWalker', 'NeonGhost', 'LuckyStrike', 'FireFly'];
+            const count = 3 + Math.floor(Math.random() * 5);
+            let players = [];
+            for (let i = 0; i < count; i++) {
+                const name = fakeNames[Math.floor(Math.random() * fakeNames.length)] + (Math.random() > 0.5 ? Math.floor(Math.random() * 100) : '');
+                players.push({ nick: name, bet: Math.floor(Math.random() * 50) + 5 });
+            }
+            const list = document.getElementById('playersList');
+            list.innerHTML = players.map(p => `<div class="player-item"><span class="nick">${p.nick}</span><span class="bet">ставка: <span>${p.bet}</span></span></div>`).join('');
 
-            // Запускаем анимацию
             if (gameInterval) cancelAnimationFrame(gameInterval);
             gameLoop();
         }
@@ -914,79 +733,80 @@
         function gameLoop() {
             if (!gameRunning) return;
 
-            // Обновление физики
-            velocityY += GRAVITY;
-            playerY += velocityY;
-
-            // Ограничение по вертикали (не вылетаем за экран)
-            if (playerY < 0) {
-                playerY = 0;
-                velocityY = 0;
-            }
-            if (playerY > canvasHeight - 40) {
-                playerY = canvasHeight - 40;
-                velocityY = 0;
+            // 1. Движение ракеты вверх
+            rocketY -= rocketSpeed;
+            // Если вылетела за верх, возвращаем вниз
+            if (rocketY < -50) {
+                rocketY = canvasHeight + 50;
+                rocketX = canvasWidth / 2 + (Math.random() - 0.5) * 60;
             }
 
-            // Генерация звёзд
-            frameCount++;
-            if (frameCount % 8 === 0) {
-                const starX = canvasWidth * 0.8 + Math.random() * 100;
-                const starY = Math.random() * canvasHeight;
-                starArray.push({ x: starX, y: starY, size: 8 + Math.random() * 12, speed: 1 + Math.random() * 2 });
+            // 2. Генерация звёзд
+            starGenCounter++;
+            if (starGenCounter % 6 === 0) {
+                const starX = Math.random() * canvasWidth;
+                const starY = Math.random() * canvasHeight * 0.5; // сверху
+                const size = 6 + Math.random() * 14;
+                starsArray.push({
+                    x: starX,
+                    y: starY,
+                    size: size,
+                    speedY: 0.5 + Math.random() * 1.5,
+                    speedX: (Math.random() - 0.5) * 0.5
+                });
             }
 
-            // Движение звёзд (слева направо)
-            starArray.forEach(star => {
-                star.x -= star.speed;
+            // 3. Движение звёзд (падают вниз)
+            starsArray.forEach(star => {
+                star.y += star.speedY;
+                star.x += star.speedX;
             });
-            // Удаляем улетевшие
-            starArray = starArray.filter(star => star.x > -20);
+            // Удаляем улетевшие вниз
+            starsArray = starsArray.filter(star => star.y < canvasHeight + 20);
 
-            // Проверка сбора звёзд (если персонаж рядом)
-            const playerRadius = 20;
-            starArray.forEach((star, index) => {
-                const dx = playerX - star.x;
-                const dy = playerY - star.y;
+            // 4. Сбор звёзд ракетой (проверка столкновений)
+            const rocketRadius = 25;
+            starsArray.forEach((star, index) => {
+                const dx = rocketX - star.x;
+                const dy = rocketY - star.y;
                 const dist = Math.sqrt(dx*dx + dy*dy);
-                if (dist < playerRadius + star.size/2) {
+                if (dist < rocketRadius + star.size/2) {
                     stars++;
-                    starArray.splice(index, 1);
-                    starsCounter.textContent = '⭐ ' + stars;
+                    starsArray.splice(index, 1);
+                    document.getElementById('starsCounter').textContent = '⭐ ' + stars;
                 }
             });
 
-            // Рост множителя (зависит от времени и звёзд)
-            multiplier += 0.01 + (stars * 0.0005);
+            // 5. Рост множителя
+            multiplier += 0.01 + (stars * 0.0003);
             multiplier = Math.round(multiplier * 100) / 100;
-            multiplierDisplay.textContent = multiplier.toFixed(2) + 'x';
+            document.getElementById('multiplierDisplay').textContent = multiplier.toFixed(2) + 'x';
 
-            // Проверка краша
+            // 6. Проверка краша
             if (multiplier >= crashPoint) {
                 crashGame();
                 return;
             }
 
-            // Отрисовка
+            // 7. Отрисовка
             drawCanvas();
 
-            // Следующий кадр
             gameInterval = requestAnimationFrame(gameLoop);
         }
 
         function drawCanvas() {
             ctx.clearRect(0, 0, canvasWidth, canvasHeight);
 
-            // Фон с градиентом (сине-фиолетовый)
+            // Фон
             const grad = ctx.createRadialGradient(canvasWidth*0.5, canvasHeight*0.3, 0, canvasWidth*0.5, canvasHeight*0.3, canvasWidth*0.8);
             grad.addColorStop(0, '#2a1a5a');
             grad.addColorStop(1, '#0a0a1a');
             ctx.fillStyle = grad;
             ctx.fillRect(0, 0, canvasWidth, canvasHeight);
 
-            // Рисуем звёзды на фоне (мелкие точки)
-            ctx.fillStyle = 'rgba(255,255,255,0.15)';
-            for (let i=0; i<80; i++) {
+            // Фоновые звёзды (мелкие)
+            ctx.fillStyle = 'rgba(255,255,255,0.12)';
+            for (let i=0; i<60; i++) {
                 const sx = (i * 137) % canvasWidth;
                 const sy = (i * 251) % canvasHeight;
                 ctx.beginPath();
@@ -994,8 +814,8 @@
                 ctx.fill();
             }
 
-            // Рисуем звёзды (крупные)
-            starArray.forEach(star => {
+            // Крупные звёзды
+            starsArray.forEach(star => {
                 ctx.shadowColor = '#ffd54f';
                 ctx.shadowBlur = 20;
                 ctx.fillStyle = '#ffd54f';
@@ -1005,78 +825,135 @@
                 ctx.shadowBlur = 0;
             });
 
-            // Рисуем персонажа (человечек с ранцем)
-            const px = playerX;
-            const py = playerY;
+            // Рисуем ракету
+            drawRocket(rocketX, rocketY, rocketAngle);
 
-            // Тело (круг)
-            ctx.shadowColor = '#b388ff';
-            ctx.shadowBlur = 30;
-            ctx.fillStyle = '#7c4dff';
-            ctx.beginPath();
-            ctx.arc(px, py-10, 16, 0, Math.PI*2);
-            ctx.fill();
+            // Частицы взрыва
+            particles.forEach(p => {
+                p.x += p.vx;
+                p.y += p.vy;
+                p.vy += 0.05;
+                p.life -= 0.02;
+                ctx.globalAlpha = p.life;
+                ctx.fillStyle = p.color;
+                ctx.beginPath();
+                ctx.arc(p.x, p.y, p.size * p.life, 0, Math.PI*2);
+                ctx.fill();
+            });
+            ctx.globalAlpha = 1;
+            particles = particles.filter(p => p.life > 0);
+        }
 
-            // Голова
-            ctx.fillStyle = '#ffcc80';
-            ctx.shadowBlur = 10;
-            ctx.beginPath();
-            ctx.arc(px, py-28, 12, 0, Math.PI*2);
-            ctx.fill();
+        function drawRocket(x, y, angle) {
+            ctx.save();
+            ctx.translate(x, y);
+            ctx.rotate(angle);
 
-            // Ранец (прямоугольник сзади)
-            ctx.fillStyle = '#4a2a8a';
-            ctx.shadowBlur = 15;
-            ctx.fillRect(px-22, py-18, 8, 20);
-
-            // Глаза
-            ctx.fillStyle = '#0a0a1a';
-            ctx.shadowBlur = 0;
-            ctx.beginPath();
-            ctx.arc(px-5, py-30, 3, 0, Math.PI*2);
-            ctx.arc(px+5, py-30, 3, 0, Math.PI*2);
-            ctx.fill();
-
-            // Улыбка
-            ctx.strokeStyle = '#0a0a1a';
-            ctx.lineWidth = 2;
-            ctx.beginPath();
-            ctx.arc(px, py-24, 6, 0.1, Math.PI-0.1);
-            ctx.stroke();
-
-            // Пламя из ранца (эффект полёта)
+            // Пламя
             ctx.shadowColor = '#ff6f00';
             ctx.shadowBlur = 40;
             ctx.fillStyle = '#ff6f00';
             ctx.beginPath();
-            ctx.moveTo(px-20, py-8);
-            ctx.lineTo(px-28, py+10);
-            ctx.lineTo(px-12, py+6);
+            ctx.moveTo(-8, 20);
+            ctx.lineTo(0, 38);
+            ctx.lineTo(8, 20);
+            ctx.fill();
+            ctx.shadowBlur = 20;
+            ctx.fillStyle = '#ffab00';
+            ctx.beginPath();
+            ctx.moveTo(-5, 20);
+            ctx.lineTo(0, 32);
+            ctx.lineTo(5, 20);
+            ctx.fill();
+            ctx.shadowBlur = 0;
+
+            // Корпус
+            ctx.shadowColor = '#b388ff';
+            ctx.shadowBlur = 20;
+            ctx.fillStyle = '#7c4dff';
+            ctx.beginPath();
+            ctx.moveTo(0, -25);
+            ctx.lineTo(-15, 20);
+            ctx.lineTo(15, 20);
+            ctx.closePath();
+            ctx.fill();
+
+            // Нос
+            ctx.fillStyle = '#b388ff';
+            ctx.beginPath();
+            ctx.moveTo(0, -30);
+            ctx.lineTo(-10, -15);
+            ctx.lineTo(10, -15);
+            ctx.closePath();
+            ctx.fill();
+
+            // Иллюминатор
+            ctx.shadowBlur = 10;
+            ctx.fillStyle = '#4fc3f7';
+            ctx.beginPath();
+            ctx.arc(0, -5, 8, 0, Math.PI*2);
+            ctx.fill();
+            ctx.fillStyle = '#0a0a1a';
+            ctx.beginPath();
+            ctx.arc(2, -7, 3, 0, Math.PI*2);
+            ctx.fill();
+
+            // Крылья
+            ctx.shadowBlur = 15;
+            ctx.fillStyle = '#4a2a8a';
+            ctx.beginPath();
+            ctx.moveTo(-15, 10);
+            ctx.lineTo(-28, 20);
+            ctx.lineTo(-15, 16);
+            ctx.closePath();
+            ctx.fill();
+            ctx.beginPath();
+            ctx.moveTo(15, 10);
+            ctx.lineTo(28, 20);
+            ctx.lineTo(15, 16);
+            ctx.closePath();
             ctx.fill();
 
             ctx.shadowBlur = 0;
+            ctx.restore();
         }
 
+        // ===== КРАШ =====
         function crashGame() {
             gameRunning = false;
             if (gameInterval) cancelAnimationFrame(gameInterval);
             gameInterval = null;
 
-            // Проигрыш
-            multiplierDisplay.textContent = '💥 ' + multiplier.toFixed(2) + 'x';
-            actionBtn.disabled = false;
-            actionBtn.textContent = 'СТАВКА';
-            cashoutBtn.disabled = true;
-            cashoutBtn.style.display = 'none';
+            // Взрыв (частицы)
+            for (let i=0; i<80; i++) {
+                const angle = Math.random() * 2 * Math.PI;
+                const speed = 2 + Math.random() * 6;
+                particles.push({
+                    x: rocketX,
+                    y: rocketY,
+                    vx: Math.cos(angle) * speed,
+                    vy: Math.sin(angle) * speed,
+                    size: 4 + Math.random() * 8,
+                    color: ['#ff6f00','#ffab00','#ffd54f','#ff3d00','#b388ff'][Math.floor(Math.random()*5)],
+                    life: 0.7 + Math.random() * 0.3
+                });
+            }
 
-            // Запись в историю
+            document.getElementById('multiplierDisplay').textContent = '💥 ' + multiplier.toFixed(2) + 'x';
+            document.getElementById('actionBtn').disabled = false;
+            document.getElementById('actionBtn').textContent = 'СТАВКА';
+            document.getElementById('cashoutBtn').disabled = true;
+
             history.push({ game: 'Шахид-ракет', win: false, amount: betAmount });
             games++;
             saveState();
             updateUI();
 
-            // Показываем краш всем игрокам (просто обновляем список)
-            renderPlayers(currentPlayers);
+            // Продолжаем рисовать взрыв ещё пару секунд
+            setTimeout(() => {
+                particles = [];
+                drawCanvas();
+            }, 2000);
         }
 
         function cashOut() {
@@ -1093,26 +970,46 @@
             if (gameInterval) cancelAnimationFrame(gameInterval);
             gameInterval = null;
 
-            multiplierDisplay.textContent = '✅ ' + multiplier.toFixed(2) + 'x';
-            actionBtn.disabled = false;
-            actionBtn.textContent = 'СТАВКА';
-            cashoutBtn.disabled = true;
-            cashoutBtn.style.display = 'none';
+            document.getElementById('multiplierDisplay').textContent = '✅ ' + multiplier.toFixed(2) + 'x';
+            document.getElementById('actionBtn').disabled = false;
+            document.getElementById('actionBtn').textContent = 'СТАВКА';
+            document.getElementById('cashoutBtn').disabled = true;
 
-            // Обновляем список игроков (оставляем тех же)
-            renderPlayers(currentPlayers);
+            // Небольшая анимация звёзд
+            for (let i=0; i<30; i++) {
+                const angle = Math.random() * 2 * Math.PI;
+                const speed = 1 + Math.random() * 3;
+                particles.push({
+                    x: rocketX,
+                    y: rocketY,
+                    vx: Math.cos(angle) * speed,
+                    vy: Math.sin(angle) * speed,
+                    size: 3 + Math.random() * 6,
+                    color: '#ffd54f',
+                    life: 0.5 + Math.random() * 0.5
+                });
+            }
+            setTimeout(() => { particles = []; }, 1500);
         }
 
-        // Обработчики кнопок
-        actionBtn.addEventListener('click', startGame);
-        cashoutBtn.addEventListener('click', cashOut);
-
-        // Клик по балансу открывает пополнение
+        // ===== ОБРАБОТЧИКИ =====
+        document.getElementById('betDec').addEventListener('click', () => {
+            let val = parseInt(document.getElementById('betInput').value) || 1;
+            if (val > 1) val--;
+            document.getElementById('betInput').value = val;
+        });
+        document.getElementById('betInc').addEventListener('click', () => {
+            let val = parseInt(document.getElementById('betInput').value) || 1;
+            val++;
+            document.getElementById('betInput').value = val;
+        });
+        document.getElementById('actionBtn').addEventListener('click', startGame);
+        document.getElementById('cashoutBtn').addEventListener('click', cashOut);
         document.getElementById('balanceTop').addEventListener('click', openDeposit);
 
         // ===== СТАРТ =====
         updateUI();
-        console.log('SHAHID ROCKET READY');
+        console.log('SHAHID ROCKET v2 с краш-системой 40% винрейта');
     </script>
 </body>
 </html>
