@@ -1,1 +1,409 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Новый проект</title>
+    <style>
+        * { margin:0; padding:0; box-sizing:border-box; }
+        body {
+            background: #0a0a0a;
+            color: #fff;
+            font-family: 'Segoe UI', Roboto, system-ui, sans-serif;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 16px;
+        }
+        .container {
+            max-width: 480px;
+            width: 100%;
+            padding: 20px;
+            background: #111;
+            border-radius: 30px;
+            border: 1px solid #333;
+            min-height: 400px;
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+            position: relative;
+        }
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding-bottom: 12px;
+            border-bottom: 1px solid #333;
+        }
+        .logo {
+            font-size: 24px;
+            font-weight: 900;
+            color: #f5b342;
+        }
+        .balance-top {
+            background: #1a1a1a;
+            padding: 6px 18px;
+            border-radius: 40px;
+            font-weight: 700;
+            border: 1px solid #444;
+            cursor: pointer;
+        }
+        .balance-top span { color: #f5b342; }
 
+        /* Бургер */
+        .burger {
+            background: transparent;
+            border: none;
+            cursor: pointer;
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+            padding: 4px;
+            margin-left: 12px;
+        }
+        .burger span {
+            display: block;
+            width: 24px;
+            height: 2px;
+            background: #fff;
+            border-radius: 2px;
+            transition: 0.3s;
+        }
+
+        /* Меню (выездное) */
+        .menu-overlay {
+            position: fixed;
+            top: 0;
+            right: 0;
+            width: 100%;
+            max-width: 320px;
+            height: 100%;
+            background: #1a1a1a;
+            transform: translateX(100%);
+            transition: transform 0.3s ease;
+            z-index: 1000;
+            padding: 60px 24px 24px;
+            border-left: 1px solid #333;
+            box-shadow: -10px 0 40px rgba(0,0,0,0.6);
+            display: flex;
+            flex-direction: column;
+            gap: 30px;
+        }
+        .menu-overlay.open {
+            transform: translateX(0);
+        }
+        .menu-item {
+            font-size: 20px;
+            font-weight: 600;
+            color: #eee;
+            padding: 12px 0;
+            border-bottom: 1px solid #2a2a2a;
+            cursor: pointer;
+            transition: 0.15s;
+        }
+        .menu-item:active {
+            color: #f5b342;
+            transform: translateX(6px);
+        }
+        .backdrop {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.5);
+            z-index: 999;
+            display: none;
+        }
+        .backdrop.active {
+            display: block;
+        }
+
+        .main-area {
+            flex: 1;
+            min-height: 200px;
+            background: #1a1a1a;
+            border-radius: 20px;
+            border: 1px dashed #444;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #555;
+            font-size: 18px;
+            flex-direction: column;
+            gap: 8px;
+        }
+        .footer {
+            text-align: center;
+            color: #444;
+            font-size: 12px;
+        }
+
+        /* ===== КНОПКА БАЛАНС (фиксированная, справа внизу) ===== */
+        .balance-fab {
+            position: fixed;
+            bottom: 30px;
+            right: 20px;
+            background: #1a1a1a;
+            border: 1px solid #f5b342;
+            border-radius: 40px;
+            padding: 10px 22px;
+            font-size: 16px;
+            font-weight: 700;
+            color: #fff;
+            cursor: pointer;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.6);
+            transition: 0.15s;
+            z-index: 500;
+            font-family: 'Segoe UI', Roboto, system-ui, sans-serif;
+            letter-spacing: 0.3px;
+        }
+        .balance-fab:active {
+            transform: scale(0.95);
+        }
+
+        /* ===== ПАНЕЛЬ БАЛАНСА (снизу) ===== */
+        .balance-panel {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: #1a1a1a;
+            border-top: 2px solid #f5b342;
+            border-radius: 30px 30px 0 0;
+            padding: 24px 20px 30px;
+            transform: translateY(100%);
+            transition: transform 0.3s ease;
+            z-index: 600;
+            max-width: 480px;
+            margin: 0 auto;
+            box-shadow: 0 -10px 40px rgba(0,0,0,0.7);
+        }
+        .balance-panel.open {
+            transform: translateY(0);
+        }
+        .balance-panel .balance-title {
+            font-size: 20px;
+            font-weight: 600;
+            text-align: center;
+            margin-bottom: 8px;
+            color: #aaa;
+        }
+        .balance-panel .balance-amount {
+            font-size: 32px;
+            font-weight: 900;
+            text-align: center;
+            color: #f5b342;
+            margin-bottom: 24px;
+        }
+        .balance-actions {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 12px;
+        }
+        .balance-actions button {
+            border: none;
+            border-radius: 20px;
+            padding: 16px 8px;
+            font-size: 16px;
+            font-weight: 700;
+            color: #fff;
+            cursor: pointer;
+            transition: 0.15s;
+            font-family: 'Segoe UI', Roboto, system-ui, sans-serif;
+            letter-spacing: 0.5px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+        .balance-actions button:active {
+            transform: scale(0.94);
+        }
+        .btn-deposit {
+            background: #2e7d32;
+        }
+        .btn-withdraw {
+            background: #1565c0;
+        }
+        .btn-referral {
+            background: #7b1fa2;
+        }
+        .btn-bonus {
+            background: #4a2a5a;
+            border: 1px solid #f5b342;
+        }
+        .btn-bonus .icon {
+            font-size: 20px;
+        }
+
+        /* Закрыть панель */
+        .panel-close {
+            position: absolute;
+            top: 12px;
+            right: 20px;
+            background: transparent;
+            border: none;
+            color: #888;
+            font-size: 24px;
+            cursor: pointer;
+        }
+        .panel-close:active { color: #fff; }
+
+        /* Адаптив */
+        @media (max-width: 480px) {
+            .menu-overlay { max-width: 100%; }
+            .balance-fab { bottom: 20px; right: 16px; padding: 8px 16px; font-size: 14px; }
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <div class="header">
+        <div class="logo">🟣 PRO</div>
+        <div style="display: flex; align-items: center;">
+            <div class="balance-top" id="balanceTop">💰 <span id="balanceDisplay">1000</span></div>
+            <button class="burger" id="burgerBtn" aria-label="Меню">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+        </div>
+    </div>
+
+    <div class="main-area" id="mainArea">
+        <span>Тут будет твой интерфейс</span>
+    </div>
+    <div class="footer">Готов к твоим командам</div>
+</div>
+
+<!-- Бэкдроп -->
+<div class="backdrop" id="backdrop"></div>
+
+<!-- Меню -->
+<div class="menu-overlay" id="menuOverlay">
+    <div class="menu-item" data-action="settings">⚙️ Настройки</div>
+    <div class="menu-item" data-action="history">📜 История</div>
+    <div class="menu-item" data-action="support">🆘 Поддержка</div>
+    <div class="menu-item" data-action="bonus">🎁 Бонуски</div>
+</div>
+
+<!-- Плавающая кнопка "Баланс" -->
+<button class="balance-fab" id="balanceFab">💰 Баланс</button>
+
+<!-- Панель баланса -->
+<div class="balance-panel" id="balancePanel">
+    <button class="panel-close" id="panelClose">✕</button>
+    <div class="balance-title">Ваш баланс</div>
+    <div class="balance-amount" id="panelBalance">1000</div>
+    <div class="balance-actions">
+        <button class="btn-deposit">💰 Пополнение</button>
+        <button class="btn-withdraw">💳 Вывод</button>
+        <button class="btn-referral">👥 Реферальная программа %</button>
+        <button class="btn-bonus"><span class="icon">🎁</span> Бонус</button>
+    </div>
+</div>
+
+<script>
+    // ===== БАЛАНС =====
+    let balance = 1000;
+    function updateBalanceUI() {
+        document.getElementById('balanceDisplay').textContent = balance;
+        document.getElementById('panelBalance').textContent = balance;
+    }
+    updateBalanceUI();
+
+    document.getElementById('balanceTop').addEventListener('click', () => {
+        balance += 100;
+        updateBalanceUI();
+    });
+
+    // ===== МЕНЮ-БУРГЕР =====
+    const burgerBtn = document.getElementById('burgerBtn');
+    const menuOverlay = document.getElementById('menuOverlay');
+    const backdrop = document.getElementById('backdrop');
+    const mainArea = document.getElementById('mainArea');
+
+    function openMenu() {
+        menuOverlay.classList.add('open');
+        backdrop.classList.add('active');
+        document.body.style.overflow = 'hidden';
+    }
+    function closeMenu() {
+        menuOverlay.classList.remove('open');
+        backdrop.classList.remove('active');
+        document.body.style.overflow = '';
+    }
+    burgerBtn.addEventListener('click', (e) => {
+        e.stopPropagation();
+        if (menuOverlay.classList.contains('open')) closeMenu();
+        else openMenu();
+    });
+    backdrop.addEventListener('click', closeMenu);
+    document.addEventListener('keydown', (e) => { if (e.key === 'Escape') closeMenu(); });
+
+    document.querySelectorAll('.menu-item').forEach(item => {
+        item.addEventListener('click', () => {
+            const action = item.dataset.action;
+            let message = '';
+            switch(action) {
+                case 'settings': message = '⚙️ Настройки (скоро)'; break;
+                case 'history': message = '📜 История ставок, выводов, пополнений'; break;
+                case 'support': message = '🆘 Поддержка: напишите нам в Telegram'; break;
+                case 'bonus': message = '🎁 Бонуски: активируйте промокод'; break;
+                default: message = 'Пункт меню';
+            }
+            mainArea.innerHTML = `<span>${message}</span>`;
+            closeMenu();
+        });
+    });
+
+    // ===== КНОПКА БАЛАНС (панель снизу) =====
+    const balanceFab = document.getElementById('balanceFab');
+    const balancePanel = document.getElementById('balancePanel');
+    const panelClose = document.getElementById('panelClose');
+
+    function openPanel() {
+        balancePanel.classList.add('open');
+        // обновим баланс в панели
+        document.getElementById('panelBalance').textContent = balance;
+    }
+    function closePanel() {
+        balancePanel.classList.remove('open');
+    }
+
+    balanceFab.addEventListener('click', (e) => {
+        e.stopPropagation();
+        if (balancePanel.classList.contains('open')) {
+            closePanel();
+        } else {
+            openPanel();
+        }
+    });
+
+    panelClose.addEventListener('click', closePanel);
+
+    // Закрытие по клику вне панели (на бэкдропе – но бэкдроп у нас уже занят меню, поэтому сделаем отдельно)
+    // Просто закроем при клике на фон, но чтобы не мешать меню – добавим обработчик на документ
+    document.addEventListener('click', (e) => {
+        if (balancePanel.classList.contains('open')) {
+            // если клик не по панели и не по кнопке баланса
+            if (!balancePanel.contains(e.target) && e.target !== balanceFab && !balanceFab.contains(e.target)) {
+                closePanel();
+            }
+        }
+    });
+
+    // Обработчики для кнопок в панели (заглушки)
+    document.querySelectorAll('.balance-actions button').forEach(btn => {
+        btn.addEventListener('click', function(e) {
+            e.stopPropagation();
+            const text = this.innerText.trim();
+            mainArea.innerHTML = `<span>Вы выбрали: ${text}</span>`;
+            closePanel();
+        });
+    });
+</script>
+</body>
+</html>
