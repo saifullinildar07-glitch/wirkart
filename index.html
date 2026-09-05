@@ -238,7 +238,33 @@
             position: relative;
         }
 
-        /* ===== СТИЛИ ДЛЯ PLINKO ===== */
+        /* ===== СТИЛИ ДЛЯ ИКОНКИ-ПРЕВЬЮ PLINKO ===== */
+        .plinko-preview {
+            width: 140px;
+            height: 140px;
+            background: #1a1a1a;
+            border-radius: 24px;
+            border: 2px solid #f5b342;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: 0.25s;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.4);
+            position: relative;
+        }
+        .plinko-preview:hover {
+            transform: scale(1.05);
+            box-shadow: 0 0 30px rgba(245,179,66,0.3);
+        }
+        .plinko-preview canvas {
+            width: 90%;
+            height: 90%;
+            border-radius: 16px;
+            background: #000;
+        }
+
+        /* ===== СТИЛИ ДЛЯ ПОЛНОЦЕННОГО PLINKO ===== */
         .plinko-container {
             width: 100%;
             height: 100%;
@@ -542,6 +568,7 @@
             .sidebar { width: 70px; padding: 8px 4px; gap: 8px; }
             .sidebar .menu-item { font-size: 10px; padding: 8px 2px; border-radius: 10px; }
             .main-area { padding: 4px; }
+            .plinko-preview { width: 100px; height: 100px; }
             .plinko-container { padding: 8px; }
             .plinko-multipliers .slot-label { font-size: 10px; }
             .plinko-bet-balance { font-size: 12px; }
@@ -685,7 +712,7 @@
     document.getElementById('registerBtn').addEventListener('click', () => alert('Форма регистрации (скоро)'));
 
     // ================================================================
-    //  ОБРАБОТЧИК БОКОВОГО МЕНЮ
+    //  ОБРАБОТЧИК БОКОВОГО МЕНЮ – ПОКАЗ ПРЕВЬЮ
     // ================================================================
     document.querySelectorAll('.sidebar .menu-item').forEach(item => {
         item.addEventListener('click', function() {
@@ -693,7 +720,7 @@
             const mainArea = document.getElementById('mainArea');
             switch(action) {
                 case 'quick':
-                    startPlinkoGame(mainArea);
+                    showPlinkoPreview(mainArea);
                     break;
                 case 'bonuses':
                     mainArea.innerHTML = `<span style="font-size:22px; font-weight:600; color:#f5b342;">🎁 Бонусы – скоро</span>`;
@@ -711,10 +738,118 @@
     });
 
     // ================================================================
-    //  PLINKO – ПОЛНАЯ РЕАЛИЗАЦИЯ (ЧЁРНЫЙ ФОН, КРАСНЫЕ ШАРИКИ, БЕЛЫЕ КОЛЫШКИ)
+    //  ПРЕВЬЮ PLINKO (анимированная иконка)
+    // ================================================================
+    let previewAnimId = null;
+
+    function showPlinkoPreview(container) {
+        container.innerHTML = `
+            <div class="plinko-preview" id="plinkoPreview">
+                <canvas id="previewCanvas" width="120" height="120"></canvas>
+            </div>
+        `;
+        const previewCanvas = document.getElementById('previewCanvas');
+        const ctx = previewCanvas.getContext('2d');
+        const W = 120, H = 120;
+
+        // Колышки для превью (треугольник 4 ряда)
+        const pegsPreview = [];
+        const spacingX = W / 5;
+        const spacingY = H / 5;
+        for (let row = 0; row < 4; row++) {
+            const cols = row + 1;
+            const offsetX = (W - (cols - 1) * spacingX) / 2;
+            for (let col = 0; col < cols; col++) {
+                const x = offsetX + col * spacingX;
+                const y = 10 + row * spacingY;
+                pegsPreview.push({ x, y, radius: 3 });
+            }
+        }
+
+        // Два шарика для анимации
+        let ballsPreview = [
+            { x: W/2 + 8, y: 10, vx: -0.4, vy: 0.6, radius: 3 },
+            { x: W/2 - 8, y: 5, vx: 0.3, vy: 0.5, radius: 3 }
+        ];
+
+        function drawPreview() {
+            ctx.clearRect(0, 0, W, H);
+            ctx.fillStyle = '#000';
+            ctx.fillRect(0, 0, W, H);
+
+            // Колышки – белые
+            for (let p of pegsPreview) {
+                ctx.beginPath();
+                ctx.arc(p.x, p.y, p.radius, 0, Math.PI * 2);
+                ctx.fillStyle = '#ffffff';
+                ctx.shadowColor = 'rgba(255,255,255,0.4)';
+                ctx.shadowBlur = 6;
+                ctx.fill();
+                ctx.shadowBlur = 0;
+            }
+
+            // Шарики – красные
+            for (let b of ballsPreview) {
+                ctx.beginPath();
+                ctx.arc(b.x, b.y, b.radius, 0, Math.PI * 2);
+                ctx.fillStyle = '#ff1744';
+                ctx.shadowColor = 'rgba(255,23,68,0.6)';
+                ctx.shadowBlur = 12;
+                ctx.fill();
+                ctx.shadowBlur = 0;
+            }
+        }
+
+        function updatePreview() {
+            const GRAVITY = 0.15;
+            const BOUNCE = 0.5;
+
+            for (let b of ballsPreview) {
+                b.vy += GRAVITY;
+                b.x += b.vx;
+                b.y += b.vy;
+
+                for (let p of pegsPreview) {
+                    const dx = b.x - p.x;
+                    const dy = b.y - p.y;
+                    const dist = Math.sqrt(dx*dx + dy*dy);
+                    if (dist < b.radius + p.radius) {
+                        const angle = Math.atan2(dy, dx);
+                        const overlap = (b.radius + p.radius - dist) * 0.5;
+                        b.x += Math.cos(angle) * overlap;
+                        b.y += Math.sin(angle) * overlap;
+                        const speed = Math.sqrt(b.vx*b.vx + b.vy*b.vy);
+                        const newVx = Math.cos(angle) * speed * BOUNCE;
+                        const newVy = Math.sin(angle) * speed * BOUNCE;
+                        b.vx = newVx + (Math.random() - 0.5) * 0.2;
+                        b.vy = newVy + (Math.random() - 0.5) * 0.2;
+                    }
+                }
+
+                if (b.x < b.radius) { b.x = b.radius; b.vx = -b.vx * 0.8; }
+                if (b.x > W - b.radius) { b.x = W - b.radius; b.vx = -b.vx * 0.8; }
+                if (b.y < b.radius) { b.y = b.radius; b.vy = -b.vy * 0.8; }
+                if (b.y > H - b.radius) { b.y = H - b.radius; b.vy = -b.vy * 0.8; }
+            }
+
+            drawPreview();
+            previewAnimId = requestAnimationFrame(updatePreview);
+        }
+
+        updatePreview();
+
+        // При клике на превью – запускаем полноценную игру
+        document.getElementById('plinkoPreview').addEventListener('click', function() {
+            if (previewAnimId) cancelAnimationFrame(previewAnimId);
+            previewAnimId = null;
+            startPlinkoGame(container);
+        });
+    }
+
+    // ================================================================
+    //  ПОЛНОЦЕННАЯ ИГРА PLINKO (уменьшенные шарики и колышки)
     // ================================================================
     function startPlinkoGame(container) {
-        // Генерируем интерфейс
         container.innerHTML = `
             <div class="plinko-container">
                 <button class="plinko-exit" id="exitPlinko">←</button>
@@ -761,9 +896,8 @@
         const betInput = document.getElementById('plinkoBet');
         const plinkoBalanceEl = document.getElementById('plinkoBalance');
 
-        let autoInterval = null; // для авто-режима
+        let autoInterval = null;
 
-        // ----- Выход из игры -----
         exitBtn.addEventListener('click', () => {
             if (animationId) cancelAnimationFrame(animationId);
             animationId = null;
@@ -773,7 +907,6 @@
             container.innerHTML = `<span style="color:#555;">Выберите раздел</span>`;
         });
 
-        // ----- Переключение режимов -----
         function setMode(mode) {
             if (mode === 'auto') {
                 modeManual.classList.remove('active');
@@ -781,7 +914,7 @@
                 if (!autoInterval) {
                     autoInterval = setInterval(() => {
                         addBall();
-                    }, 1500 + Math.random() * 500); // 1.5-2 сек
+                    }, 1500 + Math.random() * 500);
                 }
             } else {
                 modeAuto.classList.remove('active');
@@ -811,20 +944,21 @@
         }
         window.addEventListener('resize', resizeCanvas);
 
-        // ----- Игровые константы -----
+        // ----- Игровые константы (уменьшенные размеры) -----
         const ROWS = 16;
         const MULTIPLIERS = [10, 5, 2, 1, 0.5, 1, 2, 5, 10];
         const GRAVITY = 0.25;
-        const BOUNCE = 0.7;
+        const BOUNCE = 0.75;
         const FRICTION = 0.99;
-        const WIN_RATE = 0.36; // 36%
+        const WIN_RATE = 0.36;
+        const BALL_RADIUS = 4;       // в 2 раза меньше (было 7)
+        const PEG_RADIUS = 4;        // в 1.5 раза меньше (было 6)
 
         let pegs = [];
         let slots = [];
         let balls = [];
         let animationId = null;
 
-        // ----- Построение доски -----
         function buildBoard() {
             pegs = [];
             slots = [];
@@ -839,11 +973,11 @@
                 for (let col = 0; col < cols; col++) {
                     const x = offsetX + col * spacingX;
                     const y = 20 + row * spacingY;
-                    pegs.push({ x, y, radius: 6 });
+                    pegs.push({ x, y, radius: PEG_RADIUS });
                 }
             }
 
-            // Слоты (множители)
+            // Слоты
             const slotWidth = canvasW / slotCount;
             for (let i = 0; i < slotCount; i++) {
                 const x = i * slotWidth + slotWidth / 2;
@@ -860,33 +994,32 @@
         }
 
         function getSlotColor(m) {
-            if (m >= 5) return '#9b59b6'; // фиолетовый
-            if (m >= 2) return '#34495e'; // тёмно-синий
-            return '#1a1a1a'; // чёрный
+            if (m >= 5) return '#9b59b6';
+            if (m >= 2) return '#34495e';
+            return '#1a1a1a';
         }
 
-        // ----- Отрисовка -----
         function drawBoard() {
             if (!ctx) return;
             ctx.clearRect(0, 0, canvasW, canvasH);
             ctx.fillStyle = '#000';
             ctx.fillRect(0, 0, canvasW, canvasH);
 
-            // Колышки (белые с подсветкой)
+            // Колышки (белые)
             for (let p of pegs) {
                 ctx.beginPath();
                 ctx.arc(p.x, p.y, p.radius, 0, Math.PI * 2);
                 ctx.fillStyle = '#ffffff';
-                ctx.shadowColor = 'rgba(255,255,255,0.6)';
-                ctx.shadowBlur = 12;
+                ctx.shadowColor = 'rgba(255,255,255,0.5)';
+                ctx.shadowBlur = 8;
                 ctx.fill();
                 ctx.shadowBlur = 0;
-                ctx.strokeStyle = '#aaa';
-                ctx.lineWidth = 1;
+                ctx.strokeStyle = '#888';
+                ctx.lineWidth = 0.5;
                 ctx.stroke();
             }
 
-            // Слоты (множители)
+            // Слоты
             for (let s of slots) {
                 const x = s.x - s.width / 2;
                 const y = s.y - s.height / 2;
@@ -903,22 +1036,21 @@
                 ctx.fillText('x' + s.multiplier, s.x, s.y);
             }
 
-            // Шарики (красные с ярким свечением)
+            // Шарики (красные, маленькие)
             for (let b of balls) {
                 ctx.beginPath();
-                ctx.arc(b.x, b.y, 7, 0, Math.PI * 2);
+                ctx.arc(b.x, b.y, BALL_RADIUS, 0, Math.PI * 2);
                 ctx.fillStyle = '#ff1744';
                 ctx.shadowColor = 'rgba(255,23,68,0.8)';
-                ctx.shadowBlur = 20;
+                ctx.shadowBlur = 16;
                 ctx.fill();
                 ctx.shadowBlur = 0;
                 ctx.strokeStyle = '#ff5252';
-                ctx.lineWidth = 2;
+                ctx.lineWidth = 1;
                 ctx.stroke();
             }
         }
 
-        // ----- Добавление шарика -----
         function addBall() {
             const bet = parseFloat(betInput.value);
             if (isNaN(bet) || bet <= 0) {
@@ -934,14 +1066,13 @@
             updateBalanceUI();
             if (plinkoBalanceEl) plinkoBalanceEl.textContent = balance.toFixed(2);
 
-            // Стартовая позиция – немного смещена от центра
-            const startX = canvasW / 2 + (Math.random() - 0.5) * 8;
+            const startX = canvasW / 2 + (Math.random() - 0.5) * 6;
             const ball = {
                 x: startX,
                 y: 10,
-                vx: (Math.random() - 0.5) * 0.3,
-                vy: 0.5,
-                radius: 7,
+                vx: (Math.random() - 0.5) * 0.25,
+                vy: 0.4,
+                radius: BALL_RADIUS,
                 bet: bet,
                 finished: false
             };
@@ -951,7 +1082,6 @@
             }
         }
 
-        // ----- Игровой цикл (физика) -----
         function gameLoop() {
             let anyActive = false;
 
@@ -959,14 +1089,13 @@
                 if (b.finished) continue;
                 anyActive = true;
 
-                // Гравитация
                 b.vy += GRAVITY;
                 b.x += b.vx;
                 b.y += b.vy;
                 b.vx *= FRICTION;
                 b.vy *= FRICTION;
 
-                // Столкновения с колышками
+                // Столкновения с колышками (улучшенная физика)
                 for (let p of pegs) {
                     const dx = b.x - p.x;
                     const dy = b.y - p.y;
@@ -979,11 +1108,11 @@
                         const speed = Math.sqrt(b.vx * b.vx + b.vy * b.vy);
                         const newVx = Math.cos(angle) * speed * BOUNCE;
                         const newVy = Math.sin(angle) * speed * BOUNCE;
-                        b.vx = newVx + (Math.random() - 0.5) * 0.4;
-                        b.vy = newVy + (Math.random() - 0.5) * 0.4;
-                        // Смещение против застревания
-                        b.x += (Math.random() - 0.5) * 1.0;
-                        b.y += (Math.random() - 0.5) * 1.0;
+                        b.vx = newVx + (Math.random() - 0.5) * 0.6;
+                        b.vy = newVy + (Math.random() - 0.5) * 0.6;
+                        // Дополнительное смещение для предотвращения застревания
+                        b.x += (Math.random() - 0.5) * 1.2;
+                        b.y += (Math.random() - 0.5) * 1.2;
                     }
                 }
 
@@ -1007,11 +1136,10 @@
                     }
                     updateBalanceUI();
                     if (plinkoBalanceEl) plinkoBalanceEl.textContent = balance.toFixed(2);
-                    b.finished = true; // помечаем на удаление
+                    b.finished = true;
                 }
             }
 
-            // Удаляем завершённые шарики
             balls = balls.filter(b => !b.finished);
 
             drawBoard();
@@ -1023,15 +1151,12 @@
             }
         }
 
-        // ----- Обработчик кнопки PLAY -----
         playBtn.addEventListener('click', addBall);
 
-        // ----- Инициализация -----
         setTimeout(() => {
             resizeCanvas();
         }, 50);
 
-        // ----- Переопределение глобальных функций для обновления баланса в этом окне -----
         window.updateBalanceUI = function() {
             document.getElementById('balanceDisplay').textContent = balance;
             document.getElementById('panelBalance').textContent = balance;
@@ -1043,12 +1168,11 @@
             if (plinkoBalanceEl) plinkoBalanceEl.textContent = balance.toFixed(2);
         };
 
-        // По умолчанию ручной режим
         setMode('manual');
     }
 
     // ================================================================
-    //  ИНИЦИАЛИЗАЦИЯ ПРИ ЗАГРУЗКЕ
+    //  ИНИЦИАЛИЗАЦИЯ
     // ================================================================
     document.addEventListener('DOMContentLoaded', () => {
         const mainArea = document.getElementById('mainArea');
