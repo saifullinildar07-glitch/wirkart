@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Новый проект</title>
+    <title>ТВИНБАТЛ</title>
     <style>
         * { margin:0; padding:0; box-sizing:border-box; }
         html, body {
@@ -45,11 +45,26 @@
             align-items: center;
             gap: 16px;
         }
-        .logo {
-            font-size: 24px;
+        /* Новый логотип */
+        .brand {
+            background: #6a1b9a; /* фиолетовый фон */
+            padding: 4px 16px;
+            border-radius: 12px;
+            border: 2px solid #f5b342; /* жёлтая рамка */
+            box-shadow: 0 0 15px rgba(245, 179, 66, 0.2);
+            font-size: 20px;
             font-weight: 900;
-            color: #f5b342;
+            color: #f5b342; /* жёлтый текст */
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            user-select: none;
+            transition: 0.2s;
+            font-family: 'Segoe UI', Roboto, system-ui, sans-serif;
         }
+        .brand:hover {
+            box-shadow: 0 0 25px rgba(245, 179, 66, 0.5);
+        }
+
         .auth-buttons {
             display: flex;
             gap: 8px;
@@ -90,6 +105,11 @@
             font-weight: 700;
             border: 1px solid #444;
             cursor: pointer;
+            transition: 0.15s;
+            user-select: none;
+        }
+        .balance-top:hover {
+            border-color: #f5b342;
         }
         .balance-top span { color: #f5b342; }
 
@@ -111,22 +131,16 @@
             transition: 0.3s;
         }
 
-        /* Центральная область – пустая, занимает всё оставшееся место */
         .main-area {
             flex: 1;
-            background: #1a1a1a;
-            border-radius: 20px;
-            border: 1px dashed #444;
+            background: transparent;
             display: flex;
             align-items: center;
             justify-content: center;
             color: #555;
             font-size: 18px;
             min-height: 0;
-        }
-        .main-area.empty {
             border: none;
-            background: transparent;
         }
 
         .footer {
@@ -136,7 +150,7 @@
             flex-shrink: 0;
         }
 
-        /* Меню (выездное) – без изменений */
+        /* Меню */
         .menu-overlay {
             position: fixed;
             top: 0;
@@ -183,29 +197,6 @@
         }
         .backdrop.active {
             display: block;
-        }
-
-        /* Кнопка баланс (фиксированная) */
-        .balance-fab {
-            position: fixed;
-            bottom: 30px;
-            right: 20px;
-            background: #1a1a1a;
-            border: 1px solid #f5b342;
-            border-radius: 40px;
-            padding: 10px 22px;
-            font-size: 16px;
-            font-weight: 700;
-            color: #fff;
-            cursor: pointer;
-            box-shadow: 0 4px 20px rgba(0,0,0,0.6);
-            transition: 0.15s;
-            z-index: 500;
-            font-family: 'Segoe UI', Roboto, system-ui, sans-serif;
-            letter-spacing: 0.3px;
-        }
-        .balance-fab:active {
-            transform: scale(0.95);
         }
 
         /* Панель баланса */
@@ -297,7 +288,7 @@
         @media (max-width: 480px) {
             .container { padding: 12px 16px; }
             .auth-buttons button { padding: 4px 12px; font-size: 12px; }
-            .balance-fab { bottom: 20px; right: 16px; padding: 8px 16px; font-size: 14px; }
+            .brand { font-size: 16px; padding: 2px 12px; }
         }
     </style>
 </head>
@@ -306,7 +297,8 @@
     <!-- Шапка -->
     <div class="header">
         <div class="header-left">
-            <div class="logo">🟣 PRO</div>
+            <!-- Логотип ТВИНБАТЛ -->
+            <div class="brand">ТВИНБАТЛ</div>
             <!-- Кнопки Вход и Регистрация -->
             <div class="auth-buttons">
                 <button class="login" id="loginBtn">Вход</button>
@@ -324,8 +316,8 @@
     </div>
 
     <!-- Центральная область – пустая -->
-    <div class="main-area empty" id="mainArea">
-        <!-- Здесь ничего нет, можно добавить контент позже -->
+    <div class="main-area" id="mainArea">
+        <!-- Здесь будет основной контент -->
     </div>
 
     <div class="footer">Готов к твоим командам</div>
@@ -341,9 +333,6 @@
     <div class="menu-item" data-action="support">🆘 Поддержка</div>
     <div class="menu-item" data-action="bonus">🎁 Бонуски</div>
 </div>
-
-<!-- Плавающая кнопка "Баланс" -->
-<button class="balance-fab" id="balanceFab">💰 Баланс</button>
 
 <!-- Панель баланса -->
 <div class="balance-panel" id="balancePanel">
@@ -367,16 +356,51 @@
     }
     updateBalanceUI();
 
-    document.getElementById('balanceTop').addEventListener('click', () => {
-        balance += 100;
-        updateBalanceUI();
+    // ===== ПАНЕЛЬ БАЛАНСА =====
+    const balancePanel = document.getElementById('balancePanel');
+    const panelClose = document.getElementById('panelClose');
+
+    function openPanel() {
+        balancePanel.classList.add('open');
+        document.getElementById('panelBalance').textContent = balance;
+    }
+    function closePanel() {
+        balancePanel.classList.remove('open');
+    }
+
+    document.getElementById('balanceTop').addEventListener('click', (e) => {
+        e.stopPropagation();
+        if (balancePanel.classList.contains('open')) {
+            closePanel();
+        } else {
+            openPanel();
+        }
+    });
+
+    panelClose.addEventListener('click', closePanel);
+
+    document.addEventListener('click', (e) => {
+        if (balancePanel.classList.contains('open')) {
+            const balanceTop = document.getElementById('balanceTop');
+            if (!balancePanel.contains(e.target) && e.target !== balanceTop && !balanceTop.contains(e.target)) {
+                closePanel();
+            }
+        }
+    });
+
+    document.querySelectorAll('.balance-actions button').forEach(btn => {
+        btn.addEventListener('click', function(e) {
+            e.stopPropagation();
+            const text = this.innerText.trim();
+            alert(`Вы выбрали: ${text}`);
+            closePanel();
+        });
     });
 
     // ===== МЕНЮ-БУРГЕР =====
     const burgerBtn = document.getElementById('burgerBtn');
     const menuOverlay = document.getElementById('menuOverlay');
     const backdrop = document.getElementById('backdrop');
-    const mainArea = document.getElementById('mainArea');
 
     function openMenu() {
         menuOverlay.classList.add('open');
@@ -407,7 +431,6 @@
                 case 'bonus': message = '🎁 Бонуски: активируйте промокод'; break;
                 default: message = 'Пункт меню';
             }
-            // Вместо вывода в mainArea, можно выводить в отдельный блок или alert
             alert(message);
             closeMenu();
         });
@@ -419,47 +442,6 @@
     });
     document.getElementById('registerBtn').addEventListener('click', () => {
         alert('Форма регистрации (скоро)');
-    });
-
-    // ===== КНОПКА БАЛАНС (панель снизу) =====
-    const balanceFab = document.getElementById('balanceFab');
-    const balancePanel = document.getElementById('balancePanel');
-    const panelClose = document.getElementById('panelClose');
-
-    function openPanel() {
-        balancePanel.classList.add('open');
-        document.getElementById('panelBalance').textContent = balance;
-    }
-    function closePanel() {
-        balancePanel.classList.remove('open');
-    }
-
-    balanceFab.addEventListener('click', (e) => {
-        e.stopPropagation();
-        if (balancePanel.classList.contains('open')) {
-            closePanel();
-        } else {
-            openPanel();
-        }
-    });
-
-    panelClose.addEventListener('click', closePanel);
-
-    document.addEventListener('click', (e) => {
-        if (balancePanel.classList.contains('open')) {
-            if (!balancePanel.contains(e.target) && e.target !== balanceFab && !balanceFab.contains(e.target)) {
-                closePanel();
-            }
-        }
-    });
-
-    document.querySelectorAll('.balance-actions button').forEach(btn => {
-        btn.addEventListener('click', function(e) {
-            e.stopPropagation();
-            const text = this.innerText.trim();
-            alert(`Вы выбрали: ${text}`);
-            closePanel();
-        });
     });
 </script>
 </body>
