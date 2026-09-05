@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>TWIN BOL</title>
     <style>
+        /* ===== ГЛОБАЛЬНЫЕ СТИЛИ ===== */
         * { margin:0; padding:0; box-sizing:border-box; }
         html, body {
             width: 100%;
@@ -33,6 +34,7 @@
             position: relative;
             margin: 0 auto;
         }
+        /* ===== ШАПКА ===== */
         .header {
             display: flex;
             justify-content: space-between;
@@ -65,9 +67,7 @@
             transition: 0.2s;
             white-space: nowrap;
         }
-        .brand:hover {
-            box-shadow: 0 0 25px rgba(245, 179, 66, 0.5);
-        }
+        .brand:hover { box-shadow: 0 0 25px rgba(245, 179, 66, 0.5); }
         .auth-buttons {
             display: flex;
             gap: 6px;
@@ -99,10 +99,7 @@
             border-color: #f5b342;
             color: #111;
         }
-        .auth-buttons .register:hover {
-            background: #ffd54f;
-            border-color: #ffd54f;
-        }
+        .auth-buttons .register:hover { background: #ffd54f; border-color: #ffd54f; }
         .header-right {
             display: flex;
             align-items: center;
@@ -141,9 +138,7 @@
             color: #f5b342;
             line-height: 1.3;
         }
-        .balance-amount span {
-            color: #f5b342;
-        }
+        .balance-amount span { color: #f5b342; }
         .burger {
             background: transparent;
             border: none;
@@ -163,6 +158,7 @@
             transition: 0.3s;
         }
 
+        /* ===== ОСНОВНОЙ КОНТЕЙНЕР ===== */
         .body-row {
             display: flex;
             gap: 12px;
@@ -223,9 +219,7 @@
             box-shadow: 0 0 20px rgba(245, 179, 66, 0.3);
             transform: scale(1.02);
         }
-        .sidebar .menu-item:active {
-            transform: scale(0.95);
-        }
+        .sidebar .menu-item:active { transform: scale(0.95); }
 
         .main-area {
             flex: 1;
@@ -244,7 +238,7 @@
             position: relative;
         }
 
-        /* ===== Plinko с чёрным фоном ===== */
+        /* ===== СТИЛИ ДЛЯ PLINKO ===== */
         .plinko-container {
             width: 100%;
             height: 100%;
@@ -419,6 +413,7 @@
             padding-top: 4px;
         }
 
+        /* ===== МЕНЮ-БУРГЕР ===== */
         .menu-overlay {
             position: fixed;
             top: 0;
@@ -437,9 +432,7 @@
             flex-direction: column;
             gap: 30px;
         }
-        .menu-overlay.open {
-            transform: translateX(0);
-        }
+        .menu-overlay.open { transform: translateX(0); }
         .menu-item-burger {
             font-size: 20px;
             font-weight: 600;
@@ -463,10 +456,9 @@
             z-index: 999;
             display: none;
         }
-        .backdrop.active {
-            display: block;
-        }
+        .backdrop.active { display: block; }
 
+        /* ===== ПАНЕЛЬ БАЛАНСА ===== */
         .balance-panel {
             position: fixed;
             bottom: 0;
@@ -483,9 +475,7 @@
             margin: 0 auto;
             box-shadow: 0 -10px 40px rgba(0,0,0,0.7);
         }
-        .balance-panel.open {
-            transform: translateY(0);
-        }
+        .balance-panel.open { transform: translateY(0); }
         .balance-panel .balance-title {
             font-size: 20px;
             font-weight: 600;
@@ -521,25 +511,15 @@
             justify-content: center;
             gap: 8px;
         }
-        .balance-actions button:active {
-            transform: scale(0.94);
-        }
-        .btn-deposit {
-            background: #2e7d32;
-        }
-        .btn-withdraw {
-            background: #1565c0;
-        }
-        .btn-referral {
-            background: #7b1fa2;
-        }
+        .balance-actions button:active { transform: scale(0.94); }
+        .btn-deposit { background: #2e7d32; }
+        .btn-withdraw { background: #1565c0; }
+        .btn-referral { background: #7b1fa2; }
         .btn-bonus {
             background: #4a2a5a;
             border: 1px solid #f5b342;
         }
-        .btn-bonus .icon {
-            font-size: 20px;
-        }
+        .btn-bonus .icon { font-size: 20px; }
         .panel-close {
             position: absolute;
             top: 12px;
@@ -570,6 +550,7 @@
 </head>
 <body>
 <div class="container">
+    <!-- ===== ШАПКА ===== -->
     <div class="header">
         <div class="header-left">
             <div class="brand">TWIN BOL</div>
@@ -591,6 +572,7 @@
         </div>
     </div>
 
+    <!-- ===== ОСНОВНОЙ РЯД ===== -->
     <div class="body-row">
         <div class="sidebar" id="sidebar">
             <div class="menu-item" data-action="quick">Quick Games</div>
@@ -606,6 +588,7 @@
     <div class="footer">TWIN BOL — играй и выигрывай</div>
 </div>
 
+<!-- ===== МЕНЮ-БУРГЕР ===== -->
 <div class="backdrop" id="backdrop"></div>
 <div class="menu-overlay" id="menuOverlay">
     <div class="menu-item-burger" data-action="settings">⚙️ Настройки</div>
@@ -614,6 +597,7 @@
     <div class="menu-item-burger" data-action="bonus">🎁 Бонуски</div>
 </div>
 
+<!-- ===== ПАНЕЛЬ БАЛАНСА ===== -->
 <div class="balance-panel" id="balancePanel">
     <button class="panel-close" id="panelClose">✕</button>
     <div class="balance-title">Ваш баланс</div>
@@ -627,8 +611,11 @@
 </div>
 
 <script>
-    // ===== ОБЩИЕ ФУНКЦИИ =====
+    // ================================================================
+    //  ОБЩИЕ ФУНКЦИИ (баланс, панель, меню)
+    // ================================================================
     let balance = 1000;
+
     function updateBalanceUI() {
         document.getElementById('balanceDisplay').textContent = balance;
         document.getElementById('panelBalance').textContent = balance;
@@ -637,7 +624,6 @@
     }
     updateBalanceUI();
 
-    // Панель баланса
     const balancePanel = document.getElementById('balancePanel');
     const panelClose = document.getElementById('panelClose');
     function openPanel() {
@@ -669,7 +655,6 @@
         });
     });
 
-    // Меню-бургер
     const burgerBtn = document.getElementById('burgerBtn');
     const menuOverlay = document.getElementById('menuOverlay');
     const backdrop = document.getElementById('backdrop');
@@ -699,7 +684,9 @@
     document.getElementById('loginBtn').addEventListener('click', () => alert('Форма входа (скоро)'));
     document.getElementById('registerBtn').addEventListener('click', () => alert('Форма регистрации (скоро)'));
 
-    // ===== БОКОВОЕ МЕНЮ =====
+    // ================================================================
+    //  ОБРАБОТЧИК БОКОВОГО МЕНЮ
+    // ================================================================
     document.querySelectorAll('.sidebar .menu-item').forEach(item => {
         item.addEventListener('click', function() {
             const action = this.dataset.action;
@@ -723,10 +710,11 @@
         });
     });
 
-    // ============================================================
-    //  PLINKO – ЧЁРНЫЙ ФОН, КРАСНЫЕ ШАРИКИ, БЕЛЫЕ КОЛЫШКИ
-    // ============================================================
+    // ================================================================
+    //  PLINKO – ПОЛНАЯ РЕАЛИЗАЦИЯ (ЧЁРНЫЙ ФОН, КРАСНЫЕ ШАРИКИ, БЕЛЫЕ КОЛЫШКИ)
+    // ================================================================
     function startPlinkoGame(container) {
+        // Генерируем интерфейс
         container.innerHTML = `
             <div class="plinko-container">
                 <button class="plinko-exit" id="exitPlinko">←</button>
@@ -765,7 +753,7 @@
             </div>
         `;
 
-        // Элементы управления
+        // ----- Получение элементов управления -----
         const exitBtn = document.getElementById('exitPlinko');
         const modeManual = document.getElementById('modeManual');
         const modeAuto = document.getElementById('modeAuto');
@@ -773,8 +761,9 @@
         const betInput = document.getElementById('plinkoBet');
         const plinkoBalanceEl = document.getElementById('plinkoBalance');
 
-        let autoInterval = null;
+        let autoInterval = null; // для авто-режима
 
+        // ----- Выход из игры -----
         exitBtn.addEventListener('click', () => {
             if (animationId) cancelAnimationFrame(animationId);
             animationId = null;
@@ -784,6 +773,7 @@
             container.innerHTML = `<span style="color:#555;">Выберите раздел</span>`;
         });
 
+        // ----- Переключение режимов -----
         function setMode(mode) {
             if (mode === 'auto') {
                 modeManual.classList.remove('active');
@@ -791,7 +781,7 @@
                 if (!autoInterval) {
                     autoInterval = setInterval(() => {
                         addBall();
-                    }, 1500 + Math.random() * 500);
+                    }, 1500 + Math.random() * 500); // 1.5-2 сек
                 }
             } else {
                 modeAuto.classList.remove('active');
@@ -802,11 +792,10 @@
                 }
             }
         }
-
         modeManual.addEventListener('click', () => setMode('manual'));
         modeAuto.addEventListener('click', () => setMode('auto'));
 
-        // ===== ИГРОВАЯ ЛОГИКА =====
+        // ----- Инициализация канваса -----
         const canvas = document.getElementById('plinkoCanvas');
         const ctx = canvas.getContext('2d');
         let canvasW, canvasH;
@@ -822,23 +811,29 @@
         }
         window.addEventListener('resize', resizeCanvas);
 
-        const rows = 16;
+        // ----- Игровые константы -----
+        const ROWS = 16;
+        const MULTIPLIERS = [10, 5, 2, 1, 0.5, 1, 2, 5, 10];
+        const GRAVITY = 0.25;
+        const BOUNCE = 0.7;
+        const FRICTION = 0.99;
+        const WIN_RATE = 0.36; // 36%
+
         let pegs = [];
         let slots = [];
         let balls = [];
         let animationId = null;
-        const MULTIPLIERS = [10, 5, 2, 1, 0.5, 1, 2, 5, 10];
 
+        // ----- Построение доски -----
         function buildBoard() {
             pegs = [];
             slots = [];
-            const numRows = rows;
             const slotCount = MULTIPLIERS.length;
             const spacingX = canvasW / (slotCount + 1);
-            const spacingY = (canvasH - 40) / (numRows + 0.5);
+            const spacingY = (canvasH - 40) / (ROWS + 0.5);
 
-            // Колышки (без верхнего ряда, чтобы шарики падали между)
-            for (let row = 1; row < numRows; row++) {
+            // Колышки (без верхнего ряда)
+            for (let row = 1; row < ROWS; row++) {
                 const cols = row + 1;
                 const offsetX = (canvasW - (cols - 1) * spacingX) / 2;
                 for (let col = 0; col < cols; col++) {
@@ -848,6 +843,7 @@
                 }
             }
 
+            // Слоты (множители)
             const slotWidth = canvasW / slotCount;
             for (let i = 0; i < slotCount; i++) {
                 const x = i * slotWidth + slotWidth / 2;
@@ -864,19 +860,19 @@
         }
 
         function getSlotColor(m) {
-            if (m >= 5) return '#9b59b6';
-            if (m >= 2) return '#34495e';
-            return '#1a1a1a';
+            if (m >= 5) return '#9b59b6'; // фиолетовый
+            if (m >= 2) return '#34495e'; // тёмно-синий
+            return '#1a1a1a'; // чёрный
         }
 
+        // ----- Отрисовка -----
         function drawBoard() {
             if (!ctx) return;
             ctx.clearRect(0, 0, canvasW, canvasH);
-            // Фон чёрный
             ctx.fillStyle = '#000';
             ctx.fillRect(0, 0, canvasW, canvasH);
 
-            // Колышки – ярко-белые
+            // Колышки (белые с подсветкой)
             for (let p of pegs) {
                 ctx.beginPath();
                 ctx.arc(p.x, p.y, p.radius, 0, Math.PI * 2);
@@ -890,7 +886,7 @@
                 ctx.stroke();
             }
 
-            // Слоты (множители) – чётко видны
+            // Слоты (множители)
             for (let s of slots) {
                 const x = s.x - s.width / 2;
                 const y = s.y - s.height / 2;
@@ -907,7 +903,7 @@
                 ctx.fillText('x' + s.multiplier, s.x, s.y);
             }
 
-            // Шарики – красные с ярким свечением
+            // Шарики (красные с ярким свечением)
             for (let b of balls) {
                 ctx.beginPath();
                 ctx.arc(b.x, b.y, 7, 0, Math.PI * 2);
@@ -922,15 +918,23 @@
             }
         }
 
+        // ----- Добавление шарика -----
         function addBall() {
             const bet = parseFloat(betInput.value);
-            if (isNaN(bet) || bet <= 0) { alert('Введите корректную ставку'); return; }
-            if (bet > balance) { alert('Недостаточно средств!'); return; }
+            if (isNaN(bet) || bet <= 0) {
+                alert('Введите корректную ставку');
+                return;
+            }
+            if (bet > balance) {
+                alert('Недостаточно средств!');
+                return;
+            }
 
             balance -= bet;
             updateBalanceUI();
             if (plinkoBalanceEl) plinkoBalanceEl.textContent = balance.toFixed(2);
 
+            // Стартовая позиция – немного смещена от центра
             const startX = canvasW / 2 + (Math.random() - 0.5) * 8;
             const ball = {
                 x: startX,
@@ -947,19 +951,18 @@
             }
         }
 
+        // ----- Игровой цикл (физика) -----
         function gameLoop() {
             let anyActive = false;
-            const GRAVITY = 0.25;
-            const BOUNCE = 0.7; // высокий отскок для лучшего движения
-            const FRICTION = 0.99;
 
             for (let b of balls) {
                 if (b.finished) continue;
                 anyActive = true;
+
+                // Гравитация
                 b.vy += GRAVITY;
                 b.x += b.vx;
                 b.y += b.vy;
-                // небольшое трение
                 b.vx *= FRICTION;
                 b.vy *= FRICTION;
 
@@ -978,7 +981,7 @@
                         const newVy = Math.sin(angle) * speed * BOUNCE;
                         b.vx = newVx + (Math.random() - 0.5) * 0.4;
                         b.vy = newVy + (Math.random() - 0.5) * 0.4;
-                        // Смещение для предотвращения застревания
+                        // Смещение против застревания
                         b.x += (Math.random() - 0.5) * 1.0;
                         b.y += (Math.random() - 0.5) * 1.0;
                     }
@@ -988,7 +991,7 @@
                 if (b.x < b.radius) { b.x = b.radius; b.vx = -b.vx * 0.8; }
                 if (b.x > canvasW - b.radius) { b.x = canvasW - b.radius; b.vx = -b.vx * 0.8; }
 
-                // Попадание в слот – шарик удаляется, не застревает
+                // Попадание в слот – шарик удаляется
                 if (b.y + b.radius > canvasH - 10) {
                     let targetSlot = slots[0];
                     for (let s of slots) {
@@ -996,7 +999,7 @@
                             targetSlot = s;
                         }
                     }
-                    const isWin = Math.random() < 0.36;
+                    const isWin = Math.random() < WIN_RATE;
                     let finalMultiplier = isWin ? targetSlot.multiplier : 0;
                     let finalWin = isWin ? Math.round(b.bet * finalMultiplier * 100) / 100 : 0;
                     if (isWin) {
@@ -1004,12 +1007,11 @@
                     }
                     updateBalanceUI();
                     if (plinkoBalanceEl) plinkoBalanceEl.textContent = balance.toFixed(2);
-                    b.finished = true;
-                    // Шарик удаляется из массива, не остаётся на месте
+                    b.finished = true; // помечаем на удаление
                 }
             }
 
-            // Удаляем завершённые шарики (чтобы они не мешали и не заслоняли множители)
+            // Удаляем завершённые шарики
             balls = balls.filter(b => !b.finished);
 
             drawBoard();
@@ -1021,13 +1023,15 @@
             }
         }
 
+        // ----- Обработчик кнопки PLAY -----
         playBtn.addEventListener('click', addBall);
 
+        // ----- Инициализация -----
         setTimeout(() => {
             resizeCanvas();
         }, 50);
 
-        // Обновление баланса в этом окне
+        // ----- Переопределение глобальных функций для обновления баланса в этом окне -----
         window.updateBalanceUI = function() {
             document.getElementById('balanceDisplay').textContent = balance;
             document.getElementById('panelBalance').textContent = balance;
@@ -1039,11 +1043,13 @@
             if (plinkoBalanceEl) plinkoBalanceEl.textContent = balance.toFixed(2);
         };
 
-        // По умолчанию ручной
+        // По умолчанию ручной режим
         setMode('manual');
     }
 
-    // Инициализация
+    // ================================================================
+    //  ИНИЦИАЛИЗАЦИЯ ПРИ ЗАГРУЗКЕ
+    // ================================================================
     document.addEventListener('DOMContentLoaded', () => {
         const mainArea = document.getElementById('mainArea');
         mainArea.innerHTML = `<span style="color:#555;">Выберите раздел</span>`;
