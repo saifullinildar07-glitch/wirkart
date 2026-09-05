@@ -314,6 +314,37 @@
             text-align: center;
         }
 
+        /* Иконка игры (показывается вместо игры до клика) */
+        .game-icon {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            background: #1f1f2a;
+            border-radius: 24px;
+            padding: 20px;
+            border: 2px solid #444;
+            transition: 0.25s;
+            cursor: pointer;
+            width: 120px;
+            height: 120px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.4);
+        }
+        .game-icon:hover {
+            border-color: #f5b342;
+            transform: scale(1.05);
+            box-shadow: 0 0 30px rgba(245,179,66,0.2);
+        }
+        .game-icon .emoji {
+            font-size: 48px;
+        }
+        .game-icon .label {
+            font-size: 16px;
+            font-weight: 600;
+            color: #eee;
+            margin-top: 8px;
+        }
+
         .footer {
             text-align: center;
             color: #444;
@@ -467,6 +498,9 @@
             .sidebar { width: 70px; padding: 8px 4px; gap: 8px; }
             .sidebar .menu-item { font-size: 10px; padding: 8px 2px; border-radius: 10px; }
             .main-area { padding: 4px; }
+            .game-icon { width: 80px; height: 80px; padding: 12px; }
+            .game-icon .emoji { font-size: 32px; }
+            .game-icon .label { font-size: 12px; }
         }
         @media (max-width: 400px) {
             .header-left { gap: 6px; }
@@ -511,15 +545,8 @@
             <div class="menu-item" data-action="promotions">Promotions</div>
         </div>
         <div class="main-area" id="mainArea">
-            <div class="plinko-ui" id="plinkoUI">
-                <canvas id="plinkoCanvas"></canvas>
-                <div class="bet-row">
-                    <input type="number" id="betInput" value="10" min="1">
-                    <button id="dropBtn">Запустить шарик</button>
-                </div>
-                <div class="result" id="resultDisplay">Нажмите "Запустить шарик"</div>
-                <div class="info">🎯 Винрейт: 42% | Множители: x1, x2, x4, x5, x7</div>
-            </div>
+            <!-- По умолчанию – приветствие -->
+            <span style="color:#555;">Выберите раздел</span>
         </div>
     </div>
 
@@ -644,40 +671,58 @@
         alert('Форма регистрации (скоро)');
     });
 
-    // ===== БОКОВОЕ МЕНЮ =====
+    // ===== ОБРАБОТЧИКИ БОКОВОГО МЕНЮ =====
     document.querySelectorAll('.sidebar .menu-item').forEach(item => {
         item.addEventListener('click', () => {
             const action = item.dataset.action;
-            let message = '';
+            const mainArea = document.getElementById('mainArea');
+            // Скрываем всё, показываем только то, что нужно
             switch(action) {
                 case 'quick':
-                    message = '🚀 Быстрые игры – Plinko';
-                    document.getElementById('plinkoUI').style.display = 'flex';
-                    break;
-                case 'bonuses': message = '🎁 Бонусы – скоро'; document.getElementById('plinkoUI').style.display = 'none'; break;
-                case 'vip': message = '👑 VIP клуб – скоро'; document.getElementById('plinkoUI').style.display = 'none'; break;
-                case 'promotions': message = '🔥 Акции – скоро'; document.getElementById('plinkoUI').style.display = 'none'; break;
-                default: message = 'Выберите раздел';
-            }
-            if (action !== 'quick') {
-                document.getElementById('mainArea').innerHTML = `<span style="font-size:22px; font-weight:600; color:#f5b342;">${message}</span>`;
-            } else {
-                // Восстанавливаем Plinko UI
-                document.getElementById('mainArea').innerHTML = `
-                    <div class="plinko-ui" id="plinkoUI">
-                        <canvas id="plinkoCanvas"></canvas>
-                        <div class="bet-row">
-                            <input type="number" id="betInput" value="10" min="1">
-                            <button id="dropBtn">Запустить шарик</button>
+                    // Показываем иконку Plinko
+                    mainArea.innerHTML = `
+                        <div class="game-icon" id="plinkoIcon">
+                            <div class="emoji">🟡</div>
+                            <div class="label">Plinko</div>
                         </div>
-                        <div class="result" id="resultDisplay">Нажмите "Запустить шарик"</div>
-                        <div class="info">🎯 Винрейт: 42% | Множители: x1, x2, x4, x5, x7</div>
-                    </div>
-                `;
-                initPlinko();
+                    `;
+                    // По клику на иконку запускаем игру
+                    document.getElementById('plinkoIcon').addEventListener('click', function() {
+                        startPlinkoGame(mainArea);
+                    });
+                    break;
+                case 'bonuses':
+                    mainArea.innerHTML = `<span style="font-size:22px; font-weight:600; color:#f5b342;">🎁 Бонусы – скоро</span>`;
+                    break;
+                case 'vip':
+                    mainArea.innerHTML = `<span style="font-size:22px; font-weight:600; color:#f5b342;">👑 VIP клуб – скоро</span>`;
+                    break;
+                case 'promotions':
+                    mainArea.innerHTML = `<span style="font-size:22px; font-weight:600; color:#f5b342;">🔥 Акции – скоро</span>`;
+                    break;
+                default:
+                    mainArea.innerHTML = `<span style="color:#555;">Выберите раздел</span>`;
             }
         });
     });
+
+    // ===== ФУНКЦИЯ ЗАПУСКА PLINKO =====
+    function startPlinkoGame(container) {
+        // Вставляем Plinko UI
+        container.innerHTML = `
+            <div class="plinko-ui" id="plinkoUI">
+                <canvas id="plinkoCanvas"></canvas>
+                <div class="bet-row">
+                    <input type="number" id="betInput" value="10" min="1">
+                    <button id="dropBtn">Запустить шарик</button>
+                </div>
+                <div class="result" id="resultDisplay">Нажмите "Запустить шарик"</div>
+                <div class="info">🎯 Винрейт: 42% | Множители: x1, x2, x4, x5, x7</div>
+            </div>
+        `;
+        // Инициализируем игру
+        initPlinko();
+    }
 
     // ============================================================
     //  PLINKO – полная реализация
@@ -688,14 +733,13 @@
     let ball = null;
     let animationId = null;
     let isDropping = false;
+    let betAmount = 10;
 
-    // Множители: [x1, x2, x4, x5, x7] – порядок слева направо
     const MULTIPLIERS = [1, 2, 4, 5, 7];
     const ROWS = 10;
     const PEG_RADIUS = 6;
     const BALL_RADIUS = 8;
     const GRAVITY = 0.25;
-    const FRICTION = 0.85;
     const BOUNCE = 0.5;
 
     function initPlinko() {
@@ -710,6 +754,12 @@
         const dropBtn = document.getElementById('dropBtn');
         if (dropBtn) {
             dropBtn.addEventListener('click', dropBall);
+        }
+        const betInput = document.getElementById('betInput');
+        if (betInput) {
+            betInput.addEventListener('change', function() {
+                betAmount = parseInt(this.value) || 10;
+            });
         }
     }
 
@@ -742,7 +792,6 @@
             }
         }
 
-        // Слоты внизу (5 штук)
         const slotWidth = canvasW / MULTIPLIERS.length;
         for (let i = 0; i < MULTIPLIERS.length; i++) {
             const x = i * slotWidth + slotWidth / 2;
@@ -770,11 +819,9 @@
         if (!ctx) return;
         ctx.clearRect(0, 0, canvasW, canvasH);
 
-        // Фон
         ctx.fillStyle = '#0f0f1a';
         ctx.fillRect(0, 0, canvasW, canvasH);
 
-        // Колышки
         for (let p of pegs) {
             ctx.beginPath();
             ctx.arc(p.x, p.y, p.radius, 0, Math.PI * 2);
@@ -786,7 +833,6 @@
             ctx.shadowBlur = 0;
         }
 
-        // Слоты
         for (let s of slots) {
             const x = s.x - s.width / 2;
             const y = s.y - s.height / 2;
@@ -802,7 +848,6 @@
             ctx.fillText('x' + s.multiplier, s.x, s.y);
         }
 
-        // Шарик
         if (ball) {
             ctx.beginPath();
             ctx.arc(ball.x, ball.y, BALL_RADIUS, 0, Math.PI * 2);
@@ -822,6 +867,7 @@
         if (bet > balance) { alert('Недостаточно средств!'); return; }
 
         balance -= bet;
+        betAmount = bet;
         updateBalanceUI();
 
         const startX = canvasW / 2 + (Math.random() - 0.5) * 20;
@@ -846,24 +892,19 @@
             return;
         }
 
-        // Гравитация
         ball.vy += GRAVITY;
         ball.x += ball.vx;
         ball.y += ball.vy;
 
-        // Столкновения с колышками
         for (let p of pegs) {
             const dx = ball.x - p.x;
             const dy = ball.y - p.y;
             const dist = Math.sqrt(dx * dx + dy * dy);
             if (dist < ball.radius + p.radius) {
-                // Отталкивание
                 const angle = Math.atan2(dy, dx);
                 const overlap = (ball.radius + p.radius - dist) * 0.5;
                 ball.x += Math.cos(angle) * overlap;
                 ball.y += Math.sin(angle) * overlap;
-
-                // Отскок с потерей энергии
                 const speed = Math.sqrt(ball.vx * ball.vx + ball.vy * ball.vy);
                 const newVx = Math.cos(angle) * speed * BOUNCE;
                 const newVy = Math.sin(angle) * speed * BOUNCE;
@@ -872,21 +913,16 @@
             }
         }
 
-        // Столкновение со стенами
         if (ball.x < ball.radius) { ball.x = ball.radius; ball.vx = -ball.vx * 0.8; }
         if (ball.x > canvasW - ball.radius) { ball.x = canvasW - ball.radius; ball.vx = -ball.vx * 0.8; }
 
-        // Проверка попадания в слот
         if (ball.y + ball.radius > canvasH - 10) {
-            // Определяем слот
             let targetSlot = slots[0];
             for (let s of slots) {
                 if (Math.abs(ball.x - s.x) < Math.abs(ball.x - targetSlot.x)) {
                     targetSlot = s;
                 }
             }
-            const winAmount = Math.floor(betAmount * targetSlot.multiplier);
-            // Винрейт 42% – корректируем результат
             const isWin = Math.random() < 0.42;
             let finalMultiplier = isWin ? targetSlot.multiplier : 0;
             let finalWin = isWin ? Math.floor(betAmount * finalMultiplier) : 0;
@@ -910,15 +946,13 @@
         animationId = requestAnimationFrame(gameLoop);
     }
 
-    // Инициализация при загрузке
-    let betAmount = 10;
+    // Инициализация при загрузке: показываем приветствие
     document.addEventListener('DOMContentLoaded', () => {
-        setTimeout(initPlinko, 100);
+        const mainArea = document.getElementById('mainArea');
+        mainArea.innerHTML = `<span style="color:#555;">Выберите раздел</span>`;
     });
 
     // Переинициализация при переключении вкладок
-    const origNavigate = navigateTo;
-    // Поддерживаем обратную совместимость
     window.initPlinko = initPlinko;
 </script>
 </body>
