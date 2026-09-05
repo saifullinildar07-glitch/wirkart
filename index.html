@@ -33,7 +33,6 @@
             position: relative;
             margin: 0 auto;
         }
-        /* Шапка */
         .header {
             display: flex;
             justify-content: space-between;
@@ -163,7 +162,6 @@
             transition: 0.3s;
         }
 
-        /* Основной ряд */
         .body-row {
             display: flex;
             gap: 12px;
@@ -171,7 +169,6 @@
             min-height: 0;
             overflow: hidden;
         }
-        /* Левое меню */
         .sidebar {
             width: 85px;
             flex-shrink: 0;
@@ -229,7 +226,6 @@
             transform: scale(0.95);
         }
 
-        /* Основная область */
         .main-area {
             flex: 1;
             background: #1a1a1a;
@@ -261,60 +257,164 @@
             justify-content: center;
             gap: 8px;
         }
-        .main-area .plinko-ui .bet-row {
+
+        /* Новый интерфейс Stake-style */
+        .stake-container {
+            width: 100%;
+            height: 100%;
             display: flex;
-            gap: 10px;
-            align-items: center;
-            flex-wrap: wrap;
-            justify-content: center;
-        }
-        .main-area .plinko-ui .bet-row input {
+            flex-direction: column;
+            padding: 12px;
+            gap: 8px;
             background: #1a1a1a;
-            border: 1px solid #444;
-            border-radius: 40px;
-            padding: 6px 14px;
-            color: #fff;
-            font-size: 16px;
-            width: 80px;
-            text-align: center;
-            outline: none;
+            border-radius: 20px;
+            overflow-y: auto;
         }
-        .main-area .plinko-ui .bet-row button {
+        .stake-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding-bottom: 8px;
+            border-bottom: 1px solid #333;
+        }
+        .stake-logo {
+            font-size: 18px;
+            font-weight: 900;
+            color: #f5b342;
+            letter-spacing: 1px;
+        }
+        .stake-balance {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 14px;
+            font-weight: 600;
+        }
+        .stake-balance .amount {
+            color: #f5b342;
+        }
+        .stake-balance .wallet-btn {
+            background: #2a2a3a;
+            border: none;
+            border-radius: 30px;
+            padding: 4px 12px;
+            color: #fff;
+            font-size: 12px;
+            font-weight: 600;
+            cursor: pointer;
+        }
+        .stake-tabs {
+            display: flex;
+            gap: 4px;
+            background: #2a2a3a;
+            border-radius: 30px;
+            padding: 2px;
+        }
+        .stake-tabs button {
+            background: transparent;
+            border: none;
+            border-radius: 30px;
+            padding: 4px 14px;
+            font-size: 12px;
+            font-weight: 600;
+            color: #888;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+        .stake-tabs button.active {
+            background: #f5b342;
+            color: #111;
+        }
+        .stake-row {
+            display: flex;
+            gap: 12px;
+            align-items: center;
+            justify-content: space-between;
+        }
+        .stake-row .field {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            background: #0f0f1a;
+            border-radius: 30px;
+            padding: 4px 12px;
+            border: 1px solid #2a2a3a;
+            flex: 1;
+        }
+        .stake-row .field label {
+            font-size: 12px;
+            color: #888;
+            white-space: nowrap;
+        }
+        .stake-row .field input {
+            background: transparent;
+            border: none;
+            color: #fff;
+            font-size: 14px;
+            font-weight: 600;
+            width: 60px;
+            outline: none;
+            text-align: right;
+        }
+        .stake-row .field select {
+            background: transparent;
+            border: none;
+            color: #fff;
+            font-size: 14px;
+            font-weight: 600;
+            outline: none;
+            appearance: none;
+            -webkit-appearance: none;
+            padding: 4px 0;
+        }
+        .stake-row .field select option {
+            background: #1a1a1a;
+        }
+        .stake-row .bet-btn {
             background: linear-gradient(145deg, #f5b342, #b8860b);
             border: none;
-            border-radius: 40px;
-            padding: 8px 24px;
+            border-radius: 30px;
+            padding: 8px 20px;
             font-weight: 700;
             font-size: 16px;
             color: #111;
             cursor: pointer;
-            transition: 0.15s;
             box-shadow: 0 4px 0 #5a3a1a;
+            transition: 0.15s;
         }
-        .main-area .plinko-ui .bet-row button:active {
+        .stake-row .bet-btn:active {
             transform: translateY(4px);
             box-shadow: 0 0px 0 #5a3a1a;
         }
-        .main-area .plinko-ui .bet-row button:disabled {
+        .stake-row .bet-btn:disabled {
             opacity: 0.5;
             transform: translateY(4px);
             box-shadow: 0 0px 0 #5a3a1a;
             pointer-events: none;
         }
-        .main-area .plinko-ui .result {
-            font-size: 20px;
-            font-weight: 700;
-            color: #f5b342;
-            min-height: 30px;
-            text-align: center;
+        .stake-failures {
+            background: #0f0f1a;
+            border-radius: 12px;
+            padding: 8px 12px;
+            border: 1px solid #2a2a3a;
+            max-height: 60px;
+            overflow-y: auto;
+            font-size: 12px;
+            color: #aaa;
         }
-        .main-area .plinko-ui .info {
-            font-size: 14px;
-            color: #888;
-            text-align: center;
+        .stake-failures .failure-item {
+            display: flex;
+            justify-content: space-between;
+            padding: 2px 0;
+            border-bottom: 1px solid #222;
+        }
+        .stake-failures .failure-item .win {
+            color: #4caf50;
+        }
+        .stake-failures .failure-item .lose {
+            color: #f44336;
         }
 
-        /* Иконка игры (показывается вместо игры до клика) */
         .game-icon {
             display: flex;
             flex-direction: column;
@@ -353,7 +453,6 @@
             padding-top: 4px;
         }
 
-        /* Меню-бургер */
         .menu-overlay {
             position: fixed;
             top: 0;
@@ -402,7 +501,6 @@
             display: block;
         }
 
-        /* Панель баланса */
         .balance-panel {
             position: fixed;
             bottom: 0;
@@ -498,23 +596,14 @@
             .sidebar { width: 70px; padding: 8px 4px; gap: 8px; }
             .sidebar .menu-item { font-size: 10px; padding: 8px 2px; border-radius: 10px; }
             .main-area { padding: 4px; }
-            .game-icon { width: 80px; height: 80px; padding: 12px; }
-            .game-icon .emoji { font-size: 32px; }
-            .game-icon .label { font-size: 12px; }
-        }
-        @media (max-width: 400px) {
-            .header-left { gap: 6px; }
-            .auth-buttons { gap: 4px; }
-            .brand { font-size: 13px; padding: 2px 8px; }
-            .auth-buttons button { font-size: 10px; padding: 2px 8px; }
-            .sidebar { width: 60px; }
-            .sidebar .menu-item { font-size: 9px; padding: 6px 2px; }
+            .stake-container { padding: 8px; gap: 6px; }
+            .stake-row { flex-wrap: wrap; }
+            .stake-row .field { flex: 1 1 40%; }
         }
     </style>
 </head>
 <body>
 <div class="container">
-    <!-- Шапка -->
     <div class="header">
         <div class="header-left">
             <div class="brand">TWIN BOL</div>
@@ -536,7 +625,6 @@
         </div>
     </div>
 
-    <!-- Основной ряд -->
     <div class="body-row">
         <div class="sidebar" id="sidebar">
             <div class="menu-item" data-action="quick">Quick Games</div>
@@ -545,7 +633,6 @@
             <div class="menu-item" data-action="promotions">Promotions</div>
         </div>
         <div class="main-area" id="mainArea">
-            <!-- По умолчанию – приветствие -->
             <span style="color:#555;">Выберите раздел</span>
         </div>
     </div>
@@ -553,10 +640,7 @@
     <div class="footer">TWIN BOL — играй и выигрывай</div>
 </div>
 
-<!-- Бэкдроп -->
 <div class="backdrop" id="backdrop"></div>
-
-<!-- Меню-бургер -->
 <div class="menu-overlay" id="menuOverlay">
     <div class="menu-item-burger" data-action="settings">⚙️ Настройки</div>
     <div class="menu-item-burger" data-action="history">📜 История</div>
@@ -564,7 +648,6 @@
     <div class="menu-item-burger" data-action="bonus">🎁 Бонуски</div>
 </div>
 
-<!-- Панель баланса -->
 <div class="balance-panel" id="balancePanel">
     <button class="panel-close" id="panelClose">✕</button>
     <div class="balance-title">Ваш баланс</div>
@@ -578,7 +661,6 @@
 </div>
 
 <script>
-    // ===== БАЛАНС =====
     let balance = 1000;
     function updateBalanceUI() {
         document.getElementById('balanceDisplay').textContent = balance;
@@ -586,10 +668,9 @@
     }
     updateBalanceUI();
 
-    // ===== ПАНЕЛЬ БАЛАНСА =====
+    // Панель баланса
     const balancePanel = document.getElementById('balancePanel');
     const panelClose = document.getElementById('panelClose');
-
     function openPanel() {
         balancePanel.classList.add('open');
         document.getElementById('panelBalance').textContent = balance;
@@ -597,15 +678,12 @@
     function closePanel() {
         balancePanel.classList.remove('open');
     }
-
     document.getElementById('balanceTop').addEventListener('click', (e) => {
         e.stopPropagation();
         if (balancePanel.classList.contains('open')) closePanel();
         else openPanel();
     });
-
     panelClose.addEventListener('click', closePanel);
-
     document.addEventListener('click', (e) => {
         if (balancePanel.classList.contains('open')) {
             const balanceTop = document.getElementById('balanceTop');
@@ -614,21 +692,18 @@
             }
         }
     });
-
     document.querySelectorAll('.balance-actions button').forEach(btn => {
         btn.addEventListener('click', function(e) {
             e.stopPropagation();
-            const text = this.innerText.trim();
-            alert(`Вы выбрали: ${text}`);
+            alert(`Вы выбрали: ${this.innerText.trim()}`);
             closePanel();
         });
     });
 
-    // ===== МЕНЮ-БУРГЕР =====
+    // Меню-бургер
     const burgerBtn = document.getElementById('burgerBtn');
     const menuOverlay = document.getElementById('menuOverlay');
     const backdrop = document.getElementById('backdrop');
-
     function openMenu() {
         menuOverlay.classList.add('open');
         backdrop.classList.add('active');
@@ -646,47 +721,28 @@
     });
     backdrop.addEventListener('click', closeMenu);
     document.addEventListener('keydown', (e) => { if (e.key === 'Escape') closeMenu(); });
-
     document.querySelectorAll('.menu-item-burger').forEach(item => {
         item.addEventListener('click', () => {
-            const action = item.dataset.action;
-            let message = '';
-            switch(action) {
-                case 'settings': message = '⚙️ Настройки (скоро)'; break;
-                case 'history': message = '📜 История ставок, выводов, пополнений'; break;
-                case 'support': message = '🆘 Поддержка: напишите нам в Telegram'; break;
-                case 'bonus': message = '🎁 Бонуски: активируйте промокод'; break;
-                default: message = 'Пункт меню';
-            }
-            alert(message);
+            alert(`Вы выбрали: ${this.textContent.trim()}`);
             closeMenu();
         });
     });
+    document.getElementById('loginBtn').addEventListener('click', () => alert('Форма входа (скоро)'));
+    document.getElementById('registerBtn').addEventListener('click', () => alert('Форма регистрации (скоро)'));
 
-    // ===== КНОПКИ ВХОД / РЕГИСТРАЦИЯ =====
-    document.getElementById('loginBtn').addEventListener('click', () => {
-        alert('Форма входа (скоро)');
-    });
-    document.getElementById('registerBtn').addEventListener('click', () => {
-        alert('Форма регистрации (скоро)');
-    });
-
-    // ===== ОБРАБОТЧИКИ БОКОВОГО МЕНЮ =====
+    // Обработчики бокового меню
     document.querySelectorAll('.sidebar .menu-item').forEach(item => {
-        item.addEventListener('click', () => {
-            const action = item.dataset.action;
+        item.addEventListener('click', function() {
+            const action = this.dataset.action;
             const mainArea = document.getElementById('mainArea');
-            // Скрываем всё, показываем только то, что нужно
             switch(action) {
                 case 'quick':
-                    // Показываем иконку Plinko
                     mainArea.innerHTML = `
                         <div class="game-icon" id="plinkoIcon">
                             <div class="emoji">🟡</div>
                             <div class="label">Plinko</div>
                         </div>
                     `;
-                    // По клику на иконку запускаем игру
                     document.getElementById('plinkoIcon').addEventListener('click', function() {
                         startPlinkoGame(mainArea);
                     });
@@ -706,254 +762,354 @@
         });
     });
 
-    // ===== ФУНКЦИЯ ЗАПУСКА PLINKO =====
+    // ============================================================
+    //  PLINKO – НОВЫЙ ИНТЕРФЕЙС В СТИЛЕ STAKE
+    // ============================================================
     function startPlinkoGame(container) {
-        // Вставляем Plinko UI
         container.innerHTML = `
-            <div class="plinko-ui" id="plinkoUI">
-                <canvas id="plinkoCanvas"></canvas>
-                <div class="bet-row">
-                    <input type="number" id="betInput" value="10" min="1">
-                    <button id="dropBtn">Запустить шарик</button>
+            <div class="stake-container">
+                <div class="stake-header">
+                    <div class="stake-logo">TWIN BOL</div>
+                    <div class="stake-balance">
+                        <span class="amount">$<span id="plinkoBalance">${balance}</span></span>
+                        <button class="wallet-btn" id="walletBtn">Wallet</button>
+                    </div>
                 </div>
-                <div class="result" id="resultDisplay">Нажмите "Запустить шарик"</div>
-                <div class="info">🎯 Винрейт: 42% | Множители: x1, x2, x4, x5, x7</div>
+                <div class="stake-tabs">
+                    <button class="active" id="manualTab">Manual</button>
+                    <button id="autoTab">Auto</button>
+                </div>
+                <div class="stake-row">
+                    <div class="field">
+                        <label>Bit Amount</label>
+                        <input type="number" id="bitAmount" value="10" min="1">
+                    </div>
+                    <div class="field">
+                        <label>Risk</label>
+                        <select id="riskSelect">
+                            <option value="low">Low</option>
+                            <option value="medium" selected>Medium</option>
+                            <option value="high">High</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="stake-row">
+                    <div class="field">
+                        <label>Rows</label>
+                        <input type="number" id="rowsInput" value="16" min="8" max="20">
+                    </div>
+                    <button class="bet-btn" id="betBtn">Bet</button>
+                </div>
+                <div class="stake-failures" id="failuresList">
+                    <div style="text-align:center; color:#666;">Failures</div>
+                </div>
+                <canvas id="plinkoCanvas" style="width:100%; height:150px; border-radius:12px; background:#0f0f1a;"></canvas>
             </div>
         `;
-        // Инициализируем игру
-        initPlinko();
-    }
 
-    // ============================================================
-    //  PLINKO – полная реализация
-    // ============================================================
-    let plinkoCanvas, ctx, canvasW, canvasH;
-    let pegs = [];
-    let slots = [];
-    let ball = null;
-    let animationId = null;
-    let isDropping = false;
-    let betAmount = 10;
+        // Переназначение кнопок и полей
+        const betBtn = document.getElementById('betBtn');
+        const bitInput = document.getElementById('bitAmount');
+        const rowsInput = document.getElementById('rowsInput');
+        const riskSelect = document.getElementById('riskSelect');
+        const failuresList = document.getElementById('failuresList');
+        const plinkoBalance = document.getElementById('plinkoBalance');
+        const walletBtn = document.getElementById('walletBtn');
+        const manualTab = document.getElementById('manualTab');
+        const autoTab = document.getElementById('autoTab');
 
-    const MULTIPLIERS = [1, 2, 4, 5, 7];
-    const ROWS = 10;
-    const PEG_RADIUS = 6;
-    const BALL_RADIUS = 8;
-    const GRAVITY = 0.25;
-    const BOUNCE = 0.5;
+        // Обновление баланса в Plinko при изменении
+        function updatePlinkoBalance() {
+            if (plinkoBalance) plinkoBalance.textContent = balance;
+        }
+        updatePlinkoBalance();
 
-    function initPlinko() {
-        plinkoCanvas = document.getElementById('plinkoCanvas');
-        if (!plinkoCanvas) return;
-        ctx = plinkoCanvas.getContext('2d');
-        resizePlinko();
-        window.addEventListener('resize', resizePlinko);
+        // Wallet button – открывает панель баланса
+        walletBtn.addEventListener('click', () => openPanel());
+
+        // Tabs – просто переключение
+        manualTab.addEventListener('click', () => {
+            manualTab.classList.add('active');
+            autoTab.classList.remove('active');
+        });
+        autoTab.addEventListener('click', () => {
+            autoTab.classList.add('active');
+            manualTab.classList.remove('active');
+        });
+
+        // Инициализация холста
+        const canvas = document.getElementById('plinkoCanvas');
+        const ctx = canvas.getContext('2d');
+        let canvasW, canvasH;
+        function resizeCanvas() {
+            const rect = canvas.parentElement.getBoundingClientRect();
+            const w = Math.min(rect.width - 16, 400);
+            const h = 150;
+            canvas.width = w;
+            canvas.height = h;
+            canvasW = canvas.width;
+            canvasH = canvas.height;
+            buildBoard();
+            drawBoard();
+        }
+        resizeCanvas();
+        window.addEventListener('resize', resizeCanvas);
+
+        // Переменные для игры
+        let pegs = [];
+        let slots = [];
+        let ball = null;
+        let animationId = null;
+        let isDropping = false;
+        let betAmount = 10;
+        let rows = 16;
+        let risk = 'medium';
+        let failures = [];
+
+        // Множители в зависимости от риска и рядов (упрощённо)
+        function getMultipliers(rows, risk) {
+            // Для демонстрации используем фиксированные мультипликаторы
+            // В реальном Stake они зависят от rows и risk
+            if (rows >= 16) {
+                if (risk === 'low') return [1, 1.5, 2, 2.5, 3, 4, 5, 6, 8, 10, 12, 14, 16, 18, 20, 22];
+                if (risk === 'medium') return [1, 2, 3, 4, 5, 6, 8, 10, 12, 15, 18, 22, 26, 30, 35, 40];
+                return [1, 3, 5, 7, 9, 12, 15, 20, 25, 30, 40, 50, 60, 70, 80, 90];
+            }
+            // Меньше рядов – другие множители (заглушка)
+            return [1, 2, 3, 4, 5, 6, 8, 10];
+        }
+
+        function buildBoard() {
+            pegs = [];
+            slots = [];
+            const numRows = parseInt(rowsInput ? rowsInput.value : 16);
+            const totalRows = Math.min(Math.max(numRows, 8), 20);
+            const spacingX = canvasW / (totalRows + 1.5);
+            const spacingY = (canvasH - 40) / (totalRows + 0.5);
+            const startX = spacingX * 0.8;
+
+            for (let row = 0; row < totalRows; row++) {
+                const cols = row + 1;
+                const offsetX = (canvasW - (cols - 1) * spacingX) / 2;
+                for (let col = 0; col < cols; col++) {
+                    const x = offsetX + col * spacingX;
+                    const y = 20 + row * spacingY;
+                    pegs.push({ x, y, radius: 4 });
+                }
+            }
+
+            const multi = getMultipliers(totalRows, risk);
+            const slotCount = Math.min(multi.length, 10);
+            const slotWidth = canvasW / slotCount;
+            for (let i = 0; i < slotCount; i++) {
+                const x = i * slotWidth + slotWidth / 2;
+                const y = canvasH - 15;
+                slots.push({
+                    x: x,
+                    y: y,
+                    width: slotWidth * 0.7,
+                    height: 12,
+                    multiplier: multi[i] || 1,
+                    color: getMultiplierColor(multi[i] || 1)
+                });
+            }
+        }
+
+        function getMultiplierColor(m) {
+            if (m >= 20) return '#ef5350';
+            if (m >= 10) return '#ff7043';
+            if (m >= 5) return '#ffa726';
+            if (m >= 2) return '#66bb6a';
+            return '#42a5f5';
+        }
+
+        function drawBoard() {
+            if (!ctx) return;
+            ctx.clearRect(0, 0, canvasW, canvasH);
+            ctx.fillStyle = '#0f0f1a';
+            ctx.fillRect(0, 0, canvasW, canvasH);
+
+            for (let p of pegs) {
+                ctx.beginPath();
+                ctx.arc(p.x, p.y, p.radius, 0, Math.PI * 2);
+                ctx.fillStyle = '#555';
+                ctx.fill();
+            }
+
+            for (let s of slots) {
+                const x = s.x - s.width / 2;
+                const y = s.y - s.height / 2;
+                ctx.fillStyle = s.color;
+                ctx.shadowColor = 'rgba(255,255,255,0.1)';
+                ctx.shadowBlur = 6;
+                ctx.fillRect(x, y, s.width, s.height);
+                ctx.shadowBlur = 0;
+                ctx.fillStyle = '#fff';
+                ctx.font = 'bold 10px Arial';
+                ctx.textAlign = 'center';
+                ctx.textBaseline = 'middle';
+                ctx.fillText('x' + s.multiplier, s.x, s.y);
+            }
+
+            if (ball) {
+                ctx.beginPath();
+                ctx.arc(ball.x, ball.y, 6, 0, Math.PI * 2);
+                ctx.fillStyle = '#f5b342';
+                ctx.shadowColor = 'rgba(245,179,66,0.6)';
+                ctx.shadowBlur = 15;
+                ctx.fill();
+                ctx.shadowBlur = 0;
+            }
+        }
+
+        function dropBall() {
+            if (isDropping) return;
+            const bet = parseInt(bitInput ? bitInput.value : 10);
+            if (isNaN(bet) || bet < 1) { alert('Введите ставку'); return; }
+            if (bet > balance) { alert('Недостаточно средств!'); return; }
+
+            balance -= bet;
+            betAmount = bet;
+            updateBalanceUI();
+            updatePlinkoBalance();
+
+            const startX = canvasW / 2 + (Math.random() - 0.5) * 20;
+            ball = {
+                x: startX,
+                y: 10,
+                vx: (Math.random() - 0.5) * 0.3,
+                vy: 0.5,
+                radius: 6
+            };
+            isDropping = true;
+            betBtn.disabled = true;
+            if (animationId) cancelAnimationFrame(animationId);
+            gameLoop();
+        }
+
+        function gameLoop() {
+            if (!ball || !isDropping) {
+                drawBoard();
+                return;
+            }
+
+            const GRAVITY = 0.2;
+            const BOUNCE = 0.5;
+            ball.vy += GRAVITY;
+            ball.x += ball.vx;
+            ball.y += ball.vy;
+
+            for (let p of pegs) {
+                const dx = ball.x - p.x;
+                const dy = ball.y - p.y;
+                const dist = Math.sqrt(dx * dx + dy * dy);
+                if (dist < ball.radius + p.radius) {
+                    const angle = Math.atan2(dy, dx);
+                    const overlap = (ball.radius + p.radius - dist) * 0.5;
+                    ball.x += Math.cos(angle) * overlap;
+                    ball.y += Math.sin(angle) * overlap;
+                    const speed = Math.sqrt(ball.vx * ball.vx + ball.vy * ball.vy);
+                    const newVx = Math.cos(angle) * speed * BOUNCE;
+                    const newVy = Math.sin(angle) * speed * BOUNCE;
+                    ball.vx = newVx + (Math.random() - 0.5) * 0.2;
+                    ball.vy = newVy + (Math.random() - 0.5) * 0.2;
+                }
+            }
+
+            if (ball.x < ball.radius) { ball.x = ball.radius; ball.vx = -ball.vx * 0.8; }
+            if (ball.x > canvasW - ball.radius) { ball.x = canvasW - ball.radius; ball.vx = -ball.vx * 0.8; }
+
+            if (ball.y + ball.radius > canvasH - 10) {
+                let targetSlot = slots[0];
+                for (let s of slots) {
+                    if (Math.abs(ball.x - s.x) < Math.abs(ball.x - targetSlot.x)) {
+                        targetSlot = s;
+                    }
+                }
+                const isWin = Math.random() < 0.42;
+                let finalMultiplier = isWin ? targetSlot.multiplier : 0;
+                let finalWin = isWin ? Math.floor(betAmount * finalMultiplier) : 0;
+                if (isWin) {
+                    balance += finalWin;
+                    document.getElementById('resultDisplay').textContent = '🎉 Выигрыш! x' + finalMultiplier + ' +' + finalWin;
+                    document.getElementById('resultDisplay').style.color = '#4caf50';
+                } else {
+                    document.getElementById('resultDisplay').textContent = '😞 Проигрыш -' + betAmount;
+                    document.getElementById('resultDisplay').style.color = '#f44336';
+                }
+                updateBalanceUI();
+                updatePlinkoBalance();
+                isDropping = false;
+                ball = null;
+                betBtn.disabled = false;
+                drawBoard();
+                return;
+            }
+
+            drawBoard();
+            animationId = requestAnimationFrame(gameLoop);
+        }
+
+        // Обработчики
+        betBtn.addEventListener('click', dropBall);
+
+        // Обновление рядов при изменении
+        rowsInput.addEventListener('change', function() {
+            rows = parseInt(this.value) || 16;
+            if (rows < 8) rows = 8;
+            if (rows > 20) rows = 20;
+            this.value = rows;
+            buildBoard();
+            drawBoard();
+        });
+
+        riskSelect.addEventListener('change', function() {
+            risk = this.value;
+            buildBoard();
+            drawBoard();
+        });
+
+        // Инициализация
         buildBoard();
         drawBoard();
 
-        const dropBtn = document.getElementById('dropBtn');
-        if (dropBtn) {
-            dropBtn.addEventListener('click', dropBall);
-        }
-        const betInput = document.getElementById('betInput');
-        if (betInput) {
-            betInput.addEventListener('change', function() {
-                betAmount = parseInt(this.value) || 10;
-            });
-        }
+        // Добавим блок для результатов (можно вставить в failures)
+        const resultDiv = document.createElement('div');
+        resultDiv.id = 'resultDisplay';
+        resultDiv.style.cssText = 'text-align:center; font-size:16px; font-weight:600; color:#f5b342; min-height:24px;';
+        document.querySelector('.stake-failures').appendChild(resultDiv);
+
+        // Добавим обработчик для закрытия панели баланса при клике вне
+        // уже есть глобальный
+
+        // При изменении баланса в главном окне обновляем Plinko
+        // уже есть функция updatePlinkoBalance
     }
 
-    function resizePlinko() {
-        if (!plinkoCanvas) return;
-        const rect = plinkoCanvas.parentElement.getBoundingClientRect();
-        const w = rect.width - 16;
-        const h = rect.height - 80;
-        plinkoCanvas.width = Math.max(w, 200);
-        plinkoCanvas.height = Math.max(h, 300);
-        canvasW = plinkoCanvas.width;
-        canvasH = plinkoCanvas.height;
-        if (pegs.length > 0) buildBoard();
-    }
+    // Переопределим updateBalanceUI чтобы обновлять Plinko
+    const origUpdate = updateBalanceUI;
+    updateBalanceUI = function() {
+        origUpdate();
+        // Если открыт Plinko, обновить его баланс
+        const plinkoBal = document.getElementById('plinkoBalance');
+        if (plinkoBal) plinkoBal.textContent = balance;
+    };
+    // Также нужно обновлять при вызове из других мест
+    window.updateBalanceUI = updateBalanceUI;
 
-    function buildBoard() {
-        pegs = [];
-        slots = [];
-        const spacingX = canvasW / (ROWS + 1.5);
-        const spacingY = (canvasH - 60) / (ROWS + 0.5);
-        const startX = spacingX * 0.8;
+    // Переопределим openPanel, чтобы при открытии панели баланса, если Plinko открыт, тоже обновлялось
+    const origOpenPanel = openPanel;
+    openPanel = function() {
+        origOpenPanel();
+        const plinkoBal = document.getElementById('plinkoBalance');
+        if (plinkoBal) plinkoBal.textContent = balance;
+    };
+    window.openPanel = openPanel;
 
-        for (let row = 0; row < ROWS; row++) {
-            const cols = row + 1;
-            const offsetX = (canvasW - (cols - 1) * spacingX) / 2;
-            for (let col = 0; col < cols; col++) {
-                const x = offsetX + col * spacingX;
-                const y = 30 + row * spacingY;
-                pegs.push({ x, y, radius: PEG_RADIUS });
-            }
-        }
-
-        const slotWidth = canvasW / MULTIPLIERS.length;
-        for (let i = 0; i < MULTIPLIERS.length; i++) {
-            const x = i * slotWidth + slotWidth / 2;
-            const y = canvasH - 20;
-            slots.push({
-                x: x,
-                y: y,
-                width: slotWidth * 0.7,
-                height: 20,
-                multiplier: MULTIPLIERS[i],
-                color: getMultiplierColor(MULTIPLIERS[i])
-            });
-        }
-    }
-
-    function getMultiplierColor(m) {
-        if (m >= 7) return '#ef5350';
-        if (m >= 5) return '#ff7043';
-        if (m >= 4) return '#ffa726';
-        if (m >= 2) return '#66bb6a';
-        return '#42a5f5';
-    }
-
-    function drawBoard() {
-        if (!ctx) return;
-        ctx.clearRect(0, 0, canvasW, canvasH);
-
-        ctx.fillStyle = '#0f0f1a';
-        ctx.fillRect(0, 0, canvasW, canvasH);
-
-        for (let p of pegs) {
-            ctx.beginPath();
-            ctx.arc(p.x, p.y, p.radius, 0, Math.PI * 2);
-            ctx.fillStyle = '#555';
-            ctx.fill();
-            ctx.shadowColor = 'rgba(245,179,66,0.2)';
-            ctx.shadowBlur = 8;
-            ctx.fill();
-            ctx.shadowBlur = 0;
-        }
-
-        for (let s of slots) {
-            const x = s.x - s.width / 2;
-            const y = s.y - s.height / 2;
-            ctx.fillStyle = s.color;
-            ctx.shadowColor = 'rgba(255,255,255,0.1)';
-            ctx.shadowBlur = 10;
-            ctx.fillRect(x, y, s.width, s.height);
-            ctx.shadowBlur = 0;
-            ctx.fillStyle = '#fff';
-            ctx.font = 'bold 14px Arial';
-            ctx.textAlign = 'center';
-            ctx.textBaseline = 'middle';
-            ctx.fillText('x' + s.multiplier, s.x, s.y);
-        }
-
-        if (ball) {
-            ctx.beginPath();
-            ctx.arc(ball.x, ball.y, BALL_RADIUS, 0, Math.PI * 2);
-            ctx.fillStyle = '#f5b342';
-            ctx.shadowColor = 'rgba(245,179,66,0.6)';
-            ctx.shadowBlur = 20;
-            ctx.fill();
-            ctx.shadowBlur = 0;
-        }
-    }
-
-    function dropBall() {
-        if (isDropping) return;
-        const betInput = document.getElementById('betInput');
-        const bet = parseInt(betInput ? betInput.value : 10);
-        if (isNaN(bet) || bet < 1) { alert('Введите ставку'); return; }
-        if (bet > balance) { alert('Недостаточно средств!'); return; }
-
-        balance -= bet;
-        betAmount = bet;
-        updateBalanceUI();
-
-        const startX = canvasW / 2 + (Math.random() - 0.5) * 20;
-        ball = {
-            x: startX,
-            y: 10,
-            vx: (Math.random() - 0.5) * 0.5,
-            vy: 0.5,
-            radius: BALL_RADIUS
-        };
-        isDropping = true;
-        document.getElementById('dropBtn').disabled = true;
-        document.getElementById('resultDisplay').textContent = 'Шарик падает...';
-
-        if (animationId) cancelAnimationFrame(animationId);
-        gameLoop();
-    }
-
-    function gameLoop() {
-        if (!ball || !isDropping) {
-            drawBoard();
-            return;
-        }
-
-        ball.vy += GRAVITY;
-        ball.x += ball.vx;
-        ball.y += ball.vy;
-
-        for (let p of pegs) {
-            const dx = ball.x - p.x;
-            const dy = ball.y - p.y;
-            const dist = Math.sqrt(dx * dx + dy * dy);
-            if (dist < ball.radius + p.radius) {
-                const angle = Math.atan2(dy, dx);
-                const overlap = (ball.radius + p.radius - dist) * 0.5;
-                ball.x += Math.cos(angle) * overlap;
-                ball.y += Math.sin(angle) * overlap;
-                const speed = Math.sqrt(ball.vx * ball.vx + ball.vy * ball.vy);
-                const newVx = Math.cos(angle) * speed * BOUNCE;
-                const newVy = Math.sin(angle) * speed * BOUNCE;
-                ball.vx = newVx + (Math.random() - 0.5) * 0.3;
-                ball.vy = newVy + (Math.random() - 0.5) * 0.3;
-            }
-        }
-
-        if (ball.x < ball.radius) { ball.x = ball.radius; ball.vx = -ball.vx * 0.8; }
-        if (ball.x > canvasW - ball.radius) { ball.x = canvasW - ball.radius; ball.vx = -ball.vx * 0.8; }
-
-        if (ball.y + ball.radius > canvasH - 10) {
-            let targetSlot = slots[0];
-            for (let s of slots) {
-                if (Math.abs(ball.x - s.x) < Math.abs(ball.x - targetSlot.x)) {
-                    targetSlot = s;
-                }
-            }
-            const isWin = Math.random() < 0.42;
-            let finalMultiplier = isWin ? targetSlot.multiplier : 0;
-            let finalWin = isWin ? Math.floor(betAmount * finalMultiplier) : 0;
-            if (isWin) {
-                balance += finalWin;
-                document.getElementById('resultDisplay').textContent = '🎉 Выигрыш! x' + finalMultiplier + ' +' + finalWin;
-                document.getElementById('resultDisplay').style.color = '#4caf50';
-            } else {
-                document.getElementById('resultDisplay').textContent = '😞 Проигрыш -' + betAmount;
-                document.getElementById('resultDisplay').style.color = '#f44336';
-            }
-            updateBalanceUI();
-            isDropping = false;
-            ball = null;
-            document.getElementById('dropBtn').disabled = false;
-            drawBoard();
-            return;
-        }
-
-        drawBoard();
-        animationId = requestAnimationFrame(gameLoop);
-    }
-
-    // Инициализация при загрузке: показываем приветствие
+    // Инициализация
     document.addEventListener('DOMContentLoaded', () => {
-        const mainArea = document.getElementById('mainArea');
-        mainArea.innerHTML = `<span style="color:#555;">Выберите раздел</span>`;
+        document.getElementById('mainArea').innerHTML = `<span style="color:#555;">Выберите раздел</span>`;
     });
-
-    // Переинициализация при переключении вкладок
-    window.initPlinko = initPlinko;
 </script>
 </body>
 </html>
