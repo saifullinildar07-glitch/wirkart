@@ -243,7 +243,7 @@
             position: relative;
         }
 
-        /* ===== Интерфейс Plinko (точная копия скриншота) ===== */
+        /* ===== Упрощённый интерфейс Plinko ===== */
         .plinko-container {
             width: 100%;
             height: 100%;
@@ -279,39 +279,12 @@
             font-weight: 800;
             color: #f5b342;
             letter-spacing: 2px;
-            margin-bottom: 6px;
-        }
-        .plinko-lines {
-            display: flex;
-            justify-content: center;
-            gap: 8px;
             margin-bottom: 8px;
-            flex-wrap: wrap;
-        }
-        .plinko-lines button {
-            background: transparent;
-            border: 1px solid #444;
-            border-radius: 30px;
-            padding: 4px 12px;
-            font-size: 12px;
-            font-weight: 600;
-            color: #aaa;
-            cursor: pointer;
-            transition: 0.2s;
-        }
-        .plinko-lines button.active {
-            background: #f5b342;
-            border-color: #f5b342;
-            color: #111;
-        }
-        .plinko-lines button:hover {
-            border-color: #f5b342;
-            color: #f5b342;
         }
         .plinko-multipliers {
             display: flex;
             justify-content: space-between;
-            margin-bottom: 8px;
+            margin-bottom: 10px;
             background: #0f0f1a;
             border-radius: 12px;
             padding: 6px 4px;
@@ -331,43 +304,11 @@
         .plinko-multipliers .slot-label.low {
             color: #42a5f5;
         }
-        .plinko-risk {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            margin-bottom: 8px;
-            justify-content: center;
-        }
-        .plinko-risk span {
-            font-size: 13px;
-            font-weight: 600;
-            color: #aaa;
-        }
-        .plinko-risk button {
-            background: transparent;
-            border: 1px solid #444;
-            border-radius: 30px;
-            padding: 4px 16px;
-            font-size: 12px;
-            font-weight: 600;
-            color: #aaa;
-            cursor: pointer;
-            transition: 0.2s;
-        }
-        .plinko-risk button.active {
-            background: #f5b342;
-            border-color: #f5b342;
-            color: #111;
-        }
-        .plinko-risk button:hover {
-            border-color: #f5b342;
-            color: #f5b342;
-        }
         .plinko-bet-balance {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin-bottom: 6px;
+            margin-bottom: 8px;
             font-size: 14px;
             font-weight: 600;
             color: #aaa;
@@ -470,7 +411,6 @@
             padding-top: 4px;
         }
 
-        /* Меню-бургер */
         .menu-overlay {
             position: fixed;
             top: 0;
@@ -615,9 +555,7 @@
             .sidebar .menu-item { font-size: 10px; padding: 8px 2px; border-radius: 10px; }
             .main-area { padding: 4px; }
             .plinko-container { padding: 8px; }
-            .plinko-lines button { font-size: 10px; padding: 2px 8px; }
             .plinko-multipliers .slot-label { font-size: 9px; }
-            .plinko-risk button { font-size: 10px; padding: 2px 10px; }
             .plinko-bet-balance { font-size: 12px; }
         }
     </style>
@@ -686,7 +624,6 @@
     function updateBalanceUI() {
         document.getElementById('balanceDisplay').textContent = balance;
         document.getElementById('panelBalance').textContent = balance;
-        // обновить в Plinko, если открыт
         const plinkoBalanceEl = document.getElementById('plinkoBalance');
         if (plinkoBalanceEl) plinkoBalanceEl.textContent = balance.toFixed(2);
     }
@@ -779,32 +716,23 @@
     });
 
     // ============================================================
-    //  ИНТЕРФЕЙС PLINKO (ТОЧНАЯ КОПИЯ СКРИНШОТА)
+    //  ИНТЕРФЕЙС PLINKO (УПРОЩЁННЫЙ, БЕЗ НАСТРОЕК)
     // ============================================================
     function startPlinkoGame(container) {
         container.innerHTML = `
             <div class="plinko-container">
                 <button class="plinko-exit" id="exitPlinko">←</button>
                 <div class="plinko-title">PLINKO</div>
-                <div class="plinko-lines" id="linesContainer">
-                    ${[9,10,11,12,13,14,15,16].map(n => `<button data-lines="${n}" class="${n===16?'active':''}">${n}</button>`).join('')}
-                </div>
-                <div class="plinko-multipliers" id="multipliersContainer">
-                    <span class="slot-label high">x13</span>
-                    <span class="slot-label">x3</span>
-                    <span class="slot-label">x1.3</span>
-                    <span class="slot-label low">x0.7</span>
-                    <span class="slot-label low">x0.4</span>
-                    <span class="slot-label low">x0.7</span>
-                    <span class="slot-label">x1.3</span>
-                    <span class="slot-label">x3</span>
-                    <span class="slot-label high">x13</span>
-                </div>
-                <div class="plinko-risk">
-                    <span>Risk Level</span>
-                    <button data-risk="high">High</button>
-                    <button data-risk="normal" class="active">Normal</button>
-                    <button data-risk="low">Low</button>
+                <div class="plinko-multipliers">
+                    <span class="slot-label high">x10</span>
+                    <span class="slot-label">x5</span>
+                    <span class="slot-label">x2</span>
+                    <span class="slot-label">x1</span>
+                    <span class="slot-label low">x0.5</span>
+                    <span class="slot-label">x1</span>
+                    <span class="slot-label">x2</span>
+                    <span class="slot-label">x5</span>
+                    <span class="slot-label high">x10</span>
                 </div>
                 <div class="plinko-bet-balance">
                     <div class="bet">
@@ -831,8 +759,6 @@
 
         // Элементы управления
         const exitBtn = document.getElementById('exitPlinko');
-        const linesBtns = document.querySelectorAll('#linesContainer button');
-        const riskBtns = document.querySelectorAll('.plinko-risk button');
         const modeBtns = document.querySelectorAll('.plinko-mode button');
         const playBtn = document.getElementById('plinkoPlayBtn');
         const betInput = document.getElementById('plinkoBet');
@@ -846,28 +772,7 @@
             container.innerHTML = `<span style="color:#555;">Выберите раздел</span>`;
         });
 
-        // Обработчики выбора линий
-        linesBtns.forEach(btn => {
-            btn.addEventListener('click', function() {
-                linesBtns.forEach(b => b.classList.remove('active'));
-                this.classList.add('active');
-                rows = parseInt(this.dataset.lines);
-                buildBoard();
-                drawBoard();
-            });
-        });
-
-        // Обработчики выбора риска
-        riskBtns.forEach(btn => {
-            btn.addEventListener('click', function() {
-                riskBtns.forEach(b => b.classList.remove('active'));
-                this.classList.add('active');
-                risk = this.dataset.risk;
-                // множители не меняются, но можно оставить
-            });
-        });
-
-        // Обработчики режима
+        // Обработчики режима (просто переключение)
         modeBtns.forEach(btn => {
             btn.addEventListener('click', function() {
                 modeBtns.forEach(b => b.classList.remove('active'));
@@ -891,26 +796,23 @@
         }
         window.addEventListener('resize', resizeCanvas);
 
-        let rows = 16;
-        let risk = 'normal';
+        const rows = 16; // фиксировано
         let pegs = [];
         let slots = [];
         let balls = [];
         let animationId = null;
-
-        // Множители как на скриншоте (9 слотов)
-        const MULTIPLIERS = [13, 3, 1.3, 0.7, 0.4, 0.7, 1.3, 3, 13];
+        const MULTIPLIERS = [10, 5, 2, 1, 0.5, 1, 2, 5, 10];
 
         function buildBoard() {
             pegs = [];
             slots = [];
             const numRows = rows;
-            const slotCount = MULTIPLIERS.length; // 9
+            const slotCount = MULTIPLIERS.length;
             const spacingX = canvasW / (slotCount + 1);
             const spacingY = (canvasH - 40) / (numRows + 0.5);
 
-            // Колышки в треугольнике (rows рядов)
-            for (let row = 0; row < numRows; row++) {
+            // Колышки без верхнего ряда
+            for (let row = 1; row < numRows; row++) {
                 const cols = row + 1;
                 const offsetX = (canvasW - (cols - 1) * spacingX) / 2;
                 for (let col = 0; col < cols; col++) {
@@ -920,7 +822,6 @@
                 }
             }
 
-            // Слоты (9)
             const slotWidth = canvasW / slotCount;
             for (let i = 0; i < slotCount; i++) {
                 const x = i * slotWidth + slotWidth / 2;
@@ -950,7 +851,6 @@
             ctx.fillStyle = '#0f0f1a';
             ctx.fillRect(0, 0, canvasW, canvasH);
 
-            // Колышки
             for (let p of pegs) {
                 ctx.beginPath();
                 ctx.arc(p.x, p.y, p.radius, 0, Math.PI * 2);
@@ -958,7 +858,6 @@
                 ctx.fill();
             }
 
-            // Слоты
             for (let s of slots) {
                 const x = s.x - s.width / 2;
                 const y = s.y - s.height / 2;
@@ -974,7 +873,6 @@
                 ctx.fillText('x' + s.multiplier, s.x, s.y);
             }
 
-            // Шарики
             for (let b of balls) {
                 ctx.beginPath();
                 ctx.arc(b.x, b.y, 6, 0, Math.PI * 2);
@@ -995,11 +893,11 @@
             updateBalanceUI();
             if (plinkoBalanceEl) plinkoBalanceEl.textContent = balance.toFixed(2);
 
-            const startX = canvasW / 2 + (Math.random() - 0.5) * 20;
+            const startX = canvasW / 2 + (Math.random() - 0.5) * 6;
             const ball = {
                 x: startX,
                 y: 10,
-                vx: (Math.random() - 0.5) * 0.3,
+                vx: (Math.random() - 0.5) * 0.2,
                 vy: 0.5,
                 radius: 6,
                 bet: bet,
@@ -1050,7 +948,7 @@
                             targetSlot = s;
                         }
                     }
-                    const isWin = Math.random() < 0.42;
+                    const isWin = Math.random() < 0.36;
                     let finalMultiplier = isWin ? targetSlot.multiplier : 0;
                     let finalWin = isWin ? Math.round(b.bet * finalMultiplier * 100) / 100 : 0;
                     if (isWin) {
@@ -1062,7 +960,6 @@
                     b.y = canvasH - 15;
                     b.vy = 0;
                     b.vx = 0;
-                    // Показываем результат (можно вывести в консоль или добавить в Failures)
                 }
             }
 
@@ -1077,12 +974,11 @@
 
         playBtn.addEventListener('click', addBall);
 
-        // Обновляем доску при изменении размеров
         setTimeout(() => {
             resizeCanvas();
         }, 50);
 
-        // Переопределим функции обновления баланса для этого окна
+        // Переопределим функции обновления баланса
         window.updateBalanceUI = function() {
             document.getElementById('balanceDisplay').textContent = balance;
             document.getElementById('panelBalance').textContent = balance;
