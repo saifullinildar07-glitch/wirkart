@@ -243,108 +243,192 @@
             position: relative;
         }
 
-        /* Стили для иконки Plinko (превью) */
-        .plinko-preview {
-            width: 120px;
-            height: 120px;
-            background: #1f1f2a;
-            border-radius: 24px;
-            border: 2px solid #444;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            cursor: pointer;
-            transition: 0.25s;
-            box-shadow: 0 4px 20px rgba(0,0,0,0.4);
-            position: relative;
-        }
-        .plinko-preview:hover {
-            border-color: #f5b342;
-            transform: scale(1.05);
-            box-shadow: 0 0 30px rgba(245,179,66,0.2);
-        }
-        .plinko-preview canvas {
-            width: 90%;
-            height: 90%;
-            border-radius: 16px;
-            background: #0f0f1a;
-        }
-
-        /* Стили для игры Plinko (Stake-style) */
-        .stake-container {
+        /* ===== Интерфейс Plinko (точная копия скриншота) ===== */
+        .plinko-container {
             width: 100%;
             height: 100%;
             display: flex;
             flex-direction: column;
-            padding: 8px;
-            gap: 6px;
             background: #1a1a1a;
             border-radius: 20px;
+            padding: 12px 12px 8px 12px;
             overflow-y: auto;
             position: relative;
         }
-        .exit-btn {
+        .plinko-exit {
             position: absolute;
             top: 8px;
             left: 8px;
-            background: rgba(0,0,0,0.5);
+            background: transparent;
             border: none;
-            color: #fff;
-            font-size: 20px;
-            padding: 4px 10px;
-            border-radius: 30px;
+            color: #aaa;
+            font-size: 22px;
             cursor: pointer;
             z-index: 10;
-            backdrop-filter: blur(4px);
+            padding: 4px 8px;
+            border-radius: 20px;
             transition: 0.2s;
         }
-        .exit-btn:hover {
-            background: rgba(245,179,66,0.3);
+        .plinko-exit:hover {
+            background: rgba(255,255,255,0.1);
+            color: #fff;
         }
-        .stake-header {
+        .plinko-title {
+            text-align: center;
+            font-size: 20px;
+            font-weight: 800;
+            color: #f5b342;
+            letter-spacing: 2px;
+            margin-bottom: 6px;
+        }
+        .plinko-lines {
+            display: flex;
+            justify-content: center;
+            gap: 8px;
+            margin-bottom: 8px;
+            flex-wrap: wrap;
+        }
+        .plinko-lines button {
+            background: transparent;
+            border: 1px solid #444;
+            border-radius: 30px;
+            padding: 4px 12px;
+            font-size: 12px;
+            font-weight: 600;
+            color: #aaa;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+        .plinko-lines button.active {
+            background: #f5b342;
+            border-color: #f5b342;
+            color: #111;
+        }
+        .plinko-lines button:hover {
+            border-color: #f5b342;
+            color: #f5b342;
+        }
+        .plinko-multipliers {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 8px;
+            background: #0f0f1a;
+            border-radius: 12px;
+            padding: 6px 4px;
+            border: 1px solid #2a2a3a;
+        }
+        .plinko-multipliers .slot-label {
+            font-size: 11px;
+            font-weight: 700;
+            color: #fff;
+            text-align: center;
+            flex: 1;
+            padding: 2px 0;
+        }
+        .plinko-multipliers .slot-label.high {
+            color: #ef5350;
+        }
+        .plinko-multipliers .slot-label.low {
+            color: #42a5f5;
+        }
+        .plinko-risk {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 8px;
+            justify-content: center;
+        }
+        .plinko-risk span {
+            font-size: 13px;
+            font-weight: 600;
+            color: #aaa;
+        }
+        .plinko-risk button {
+            background: transparent;
+            border: 1px solid #444;
+            border-radius: 30px;
+            padding: 4px 16px;
+            font-size: 12px;
+            font-weight: 600;
+            color: #aaa;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+        .plinko-risk button.active {
+            background: #f5b342;
+            border-color: #f5b342;
+            color: #111;
+        }
+        .plinko-risk button:hover {
+            border-color: #f5b342;
+            color: #f5b342;
+        }
+        .plinko-bet-balance {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding-bottom: 6px;
-            border-bottom: 1px solid #333;
-            flex-shrink: 0;
-            padding-left: 36px; /* чтобы не перекрывала стрелка */
-        }
-        .stake-logo {
-            font-size: 16px;
-            font-weight: 900;
-            color: #f5b342;
-            letter-spacing: 1px;
-        }
-        .stake-balance {
-            display: flex;
-            align-items: center;
-            gap: 8px;
+            margin-bottom: 6px;
             font-size: 14px;
             font-weight: 600;
+            color: #aaa;
         }
-        .stake-balance .amount {
+        .plinko-bet-balance .bet {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+        .plinko-bet-balance .bet input {
+            background: #0f0f1a;
+            border: 1px solid #2a2a3a;
+            border-radius: 30px;
+            padding: 4px 12px;
+            width: 80px;
+            color: #fff;
+            font-size: 14px;
+            font-weight: 600;
+            text-align: center;
+            outline: none;
+        }
+        .plinko-bet-balance .balance {
             color: #f5b342;
         }
-        .stake-balance .wallet-btn {
-            background: #2a2a3a;
+        .plinko-play-row {
+            display: flex;
+            gap: 12px;
+            align-items: center;
+            margin-bottom: 6px;
+        }
+        .plinko-play-row .play-btn {
+            flex: 1;
+            background: linear-gradient(145deg, #f5b342, #b8860b);
             border: none;
             border-radius: 30px;
-            padding: 2px 12px;
-            color: #fff;
-            font-size: 12px;
-            font-weight: 600;
+            padding: 8px 0;
+            font-weight: 700;
+            font-size: 16px;
+            color: #111;
             cursor: pointer;
+            box-shadow: 0 4px 0 #5a3a1a;
+            transition: 0.15s;
         }
-        .stake-tabs {
+        .plinko-play-row .play-btn:active {
+            transform: translateY(4px);
+            box-shadow: 0 0px 0 #5a3a1a;
+        }
+        .plinko-play-row .play-btn:disabled {
+            opacity: 0.5;
+            transform: translateY(4px);
+            box-shadow: 0 0px 0 #5a3a1a;
+            pointer-events: none;
+        }
+        .plinko-mode {
             display: flex;
             gap: 4px;
             background: #2a2a3a;
             border-radius: 30px;
             padding: 2px;
-            flex-shrink: 0;
         }
-        .stake-tabs button {
+        .plinko-mode button {
             background: transparent;
             border: none;
             border-radius: 30px;
@@ -355,112 +439,24 @@
             cursor: pointer;
             transition: 0.2s;
         }
-        .stake-tabs button.active {
+        .plinko-mode button.active {
             background: #f5b342;
             color: #111;
         }
-        .stake-row {
-            display: flex;
-            gap: 10px;
-            align-items: center;
-            flex-shrink: 0;
-        }
-        .stake-row .field {
-            display: flex;
-            align-items: center;
-            gap: 4px;
-            background: #0f0f1a;
-            border-radius: 30px;
-            padding: 4px 12px;
-            border: 1px solid #2a2a3a;
-            flex: 1;
-        }
-        .stake-row .field label {
-            font-size: 11px;
-            color: #888;
-            white-space: nowrap;
-        }
-        .stake-row .field input {
-            background: transparent;
-            border: none;
-            color: #fff;
-            font-size: 14px;
-            font-weight: 600;
-            width: 50px;
-            outline: none;
-            text-align: right;
-        }
-        .stake-row .field select {
-            background: transparent;
-            border: none;
-            color: #fff;
-            font-size: 14px;
-            font-weight: 600;
-            outline: none;
-            appearance: none;
-            -webkit-appearance: none;
-            padding: 4px 0;
-            width: 70px;
-        }
-        .stake-row .field select option {
-            background: #1a1a1a;
-        }
-        .stake-row .bet-btn {
-            background: linear-gradient(145deg, #f5b342, #b8860b);
-            border: none;
-            border-radius: 30px;
-            padding: 6px 16px;
-            font-weight: 700;
-            font-size: 14px;
-            color: #111;
-            cursor: pointer;
-            box-shadow: 0 4px 0 #5a3a1a;
-            transition: 0.15s;
-            flex-shrink: 0;
-        }
-        .stake-row .bet-btn:active {
-            transform: translateY(4px);
-            box-shadow: 0 0px 0 #5a3a1a;
-        }
-        .stake-row .bet-btn:disabled {
-            opacity: 0.5;
-            transform: translateY(4px);
-            box-shadow: 0 0px 0 #5a3a1a;
-            pointer-events: none;
-        }
-        .stake-failures {
-            background: #0f0f1a;
-            border-radius: 12px;
-            padding: 6px 10px;
-            border: 1px solid #2a2a3a;
-            max-height: 50px;
-            overflow-y: auto;
-            font-size: 11px;
-            color: #aaa;
-            flex-shrink: 0;
-        }
-        .stake-failures .failure-item {
-            display: flex;
-            justify-content: space-between;
-            padding: 2px 0;
-            border-bottom: 1px solid #222;
-        }
-        .stake-failures .failure-item .win {
-            color: #4caf50;
-        }
-        .stake-failures .failure-item .lose {
-            color: #f44336;
+        .plinko-mode button:hover {
+            color: #f5b342;
         }
 
-        .stake-canvas-wrap {
+        .plinko-canvas-wrap {
             flex: 1;
             min-height: 0;
-            position: relative;
             border-radius: 16px;
             overflow: hidden;
             background: #0f0f1a;
+            border: 1px solid #2a2a3a;
+            margin-top: 4px;
         }
-        .stake-canvas-wrap canvas {
+        .plinko-canvas-wrap canvas {
             width: 100%;
             height: 100%;
             display: block;
@@ -618,11 +614,11 @@
             .sidebar { width: 70px; padding: 8px 4px; gap: 8px; }
             .sidebar .menu-item { font-size: 10px; padding: 8px 2px; border-radius: 10px; }
             .main-area { padding: 4px; }
-            .plinko-preview { width: 80px; height: 80px; }
-            .stake-container { padding: 6px; gap: 4px; }
-            .stake-row { flex-wrap: wrap; }
-            .stake-row .field { flex: 1 1 40%; }
-            .stake-header { padding-left: 32px; }
+            .plinko-container { padding: 8px; }
+            .plinko-lines button { font-size: 10px; padding: 2px 8px; }
+            .plinko-multipliers .slot-label { font-size: 9px; }
+            .plinko-risk button { font-size: 10px; padding: 2px 10px; }
+            .plinko-bet-balance { font-size: 12px; }
         }
     </style>
 </head>
@@ -691,8 +687,8 @@
         document.getElementById('balanceDisplay').textContent = balance;
         document.getElementById('panelBalance').textContent = balance;
         // обновить в Plinko, если открыт
-        const plinkoBal = document.getElementById('plinkoBalance');
-        if (plinkoBal) plinkoBal.textContent = balance;
+        const plinkoBalanceEl = document.getElementById('plinkoBalance');
+        if (plinkoBalanceEl) plinkoBalanceEl.textContent = balance.toFixed(2);
     }
     updateBalanceUI();
 
@@ -765,7 +761,7 @@
             const mainArea = document.getElementById('mainArea');
             switch(action) {
                 case 'quick':
-                    showPlinkoPreview(mainArea);
+                    startPlinkoGame(mainArea);
                     break;
                 case 'bonuses':
                     mainArea.innerHTML = `<span style="font-size:22px; font-weight:600; color:#f5b342;">🎁 Бонусы – скоро</span>`;
@@ -783,207 +779,103 @@
     });
 
     // ============================================================
-    //  ИКОНКА PLINKO (ПРЕВЬЮ) С АНИМАЦИЕЙ
-    // ============================================================
-    let previewAnimId = null;
-
-    function showPlinkoPreview(container) {
-        container.innerHTML = `
-            <div class="plinko-preview" id="plinkoPreview">
-                <canvas id="previewCanvas" width="100" height="100"></canvas>
-            </div>
-        `;
-        const previewCanvas = document.getElementById('previewCanvas');
-        const ctx = previewCanvas.getContext('2d');
-        const W = 100, H = 100;
-
-        // Колышки для превью (8 точек в треугольнике)
-        const pegsPreview = [];
-        const rowsPreview = 4; // 4 ряда => 1+2+3+4 = 10 точек, но оставим 8? Сделаем 4 ряда по треугольнику: 1+2+3+4=10, но пользователь сказал 8 точек. Сделаем 3 ряда: 1+2+3=6, маловато. Лучше 4 ряда, но покажем только 8? Или 3 ряда + ещё одна? Сделаем 3 ряда: 1+2+3=6, добавим ещё одну внизу? Сделаем 4 ряда, но отрисуем только 8 (пропустим некоторые). Но проще сделать 4 ряда и отобразить все 10, пользователь сказал "из 8 там точек" – вероятно, просто образно. Сделаем 4 ряда, но отобразим 8 центральных? Ладно, сделаем 4 ряда, 10 точек, это нормально.
-
-        const spacingX = W / 5;
-        const spacingY = H / 5;
-        for (let row = 0; row < 4; row++) {
-            const cols = row + 1;
-            const offsetX = (W - (cols - 1) * spacingX) / 2;
-            for (let col = 0; col < cols; col++) {
-                const x = offsetX + col * spacingX;
-                const y = 10 + row * spacingY;
-                pegsPreview.push({ x, y, radius: 3 });
-            }
-        }
-
-        // Два шарика для анимации
-        let ballsPreview = [
-            { x: W/2 + 10, y: 10, vx: -0.5, vy: 0.8, radius: 4 },
-            { x: W/2 - 10, y: 5, vx: 0.3, vy: 0.6, radius: 4 }
-        ];
-
-        function drawPreview() {
-            ctx.clearRect(0, 0, W, H);
-            ctx.fillStyle = '#0f0f1a';
-            ctx.fillRect(0, 0, W, H);
-
-            // Колышки
-            for (let p of pegsPreview) {
-                ctx.beginPath();
-                ctx.arc(p.x, p.y, p.radius, 0, Math.PI * 2);
-                ctx.fillStyle = '#555';
-                ctx.fill();
-            }
-
-            // Шарики
-            for (let b of ballsPreview) {
-                ctx.beginPath();
-                ctx.arc(b.x, b.y, b.radius, 0, Math.PI * 2);
-                ctx.fillStyle = '#f5b342';
-                ctx.shadowColor = 'rgba(245,179,66,0.6)';
-                ctx.shadowBlur = 10;
-                ctx.fill();
-                ctx.shadowBlur = 0;
-            }
-        }
-
-        function updatePreview() {
-            const GRAVITY = 0.15;
-            const BOUNCE = 0.5;
-
-            for (let b of ballsPreview) {
-                b.vy += GRAVITY;
-                b.x += b.vx;
-                b.y += b.vy;
-
-                // Столкновения с колышками
-                for (let p of pegsPreview) {
-                    const dx = b.x - p.x;
-                    const dy = b.y - p.y;
-                    const dist = Math.sqrt(dx*dx + dy*dy);
-                    if (dist < b.radius + p.radius) {
-                        const angle = Math.atan2(dy, dx);
-                        const overlap = (b.radius + p.radius - dist) * 0.5;
-                        b.x += Math.cos(angle) * overlap;
-                        b.y += Math.sin(angle) * overlap;
-                        const speed = Math.sqrt(b.vx*b.vx + b.vy*b.vy);
-                        const newVx = Math.cos(angle) * speed * BOUNCE;
-                        const newVy = Math.sin(angle) * speed * BOUNCE;
-                        b.vx = newVx + (Math.random() - 0.5) * 0.2;
-                        b.vy = newVy + (Math.random() - 0.5) * 0.2;
-                    }
-                }
-
-                // Стены
-                if (b.x < b.radius) { b.x = b.radius; b.vx = -b.vx * 0.8; }
-                if (b.x > W - b.radius) { b.x = W - b.radius; b.vx = -b.vx * 0.8; }
-                if (b.y < b.radius) { b.y = b.radius; b.vy = -b.vy * 0.8; }
-                if (b.y > H - b.radius) { b.y = H - b.radius; b.vy = -b.vy * 0.8; }
-            }
-
-            drawPreview();
-            previewAnimId = requestAnimationFrame(updatePreview);
-        }
-
-        // Запускаем анимацию
-        updatePreview();
-
-        // При клике на превью – запускаем полноценную игру
-        document.getElementById('plinkoPreview').addEventListener('click', function() {
-            if (previewAnimId) cancelAnimationFrame(previewAnimId);
-            previewAnimId = null;
-            startPlinkoGame(container);
-        });
-    }
-
-    // ============================================================
-    //  ПОЛНОЦЕННАЯ ИГРА PLINKO (множители 1..10, кнопка выхода)
+    //  ИНТЕРФЕЙС PLINKO (ТОЧНАЯ КОПИЯ СКРИНШОТА)
     // ============================================================
     function startPlinkoGame(container) {
         container.innerHTML = `
-            <div class="stake-container">
-                <button class="exit-btn" id="exitPlinkoBtn">←</button>
-                <div class="stake-header">
-                    <div class="stake-logo">TWIN BOL</div>
-                    <div class="stake-balance">
-                        <span class="amount">$<span id="plinkoBalance">${balance}</span></span>
-                        <button class="wallet-btn" id="walletBtn">Wallet</button>
+            <div class="plinko-container">
+                <button class="plinko-exit" id="exitPlinko">←</button>
+                <div class="plinko-title">PLINKO</div>
+                <div class="plinko-lines" id="linesContainer">
+                    ${[9,10,11,12,13,14,15,16].map(n => `<button data-lines="${n}" class="${n===16?'active':''}">${n}</button>`).join('')}
+                </div>
+                <div class="plinko-multipliers" id="multipliersContainer">
+                    <span class="slot-label high">x13</span>
+                    <span class="slot-label">x3</span>
+                    <span class="slot-label">x1.3</span>
+                    <span class="slot-label low">x0.7</span>
+                    <span class="slot-label low">x0.4</span>
+                    <span class="slot-label low">x0.7</span>
+                    <span class="slot-label">x1.3</span>
+                    <span class="slot-label">x3</span>
+                    <span class="slot-label high">x13</span>
+                </div>
+                <div class="plinko-risk">
+                    <span>Risk Level</span>
+                    <button data-risk="high">High</button>
+                    <button data-risk="normal" class="active">Normal</button>
+                    <button data-risk="low">Low</button>
+                </div>
+                <div class="plinko-bet-balance">
+                    <div class="bet">
+                        <span>Bet</span>
+                        <input type="number" id="plinkoBet" value="1.00" step="0.01" min="0.01">
+                        <span>FUN</span>
+                    </div>
+                    <div class="balance">
+                        BALANCE <span id="plinkoBalance">${balance.toFixed(2)}</span> FUN
                     </div>
                 </div>
-                <div class="stake-tabs">
-                    <button class="active" id="manualTab">Manual</button>
-                    <button id="autoTab">Auto</button>
-                </div>
-                <div class="stake-row">
-                    <div class="field">
-                        <label>Bit Amount</label>
-                        <input type="number" id="bitAmount" value="10" min="1">
-                    </div>
-                    <div class="field">
-                        <label>Risk</label>
-                        <select id="riskSelect">
-                            <option value="low">Low</option>
-                            <option value="medium" selected>Medium</option>
-                            <option value="high">High</option>
-                        </select>
+                <div class="plinko-play-row">
+                    <button class="play-btn" id="plinkoPlayBtn">PLAY</button>
+                    <div class="plinko-mode">
+                        <button class="active" data-mode="manual">M</button>
+                        <button data-mode="auto">A</button>
                     </div>
                 </div>
-                <div class="stake-row">
-                    <div class="field">
-                        <label>Rows</label>
-                        <input type="number" id="rowsInput" value="16" min="8" max="20">
-                    </div>
-                    <button class="bet-btn" id="betBtn">Bet</button>
-                </div>
-                <div class="stake-failures" id="failuresList">
-                    <div style="text-align:center; color:#666;">Failures</div>
-                </div>
-                <div class="stake-canvas-wrap">
+                <div class="plinko-canvas-wrap">
                     <canvas id="plinkoCanvas"></canvas>
                 </div>
             </div>
         `;
 
         // Элементы управления
-        const betBtn = document.getElementById('betBtn');
-        const bitInput = document.getElementById('bitAmount');
-        const rowsInput = document.getElementById('rowsInput');
-        const riskSelect = document.getElementById('riskSelect');
-        const failuresList = document.getElementById('failuresList');
-        const plinkoBalance = document.getElementById('plinkoBalance');
-        const walletBtn = document.getElementById('walletBtn');
-        const manualTab = document.getElementById('manualTab');
-        const autoTab = document.getElementById('autoTab');
-        const exitBtn = document.getElementById('exitPlinkoBtn');
+        const exitBtn = document.getElementById('exitPlinko');
+        const linesBtns = document.querySelectorAll('#linesContainer button');
+        const riskBtns = document.querySelectorAll('.plinko-risk button');
+        const modeBtns = document.querySelectorAll('.plinko-mode button');
+        const playBtn = document.getElementById('plinkoPlayBtn');
+        const betInput = document.getElementById('plinkoBet');
+        const plinkoBalanceEl = document.getElementById('plinkoBalance');
 
-        // Обновление баланса в Plinko
-        function updatePlinkoBalance() {
-            if (plinkoBalance) plinkoBalance.textContent = balance;
-        }
-        updatePlinkoBalance();
-
-        // Wallet – открывает панель
-        walletBtn.addEventListener('click', () => openPanel());
-
-        // Tabs
-        manualTab.addEventListener('click', () => {
-            manualTab.classList.add('active');
-            autoTab.classList.remove('active');
-        });
-        autoTab.addEventListener('click', () => {
-            autoTab.classList.add('active');
-            manualTab.classList.remove('active');
-        });
-
-        // Кнопка выхода – возврат в базовое меню
+        // Выход
         exitBtn.addEventListener('click', () => {
-            // Останавливаем игру, очищаем контейнер
             if (animationId) cancelAnimationFrame(animationId);
             animationId = null;
             balls = [];
             container.innerHTML = `<span style="color:#555;">Выберите раздел</span>`;
         });
 
-        // ============================================================
-        //  ИГРОВАЯ ЛОГИКА PLINKO (множители 1..10)
-        // ============================================================
+        // Обработчики выбора линий
+        linesBtns.forEach(btn => {
+            btn.addEventListener('click', function() {
+                linesBtns.forEach(b => b.classList.remove('active'));
+                this.classList.add('active');
+                rows = parseInt(this.dataset.lines);
+                buildBoard();
+                drawBoard();
+            });
+        });
+
+        // Обработчики выбора риска
+        riskBtns.forEach(btn => {
+            btn.addEventListener('click', function() {
+                riskBtns.forEach(b => b.classList.remove('active'));
+                this.classList.add('active');
+                risk = this.dataset.risk;
+                // множители не меняются, но можно оставить
+            });
+        });
+
+        // Обработчики режима
+        modeBtns.forEach(btn => {
+            btn.addEventListener('click', function() {
+                modeBtns.forEach(b => b.classList.remove('active'));
+                this.classList.add('active');
+            });
+        });
+
+        // ===== ИГРОВАЯ ЛОГИКА =====
         const canvas = document.getElementById('plinkoCanvas');
         const ctx = canvas.getContext('2d');
         let canvasW, canvasH;
@@ -1000,34 +892,25 @@
         window.addEventListener('resize', resizeCanvas);
 
         let rows = 16;
-        let risk = 'medium';
+        let risk = 'normal';
         let pegs = [];
         let slots = [];
         let balls = [];
         let animationId = null;
-        let isDropping = false;
 
-        // Множители от 1 до 10 (10 слотов)
-        function getMultipliers(rows, risk) {
-            // 10 слотов с множителями от 1 до 10
-            const base = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
-            // В зависимости от риска можно немного скорректировать, но оставим как есть.
-            return base;
-        }
+        // Множители как на скриншоте (9 слотов)
+        const MULTIPLIERS = [13, 3, 1.3, 0.7, 0.4, 0.7, 1.3, 3, 13];
 
         function buildBoard() {
             pegs = [];
             slots = [];
-            const numRows = parseInt(rowsInput ? rowsInput.value : 16);
-            rows = Math.min(Math.max(numRows, 8), 20);
-            const multiplierValues = getMultipliers(rows, risk);
-            const slotCount = multiplierValues.length; // 10
+            const numRows = rows;
+            const slotCount = MULTIPLIERS.length; // 9
             const spacingX = canvasW / (slotCount + 1);
-            const spacingY = (canvasH - 40) / (rows + 0.5);
-            const startX = spacingX;
+            const spacingY = (canvasH - 40) / (numRows + 0.5);
 
-            // Колышки в виде треугольника
-            for (let row = 0; row < rows; row++) {
+            // Колышки в треугольнике (rows рядов)
+            for (let row = 0; row < numRows; row++) {
                 const cols = row + 1;
                 const offsetX = (canvasW - (cols - 1) * spacingX) / 2;
                 for (let col = 0; col < cols; col++) {
@@ -1037,7 +920,7 @@
                 }
             }
 
-            // Слоты внизу
+            // Слоты (9)
             const slotWidth = canvasW / slotCount;
             for (let i = 0; i < slotCount; i++) {
                 const x = i * slotWidth + slotWidth / 2;
@@ -1047,17 +930,17 @@
                     y: y,
                     width: slotWidth * 0.7,
                     height: 12,
-                    multiplier: multiplierValues[i] || 1,
-                    color: getMultiplierColor(multiplierValues[i] || 1)
+                    multiplier: MULTIPLIERS[i],
+                    color: getMultiplierColor(MULTIPLIERS[i])
                 });
             }
         }
 
         function getMultiplierColor(m) {
-            if (m >= 8) return '#ef5350';
-            if (m >= 5) return '#ff7043';
-            if (m >= 3) return '#ffa726';
-            if (m >= 2) return '#66bb6a';
+            if (m >= 5) return '#ef5350';
+            if (m >= 2) return '#ff7043';
+            if (m >= 1) return '#ffa726';
+            if (m >= 0.5) return '#66bb6a';
             return '#42a5f5';
         }
 
@@ -1104,13 +987,13 @@
         }
 
         function addBall() {
-            const bet = parseInt(bitInput ? bitInput.value : 10);
-            if (isNaN(bet) || bet < 1) { alert('Введите ставку'); return; }
+            const bet = parseFloat(betInput.value);
+            if (isNaN(bet) || bet <= 0) { alert('Введите корректную ставку'); return; }
             if (bet > balance) { alert('Недостаточно средств!'); return; }
 
             balance -= bet;
             updateBalanceUI();
-            updatePlinkoBalance();
+            if (plinkoBalanceEl) plinkoBalanceEl.textContent = balance.toFixed(2);
 
             const startX = canvasW / 2 + (Math.random() - 0.5) * 20;
             const ball = {
@@ -1169,19 +1052,17 @@
                     }
                     const isWin = Math.random() < 0.42;
                     let finalMultiplier = isWin ? targetSlot.multiplier : 0;
-                    let finalWin = isWin ? Math.floor(b.bet * finalMultiplier) : 0;
+                    let finalWin = isWin ? Math.round(b.bet * finalMultiplier * 100) / 100 : 0;
                     if (isWin) {
                         balance += finalWin;
-                        addFailure('win', finalWin);
-                    } else {
-                        addFailure('lose', b.bet);
                     }
                     updateBalanceUI();
-                    updatePlinkoBalance();
+                    if (plinkoBalanceEl) plinkoBalanceEl.textContent = balance.toFixed(2);
                     b.finished = true;
                     b.y = canvasH - 15;
                     b.vy = 0;
                     b.vx = 0;
+                    // Показываем результат (можно вывести в консоль или добавить в Failures)
                 }
             }
 
@@ -1194,53 +1075,23 @@
             }
         }
 
-        function addFailure(type, amount) {
-            const div = document.createElement('div');
-            div.className = 'failure-item';
-            const sign = type === 'win' ? '+' : '-';
-            const cls = type === 'win' ? 'win' : 'lose';
-            div.innerHTML = `<span>${type === 'win' ? 'Выигрыш' : 'Проигрыш'}</span><span class="${cls}">${sign}${amount}</span>`;
-            failuresList.appendChild(div);
-            while (failuresList.children.length > 20) {
-                failuresList.removeChild(failuresList.firstChild);
-            }
-            failuresList.scrollTop = failuresList.scrollHeight;
-        }
+        playBtn.addEventListener('click', addBall);
 
-        betBtn.addEventListener('click', addBall);
-
-        rowsInput.addEventListener('change', function() {
-            let val = parseInt(this.value) || 16;
-            if (val < 8) val = 8;
-            if (val > 20) val = 20;
-            this.value = val;
-            rows = val;
-            buildBoard();
-            drawBoard();
-        });
-
-        riskSelect.addEventListener('change', function() {
-            risk = this.value;
-            buildBoard();
-            drawBoard();
-        });
-
+        // Обновляем доску при изменении размеров
         setTimeout(() => {
             resizeCanvas();
         }, 50);
 
-        // Переопределим глобальные функции обновления баланса
+        // Переопределим функции обновления баланса для этого окна
         window.updateBalanceUI = function() {
             document.getElementById('balanceDisplay').textContent = balance;
             document.getElementById('panelBalance').textContent = balance;
-            const plinkoBal = document.getElementById('plinkoBalance');
-            if (plinkoBal) plinkoBal.textContent = balance;
+            if (plinkoBalanceEl) plinkoBalanceEl.textContent = balance.toFixed(2);
         };
         window.openPanel = function() {
             balancePanel.classList.add('open');
             document.getElementById('panelBalance').textContent = balance;
-            const plinkoBal = document.getElementById('plinkoBalance');
-            if (plinkoBal) plinkoBal.textContent = balance;
+            if (plinkoBalanceEl) plinkoBalanceEl.textContent = balance.toFixed(2);
         };
     }
 
