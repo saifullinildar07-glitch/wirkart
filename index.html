@@ -22,7 +22,7 @@
         .container {
             width: 100%;
             height: 100vh;
-            max-width: 480px; /* фиксируем ширину для центровки, но адаптивно */
+            max-width: 480px;
             padding: 12px 16px;
             background: #111;
             display: flex;
@@ -33,7 +33,7 @@
             position: relative;
             margin: 0 auto;
         }
-        /* Шапка – фиксированная, не сжимается */
+        /* Шапка */
         .header {
             display: flex;
             justify-content: space-between;
@@ -68,7 +68,6 @@
         .brand:hover {
             box-shadow: 0 0 25px rgba(245, 179, 66, 0.5);
         }
-
         .auth-buttons {
             display: flex;
             gap: 6px;
@@ -104,7 +103,6 @@
             background: #ffd54f;
             border-color: #ffd54f;
         }
-
         .header-right {
             display: flex;
             align-items: center;
@@ -146,7 +144,6 @@
         .balance-amount span {
             color: #f5b342;
         }
-
         .burger {
             background: transparent;
             border: none;
@@ -166,7 +163,7 @@
             transition: 0.3s;
         }
 
-        /* Основной ряд – фиксированные пропорции */
+        /* Основной ряд */
         .body-row {
             display: flex;
             gap: 12px;
@@ -174,7 +171,7 @@
             min-height: 0;
             overflow: hidden;
         }
-        /* Левое меню – фиксированная ширина 85px, адаптивно */
+        /* Левое меню */
         .sidebar {
             width: 85px;
             flex-shrink: 0;
@@ -186,6 +183,7 @@
             flex-direction: column;
             gap: 10px;
             transition: 0.2s;
+            overflow-y: auto;
         }
         .sidebar .menu-item {
             font-size: 12px;
@@ -201,11 +199,9 @@
             background: #121212;
             box-shadow: 0 2px 6px rgba(0,0,0,0.3);
             text-transform: uppercase;
-            font-family: 'Segoe UI', Roboto, system-ui, sans-serif;
             line-height: 1.2;
             word-break: break-word;
         }
-        /* Цвета для каждого пункта */
         .sidebar .menu-item[data-action="quick"] {
             border-color: #ff6f00;
             color: #ffab00;
@@ -222,7 +218,6 @@
             border-color: #c62828;
             color: #ef5350;
         }
-        /* Ховер – золотое свечение */
         .sidebar .menu-item:hover {
             border-color: #f5b342 !important;
             color: #f5b342 !important;
@@ -234,6 +229,7 @@
             transform: scale(0.95);
         }
 
+        /* Основная область */
         .main-area {
             flex: 1;
             background: #1a1a1a;
@@ -244,10 +240,78 @@
             justify-content: center;
             color: #888;
             font-size: 18px;
-            padding: 16px;
+            padding: 8px;
             min-height: 0;
             overflow: hidden;
             transition: 0.2s;
+            position: relative;
+        }
+        .main-area canvas {
+            width: 100%;
+            height: 100%;
+            display: block;
+            border-radius: 16px;
+        }
+        .main-area .plinko-ui {
+            width: 100%;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+        .main-area .plinko-ui .bet-row {
+            display: flex;
+            gap: 10px;
+            align-items: center;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+        .main-area .plinko-ui .bet-row input {
+            background: #1a1a1a;
+            border: 1px solid #444;
+            border-radius: 40px;
+            padding: 6px 14px;
+            color: #fff;
+            font-size: 16px;
+            width: 80px;
+            text-align: center;
+            outline: none;
+        }
+        .main-area .plinko-ui .bet-row button {
+            background: linear-gradient(145deg, #f5b342, #b8860b);
+            border: none;
+            border-radius: 40px;
+            padding: 8px 24px;
+            font-weight: 700;
+            font-size: 16px;
+            color: #111;
+            cursor: pointer;
+            transition: 0.15s;
+            box-shadow: 0 4px 0 #5a3a1a;
+        }
+        .main-area .plinko-ui .bet-row button:active {
+            transform: translateY(4px);
+            box-shadow: 0 0px 0 #5a3a1a;
+        }
+        .main-area .plinko-ui .bet-row button:disabled {
+            opacity: 0.5;
+            transform: translateY(4px);
+            box-shadow: 0 0px 0 #5a3a1a;
+            pointer-events: none;
+        }
+        .main-area .plinko-ui .result {
+            font-size: 20px;
+            font-weight: 700;
+            color: #f5b342;
+            min-height: 30px;
+            text-align: center;
+        }
+        .main-area .plinko-ui .info {
+            font-size: 14px;
+            color: #888;
+            text-align: center;
         }
 
         .footer {
@@ -258,7 +322,7 @@
             padding-top: 4px;
         }
 
-        /* Меню-бургер (выездное) */
+        /* Меню-бургер */
         .menu-overlay {
             position: fixed;
             top: 0;
@@ -393,7 +457,6 @@
         }
         .panel-close:active { color: #fff; }
 
-        /* Адаптив для маленьких экранов */
         @media (max-width: 480px) {
             .container { padding: 10px 12px; }
             .brand { font-size: 15px; padding: 2px 10px; }
@@ -403,7 +466,7 @@
             .balance-label { font-size: 9px; }
             .sidebar { width: 70px; padding: 8px 4px; gap: 8px; }
             .sidebar .menu-item { font-size: 10px; padding: 8px 2px; border-radius: 10px; }
-            .main-area { font-size: 14px; }
+            .main-area { padding: 4px; }
         }
         @media (max-width: 400px) {
             .header-left { gap: 6px; }
@@ -448,7 +511,15 @@
             <div class="menu-item" data-action="promotions">Promotions</div>
         </div>
         <div class="main-area" id="mainArea">
-            <span>Выберите раздел</span>
+            <div class="plinko-ui" id="plinkoUI">
+                <canvas id="plinkoCanvas"></canvas>
+                <div class="bet-row">
+                    <input type="number" id="betInput" value="10" min="1">
+                    <button id="dropBtn">Запустить шарик</button>
+                </div>
+                <div class="result" id="resultDisplay">Нажмите "Запустить шарик"</div>
+                <div class="info">🎯 Винрейт: 42% | Множители: x1, x2, x4, x5, x7</div>
+            </div>
         </div>
     </div>
 
@@ -579,15 +650,276 @@
             const action = item.dataset.action;
             let message = '';
             switch(action) {
-                case 'quick': message = '🚀 Быстрые игры – скоро'; break;
-                case 'bonuses': message = '🎁 Бонусы – скоро'; break;
-                case 'vip': message = '👑 VIP клуб – скоро'; break;
-                case 'promotions': message = '🔥 Акции – скоро'; break;
+                case 'quick':
+                    message = '🚀 Быстрые игры – Plinko';
+                    document.getElementById('plinkoUI').style.display = 'flex';
+                    break;
+                case 'bonuses': message = '🎁 Бонусы – скоро'; document.getElementById('plinkoUI').style.display = 'none'; break;
+                case 'vip': message = '👑 VIP клуб – скоро'; document.getElementById('plinkoUI').style.display = 'none'; break;
+                case 'promotions': message = '🔥 Акции – скоро'; document.getElementById('plinkoUI').style.display = 'none'; break;
                 default: message = 'Выберите раздел';
             }
-            document.getElementById('mainArea').innerHTML = `<span style="font-size:22px; font-weight:600; color:#f5b342;">${message}</span>`;
+            if (action !== 'quick') {
+                document.getElementById('mainArea').innerHTML = `<span style="font-size:22px; font-weight:600; color:#f5b342;">${message}</span>`;
+            } else {
+                // Восстанавливаем Plinko UI
+                document.getElementById('mainArea').innerHTML = `
+                    <div class="plinko-ui" id="plinkoUI">
+                        <canvas id="plinkoCanvas"></canvas>
+                        <div class="bet-row">
+                            <input type="number" id="betInput" value="10" min="1">
+                            <button id="dropBtn">Запустить шарик</button>
+                        </div>
+                        <div class="result" id="resultDisplay">Нажмите "Запустить шарик"</div>
+                        <div class="info">🎯 Винрейт: 42% | Множители: x1, x2, x4, x5, x7</div>
+                    </div>
+                `;
+                initPlinko();
+            }
         });
     });
+
+    // ============================================================
+    //  PLINKO – полная реализация
+    // ============================================================
+    let plinkoCanvas, ctx, canvasW, canvasH;
+    let pegs = [];
+    let slots = [];
+    let ball = null;
+    let animationId = null;
+    let isDropping = false;
+
+    // Множители: [x1, x2, x4, x5, x7] – порядок слева направо
+    const MULTIPLIERS = [1, 2, 4, 5, 7];
+    const ROWS = 10;
+    const PEG_RADIUS = 6;
+    const BALL_RADIUS = 8;
+    const GRAVITY = 0.25;
+    const FRICTION = 0.85;
+    const BOUNCE = 0.5;
+
+    function initPlinko() {
+        plinkoCanvas = document.getElementById('plinkoCanvas');
+        if (!plinkoCanvas) return;
+        ctx = plinkoCanvas.getContext('2d');
+        resizePlinko();
+        window.addEventListener('resize', resizePlinko);
+        buildBoard();
+        drawBoard();
+
+        const dropBtn = document.getElementById('dropBtn');
+        if (dropBtn) {
+            dropBtn.addEventListener('click', dropBall);
+        }
+    }
+
+    function resizePlinko() {
+        if (!plinkoCanvas) return;
+        const rect = plinkoCanvas.parentElement.getBoundingClientRect();
+        const w = rect.width - 16;
+        const h = rect.height - 80;
+        plinkoCanvas.width = Math.max(w, 200);
+        plinkoCanvas.height = Math.max(h, 300);
+        canvasW = plinkoCanvas.width;
+        canvasH = plinkoCanvas.height;
+        if (pegs.length > 0) buildBoard();
+    }
+
+    function buildBoard() {
+        pegs = [];
+        slots = [];
+        const spacingX = canvasW / (ROWS + 1.5);
+        const spacingY = (canvasH - 60) / (ROWS + 0.5);
+        const startX = spacingX * 0.8;
+
+        for (let row = 0; row < ROWS; row++) {
+            const cols = row + 1;
+            const offsetX = (canvasW - (cols - 1) * spacingX) / 2;
+            for (let col = 0; col < cols; col++) {
+                const x = offsetX + col * spacingX;
+                const y = 30 + row * spacingY;
+                pegs.push({ x, y, radius: PEG_RADIUS });
+            }
+        }
+
+        // Слоты внизу (5 штук)
+        const slotWidth = canvasW / MULTIPLIERS.length;
+        for (let i = 0; i < MULTIPLIERS.length; i++) {
+            const x = i * slotWidth + slotWidth / 2;
+            const y = canvasH - 20;
+            slots.push({
+                x: x,
+                y: y,
+                width: slotWidth * 0.7,
+                height: 20,
+                multiplier: MULTIPLIERS[i],
+                color: getMultiplierColor(MULTIPLIERS[i])
+            });
+        }
+    }
+
+    function getMultiplierColor(m) {
+        if (m >= 7) return '#ef5350';
+        if (m >= 5) return '#ff7043';
+        if (m >= 4) return '#ffa726';
+        if (m >= 2) return '#66bb6a';
+        return '#42a5f5';
+    }
+
+    function drawBoard() {
+        if (!ctx) return;
+        ctx.clearRect(0, 0, canvasW, canvasH);
+
+        // Фон
+        ctx.fillStyle = '#0f0f1a';
+        ctx.fillRect(0, 0, canvasW, canvasH);
+
+        // Колышки
+        for (let p of pegs) {
+            ctx.beginPath();
+            ctx.arc(p.x, p.y, p.radius, 0, Math.PI * 2);
+            ctx.fillStyle = '#555';
+            ctx.fill();
+            ctx.shadowColor = 'rgba(245,179,66,0.2)';
+            ctx.shadowBlur = 8;
+            ctx.fill();
+            ctx.shadowBlur = 0;
+        }
+
+        // Слоты
+        for (let s of slots) {
+            const x = s.x - s.width / 2;
+            const y = s.y - s.height / 2;
+            ctx.fillStyle = s.color;
+            ctx.shadowColor = 'rgba(255,255,255,0.1)';
+            ctx.shadowBlur = 10;
+            ctx.fillRect(x, y, s.width, s.height);
+            ctx.shadowBlur = 0;
+            ctx.fillStyle = '#fff';
+            ctx.font = 'bold 14px Arial';
+            ctx.textAlign = 'center';
+            ctx.textBaseline = 'middle';
+            ctx.fillText('x' + s.multiplier, s.x, s.y);
+        }
+
+        // Шарик
+        if (ball) {
+            ctx.beginPath();
+            ctx.arc(ball.x, ball.y, BALL_RADIUS, 0, Math.PI * 2);
+            ctx.fillStyle = '#f5b342';
+            ctx.shadowColor = 'rgba(245,179,66,0.6)';
+            ctx.shadowBlur = 20;
+            ctx.fill();
+            ctx.shadowBlur = 0;
+        }
+    }
+
+    function dropBall() {
+        if (isDropping) return;
+        const betInput = document.getElementById('betInput');
+        const bet = parseInt(betInput ? betInput.value : 10);
+        if (isNaN(bet) || bet < 1) { alert('Введите ставку'); return; }
+        if (bet > balance) { alert('Недостаточно средств!'); return; }
+
+        balance -= bet;
+        updateBalanceUI();
+
+        const startX = canvasW / 2 + (Math.random() - 0.5) * 20;
+        ball = {
+            x: startX,
+            y: 10,
+            vx: (Math.random() - 0.5) * 0.5,
+            vy: 0.5,
+            radius: BALL_RADIUS
+        };
+        isDropping = true;
+        document.getElementById('dropBtn').disabled = true;
+        document.getElementById('resultDisplay').textContent = 'Шарик падает...';
+
+        if (animationId) cancelAnimationFrame(animationId);
+        gameLoop();
+    }
+
+    function gameLoop() {
+        if (!ball || !isDropping) {
+            drawBoard();
+            return;
+        }
+
+        // Гравитация
+        ball.vy += GRAVITY;
+        ball.x += ball.vx;
+        ball.y += ball.vy;
+
+        // Столкновения с колышками
+        for (let p of pegs) {
+            const dx = ball.x - p.x;
+            const dy = ball.y - p.y;
+            const dist = Math.sqrt(dx * dx + dy * dy);
+            if (dist < ball.radius + p.radius) {
+                // Отталкивание
+                const angle = Math.atan2(dy, dx);
+                const overlap = (ball.radius + p.radius - dist) * 0.5;
+                ball.x += Math.cos(angle) * overlap;
+                ball.y += Math.sin(angle) * overlap;
+
+                // Отскок с потерей энергии
+                const speed = Math.sqrt(ball.vx * ball.vx + ball.vy * ball.vy);
+                const newVx = Math.cos(angle) * speed * BOUNCE;
+                const newVy = Math.sin(angle) * speed * BOUNCE;
+                ball.vx = newVx + (Math.random() - 0.5) * 0.3;
+                ball.vy = newVy + (Math.random() - 0.5) * 0.3;
+            }
+        }
+
+        // Столкновение со стенами
+        if (ball.x < ball.radius) { ball.x = ball.radius; ball.vx = -ball.vx * 0.8; }
+        if (ball.x > canvasW - ball.radius) { ball.x = canvasW - ball.radius; ball.vx = -ball.vx * 0.8; }
+
+        // Проверка попадания в слот
+        if (ball.y + ball.radius > canvasH - 10) {
+            // Определяем слот
+            let targetSlot = slots[0];
+            for (let s of slots) {
+                if (Math.abs(ball.x - s.x) < Math.abs(ball.x - targetSlot.x)) {
+                    targetSlot = s;
+                }
+            }
+            const winAmount = Math.floor(betAmount * targetSlot.multiplier);
+            // Винрейт 42% – корректируем результат
+            const isWin = Math.random() < 0.42;
+            let finalMultiplier = isWin ? targetSlot.multiplier : 0;
+            let finalWin = isWin ? Math.floor(betAmount * finalMultiplier) : 0;
+            if (isWin) {
+                balance += finalWin;
+                document.getElementById('resultDisplay').textContent = '🎉 Выигрыш! x' + finalMultiplier + ' +' + finalWin;
+                document.getElementById('resultDisplay').style.color = '#4caf50';
+            } else {
+                document.getElementById('resultDisplay').textContent = '😞 Проигрыш -' + betAmount;
+                document.getElementById('resultDisplay').style.color = '#f44336';
+            }
+            updateBalanceUI();
+            isDropping = false;
+            ball = null;
+            document.getElementById('dropBtn').disabled = false;
+            drawBoard();
+            return;
+        }
+
+        drawBoard();
+        animationId = requestAnimationFrame(gameLoop);
+    }
+
+    // Инициализация при загрузке
+    let betAmount = 10;
+    document.addEventListener('DOMContentLoaded', () => {
+        setTimeout(initPlinko, 100);
+    });
+
+    // Переинициализация при переключении вкладок
+    const origNavigate = navigateTo;
+    // Поддерживаем обратную совместимость
+    window.initPlinko = initPlinko;
 </script>
 </body>
 </html>
