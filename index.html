@@ -243,13 +243,13 @@
             position: relative;
         }
 
-        /* ===== Упрощённый интерфейс Plinko ===== */
+        /* ===== Plinko с жёлтым фоном ===== */
         .plinko-container {
             width: 100%;
             height: 100%;
             display: flex;
             flex-direction: column;
-            background: #1a1a1a;
+            background: #FFD700; /* жёлтый фон */
             border-radius: 20px;
             padding: 12px 12px 8px 12px;
             overflow-y: auto;
@@ -259,9 +259,9 @@
             position: absolute;
             top: 8px;
             left: 8px;
-            background: transparent;
+            background: rgba(0,0,0,0.3);
             border: none;
-            color: #aaa;
+            color: #333;
             font-size: 22px;
             cursor: pointer;
             z-index: 10;
@@ -270,14 +270,14 @@
             transition: 0.2s;
         }
         .plinko-exit:hover {
-            background: rgba(255,255,255,0.1);
+            background: rgba(0,0,0,0.5);
             color: #fff;
         }
         .plinko-title {
             text-align: center;
             font-size: 20px;
             font-weight: 800;
-            color: #f5b342;
+            color: #333;
             letter-spacing: 2px;
             margin-bottom: 8px;
         }
@@ -285,24 +285,30 @@
             display: flex;
             justify-content: space-between;
             margin-bottom: 10px;
-            background: #0f0f1a;
-            border-radius: 12px;
-            padding: 6px 4px;
-            border: 1px solid #2a2a3a;
+            gap: 2px;
         }
         .plinko-multipliers .slot-label {
-            font-size: 11px;
-            font-weight: 700;
-            color: #fff;
-            text-align: center;
             flex: 1;
-            padding: 2px 0;
+            text-align: center;
+            font-size: 12px;
+            font-weight: 700;
+            padding: 4px 0;
+            border-radius: 4px;
+            border: 2px solid #333;
+            background: #fff; /* белый фон по умолчанию */
+            color: #000;
         }
         .plinko-multipliers .slot-label.high {
-            color: #ef5350;
+            background: #9b59b6; /* фиолетовый */
+            color: #fff;
+        }
+        .plinko-multipliers .slot-label.mid {
+            background: #ffffff; /* белый */
+            color: #000;
         }
         .plinko-multipliers .slot-label.low {
-            color: #42a5f5;
+            background: #2c3e50; /* чёрный/тёмный */
+            color: #fff;
         }
         .plinko-bet-balance {
             display: flex;
@@ -311,7 +317,7 @@
             margin-bottom: 8px;
             font-size: 14px;
             font-weight: 600;
-            color: #aaa;
+            color: #333;
         }
         .plinko-bet-balance .bet {
             display: flex;
@@ -319,19 +325,19 @@
             gap: 6px;
         }
         .plinko-bet-balance .bet input {
-            background: #0f0f1a;
-            border: 1px solid #2a2a3a;
+            background: #fff;
+            border: 1px solid #333;
             border-radius: 30px;
             padding: 4px 12px;
             width: 80px;
-            color: #fff;
+            color: #000;
             font-size: 14px;
             font-weight: 600;
             text-align: center;
             outline: none;
         }
         .plinko-bet-balance .balance {
-            color: #f5b342;
+            color: #333;
         }
         .plinko-play-row {
             display: flex;
@@ -365,7 +371,7 @@
         .plinko-mode {
             display: flex;
             gap: 4px;
-            background: #2a2a3a;
+            background: rgba(0,0,0,0.2);
             border-radius: 30px;
             padding: 2px;
         }
@@ -376,7 +382,7 @@
             padding: 4px 14px;
             font-size: 12px;
             font-weight: 600;
-            color: #888;
+            color: #333;
             cursor: pointer;
             transition: 0.2s;
         }
@@ -385,7 +391,7 @@
             color: #111;
         }
         .plinko-mode button:hover {
-            color: #f5b342;
+            color: #000;
         }
 
         .plinko-canvas-wrap {
@@ -393,14 +399,15 @@
             min-height: 0;
             border-radius: 16px;
             overflow: hidden;
-            background: #0f0f1a;
-            border: 1px solid #2a2a3a;
+            background: #FFD700; /* жёлтый фон для канваса */
+            border: 2px solid #333;
             margin-top: 4px;
         }
         .plinko-canvas-wrap canvas {
             width: 100%;
             height: 100%;
             display: block;
+            background: #FFD700; /* жёлтый фон */
         }
 
         .footer {
@@ -555,7 +562,7 @@
             .sidebar .menu-item { font-size: 10px; padding: 8px 2px; border-radius: 10px; }
             .main-area { padding: 4px; }
             .plinko-container { padding: 8px; }
-            .plinko-multipliers .slot-label { font-size: 9px; }
+            .plinko-multipliers .slot-label { font-size: 10px; }
             .plinko-bet-balance { font-size: 12px; }
         }
     </style>
@@ -716,22 +723,22 @@
     });
 
     // ============================================================
-    //  ИНТЕРФЕЙС PLINKO (УПРОЩЁННЫЙ, БЕЗ НАСТРОЕК)
+    //  ИНТЕРФЕЙС PLINKO (ЖЁЛТЫЙ ФОН, АВТО, ЯРКИЕ ШАРИКИ)
     // ============================================================
     function startPlinkoGame(container) {
         container.innerHTML = `
             <div class="plinko-container">
                 <button class="plinko-exit" id="exitPlinko">←</button>
                 <div class="plinko-title">PLINKO</div>
-                <div class="plinko-multipliers">
+                <div class="plinko-multipliers" id="multipliersContainer">
                     <span class="slot-label high">x10</span>
-                    <span class="slot-label">x5</span>
-                    <span class="slot-label">x2</span>
-                    <span class="slot-label">x1</span>
+                    <span class="slot-label high">x5</span>
+                    <span class="slot-label mid">x2</span>
+                    <span class="slot-label mid">x1</span>
                     <span class="slot-label low">x0.5</span>
-                    <span class="slot-label">x1</span>
-                    <span class="slot-label">x2</span>
-                    <span class="slot-label">x5</span>
+                    <span class="slot-label mid">x1</span>
+                    <span class="slot-label mid">x2</span>
+                    <span class="slot-label high">x5</span>
                     <span class="slot-label high">x10</span>
                 </div>
                 <div class="plinko-bet-balance">
@@ -747,8 +754,8 @@
                 <div class="plinko-play-row">
                     <button class="play-btn" id="plinkoPlayBtn">PLAY</button>
                     <div class="plinko-mode">
-                        <button class="active" data-mode="manual">M</button>
-                        <button data-mode="auto">A</button>
+                        <button class="active" data-mode="manual" id="modeManual">M</button>
+                        <button data-mode="auto" id="modeAuto">A</button>
                     </div>
                 </div>
                 <div class="plinko-canvas-wrap">
@@ -759,26 +766,47 @@
 
         // Элементы управления
         const exitBtn = document.getElementById('exitPlinko');
-        const modeBtns = document.querySelectorAll('.plinko-mode button');
+        const modeManual = document.getElementById('modeManual');
+        const modeAuto = document.getElementById('modeAuto');
         const playBtn = document.getElementById('plinkoPlayBtn');
         const betInput = document.getElementById('plinkoBet');
         const plinkoBalanceEl = document.getElementById('plinkoBalance');
+
+        // Состояние авто-режима
+        let autoInterval = null;
 
         // Выход
         exitBtn.addEventListener('click', () => {
             if (animationId) cancelAnimationFrame(animationId);
             animationId = null;
+            if (autoInterval) clearInterval(autoInterval);
+            autoInterval = null;
             balls = [];
             container.innerHTML = `<span style="color:#555;">Выберите раздел</span>`;
         });
 
-        // Обработчики режима (просто переключение)
-        modeBtns.forEach(btn => {
-            btn.addEventListener('click', function() {
-                modeBtns.forEach(b => b.classList.remove('active'));
-                this.classList.add('active');
-            });
-        });
+        // Обработчики режимов
+        function setMode(mode) {
+            if (mode === 'auto') {
+                modeManual.classList.remove('active');
+                modeAuto.classList.add('active');
+                if (!autoInterval) {
+                    autoInterval = setInterval(() => {
+                        addBall();
+                    }, 1500 + Math.random() * 500); // 1.5-2 секунды
+                }
+            } else {
+                modeAuto.classList.remove('active');
+                modeManual.classList.add('active');
+                if (autoInterval) {
+                    clearInterval(autoInterval);
+                    autoInterval = null;
+                }
+            }
+        }
+
+        modeManual.addEventListener('click', () => setMode('manual'));
+        modeAuto.addEventListener('click', () => setMode('auto'));
 
         // ===== ИГРОВАЯ ЛОГИКА =====
         const canvas = document.getElementById('plinkoCanvas');
@@ -796,7 +824,7 @@
         }
         window.addEventListener('resize', resizeCanvas);
 
-        const rows = 16; // фиксировано
+        const rows = 16;
         let pegs = [];
         let slots = [];
         let balls = [];
@@ -818,7 +846,7 @@
                 for (let col = 0; col < cols; col++) {
                     const x = offsetX + col * spacingX;
                     const y = 20 + row * spacingY;
-                    pegs.push({ x, y, radius: 4 });
+                    pegs.push({ x, y, radius: 5 }); // увеличил радиус для лучшего отскока
                 }
             }
 
@@ -830,57 +858,71 @@
                     x: x,
                     y: y,
                     width: slotWidth * 0.7,
-                    height: 12,
+                    height: 14,
                     multiplier: MULTIPLIERS[i],
-                    color: getMultiplierColor(MULTIPLIERS[i])
+                    color: getSlotColor(MULTIPLIERS[i])
                 });
             }
         }
 
-        function getMultiplierColor(m) {
-            if (m >= 5) return '#ef5350';
-            if (m >= 2) return '#ff7043';
-            if (m >= 1) return '#ffa726';
-            if (m >= 0.5) return '#66bb6a';
-            return '#42a5f5';
+        function getSlotColor(m) {
+            if (m >= 5) return '#9b59b6'; // фиолетовый
+            if (m >= 2) return '#ffffff'; // белый
+            return '#2c3e50'; // чёрный
         }
 
         function drawBoard() {
             if (!ctx) return;
             ctx.clearRect(0, 0, canvasW, canvasH);
-            ctx.fillStyle = '#0f0f1a';
+            // ФОН – жёлтый
+            ctx.fillStyle = '#FFD700';
             ctx.fillRect(0, 0, canvasW, canvasH);
 
+            // Колышки – белые, яркие
             for (let p of pegs) {
                 ctx.beginPath();
                 ctx.arc(p.x, p.y, p.radius, 0, Math.PI * 2);
-                ctx.fillStyle = '#555';
+                ctx.fillStyle = '#ffffff';
+                ctx.shadowColor = 'rgba(255,255,255,0.8)';
+                ctx.shadowBlur = 10;
                 ctx.fill();
+                ctx.shadowBlur = 0;
+                // обводка для чёткости
+                ctx.strokeStyle = '#999';
+                ctx.lineWidth = 1;
+                ctx.stroke();
             }
 
+            // Слоты с рамками
             for (let s of slots) {
                 const x = s.x - s.width / 2;
                 const y = s.y - s.height / 2;
                 ctx.fillStyle = s.color;
-                ctx.shadowColor = 'rgba(255,255,255,0.1)';
-                ctx.shadowBlur = 6;
-                ctx.fillRect(x, y, s.width, s.height);
                 ctx.shadowBlur = 0;
-                ctx.fillStyle = '#fff';
-                ctx.font = 'bold 10px Arial';
+                ctx.fillRect(x, y, s.width, s.height);
+                ctx.strokeStyle = '#333';
+                ctx.lineWidth = 2;
+                ctx.strokeRect(x, y, s.width, s.height);
+                // текст
+                ctx.fillStyle = (s.color === '#ffffff') ? '#000' : '#fff';
+                ctx.font = 'bold 11px Arial';
                 ctx.textAlign = 'center';
                 ctx.textBaseline = 'middle';
                 ctx.fillText('x' + s.multiplier, s.x, s.y);
             }
 
+            // Шарики – ярко-жёлтые с белым свечением
             for (let b of balls) {
                 ctx.beginPath();
-                ctx.arc(b.x, b.y, 6, 0, Math.PI * 2);
-                ctx.fillStyle = '#f5b342';
-                ctx.shadowColor = 'rgba(245,179,66,0.6)';
-                ctx.shadowBlur = 15;
+                ctx.arc(b.x, b.y, 7, 0, Math.PI * 2);
+                ctx.fillStyle = '#FFD700';
+                ctx.shadowColor = 'rgba(255,255,255,0.9)';
+                ctx.shadowBlur = 20;
                 ctx.fill();
                 ctx.shadowBlur = 0;
+                ctx.strokeStyle = '#FFA500';
+                ctx.lineWidth = 2;
+                ctx.stroke();
             }
         }
 
@@ -893,13 +935,13 @@
             updateBalanceUI();
             if (plinkoBalanceEl) plinkoBalanceEl.textContent = balance.toFixed(2);
 
-            const startX = canvasW / 2 + (Math.random() - 0.5) * 6;
+            const startX = canvasW / 2 + (Math.random() - 0.5) * 8;
             const ball = {
                 x: startX,
                 y: 10,
-                vx: (Math.random() - 0.5) * 0.2,
+                vx: (Math.random() - 0.5) * 0.3,
                 vy: 0.5,
-                radius: 6,
+                radius: 7,
                 bet: bet,
                 finished: false
             };
@@ -911,8 +953,8 @@
 
         function gameLoop() {
             let anyActive = false;
-            const GRAVITY = 0.2;
-            const BOUNCE = 0.5;
+            const GRAVITY = 0.25;
+            const BOUNCE = 0.65; // увеличен для лучшего отскока
 
             for (let b of balls) {
                 if (b.finished) continue;
@@ -921,6 +963,7 @@
                 b.x += b.vx;
                 b.y += b.vy;
 
+                // Столкновения с колышками
                 for (let p of pegs) {
                     const dx = b.x - p.x;
                     const dy = b.y - p.y;
@@ -933,14 +976,19 @@
                         const speed = Math.sqrt(b.vx * b.vx + b.vy * b.vy);
                         const newVx = Math.cos(angle) * speed * BOUNCE;
                         const newVy = Math.sin(angle) * speed * BOUNCE;
-                        b.vx = newVx + (Math.random() - 0.5) * 0.2;
-                        b.vy = newVy + (Math.random() - 0.5) * 0.2;
+                        b.vx = newVx + (Math.random() - 0.5) * 0.3;
+                        b.vy = newVy + (Math.random() - 0.5) * 0.3;
+                        // добавим небольшое случайное смещение, чтобы избежать застревания
+                        b.x += (Math.random() - 0.5) * 0.5;
+                        b.y += (Math.random() - 0.5) * 0.5;
                     }
                 }
 
+                // Стены
                 if (b.x < b.radius) { b.x = b.radius; b.vx = -b.vx * 0.8; }
                 if (b.x > canvasW - b.radius) { b.x = canvasW - b.radius; b.vx = -b.vx * 0.8; }
 
+                // Проверка попадания в слот
                 if (b.y + b.radius > canvasH - 10) {
                     let targetSlot = slots[0];
                     for (let s of slots) {
@@ -972,6 +1020,7 @@
             }
         }
 
+        // Кнопка PLAY запускает один шарик
         playBtn.addEventListener('click', addBall);
 
         setTimeout(() => {
@@ -989,6 +1038,11 @@
             document.getElementById('panelBalance').textContent = balance;
             if (plinkoBalanceEl) plinkoBalanceEl.textContent = balance.toFixed(2);
         };
+
+        // При переключении на ручной режим, если авто был включён – отключаем
+        // (обрабатывается в setMode)
+        // По умолчанию ручной, авто выключен
+        setMode('manual');
     }
 
     // Инициализация
