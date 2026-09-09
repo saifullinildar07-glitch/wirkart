@@ -3,384 +3,179 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>TWIN BOL - Casino Core</title>
+    <title>1WIN - UI Portal</title>
     <style>
-        * { margin:0; padding:0; box-sizing:border-box; -webkit-tap-highlight-color: transparent; }
-        html, body {
-            width: 100%; height: 100%;
-            background: #09090b; color: #fff;
-            font-family: system-ui, -apple-system, sans-serif;
-            overflow: hidden;
-            display: flex; justify-content: center; align-items: center;
+        :root {
+            --bg-main: #090d14;
+            --bg-card: #121926;
+            --bg-hover: #1c2536;
+            --accent-blue: #0073ff;
+            --accent-green: #00c853;
+            --accent-gold: #ffb800;
+            --text-gray: #7e8b9b;
+            --border: #1e283a;
         }
 
-        .app-container {
-            width: 100%; height: 100vh; max-width: 480px;
-            padding: 12px; background: #0f0f12;
-            display: flex; flex-direction: column; gap: 10px;
-            position: relative; margin: 0 auto;
-        }
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: system-ui, -apple-system, sans-serif; user-select: none; }
+        body { background: var(--bg-main); color: #fff; display: flex; justify-content: center; }
 
-        /* ===== ШАПКА ===== */
-        .header {
-            display: flex; justify-content: space-between; align-items: center;
-            padding: 8px 12px; background: #16161a;
-            border-radius: 14px; border: 1px solid #27272a; flex-shrink: 0;
-        }
-        .brand {
-            font-size: 16px; font-weight: 900; color: #f5b342;
-            letter-spacing: 1px; text-transform: uppercase;
-        }
-        .header-right { display: flex; align-items: center; gap: 10px; }
-        .balance-box {
-            background: #222228; padding: 4px 12px; border-radius: 10px;
-            border: 1px solid #3f3f46; cursor: pointer; text-align: right;
-            transition: transform 0.1s, border-color 0.2s;
-            will-change: transform;
-        }
-        .balance-box:active { transform: scale(0.96); }
-        .balance-label { font-size: 9px; color: #a1a1aa; text-transform: uppercase; }
-        .balance-amount { font-size: 15px; font-weight: 700; color: #f5b342; }
+        .app { width: 100%; max-width: 480px; height: 100vh; display: flex; flex-direction: column; position: relative; overflow: hidden; background: #0b101a; }
 
-        .burger-btn {
-            background: transparent; border: none; cursor: pointer;
-            display: flex; flex-direction: column; gap: 4px; padding: 6px;
-        }
-        .burger-btn span {
-            display: block; width: 20px; height: 2px; background: #fff; border-radius: 2px;
-        }
+        /* ШАПКА 1WIN */
+        .header { display: flex; justify-content: space-between; align-items: center; padding: 10px 14px; background: #0e1420; border-bottom: 1px solid var(--border); }
+        .logo { font-size: 20px; font-weight: 900; color: #fff; font-style: italic; letter-spacing: -1px; }
+        .logo span { color: var(--accent-blue); }
+        .user-block { display: flex; align-items: center; gap: 10px; }
+        .balance-btn { background: #162030; border: 1px solid var(--border); padding: 5px 12px; border-radius: 8px; text-align: right; cursor: pointer; }
+        .balance-val { color: var(--accent-gold); font-weight: 800; font-size: 14px; }
+        .deposit-btn { background: linear-gradient(135deg, var(--accent-green), #009624); border: none; color: #fff; font-weight: 800; padding: 8px 14px; border-radius: 8px; font-size: 12px; cursor: pointer; box-shadow: 0 0 12px rgba(0,200,83,0.3); }
 
-        /* ===== ОСНОВНОЙ КОНТЕНТ ===== */
-        .body-layout { display: flex; gap: 10px; flex: 1; min-height: 0; }
-        .sidebar {
-            width: 80px; background: #16161a; border-radius: 14px;
-            padding: 8px 4px; border: 1px solid #27272a;
-            display: flex; flex-direction: column; gap: 8px; flex-shrink: 0;
-        }
-        .menu-btn {
-            font-size: 10px; font-weight: 700; color: #a1a1aa; padding: 10px 4px;
-            border-radius: 8px; cursor: pointer; text-align: center;
-            border: 1px solid #27272a; background: #1c1c21;
-            text-transform: uppercase; transition: background 0.2s, color 0.2s;
-        }
-        .menu-btn.active, .menu-btn:hover { background: #f5b342; color: #000; border-color: #f5b342; }
+        /* КАТЕГОРИИ (СКРОЛЛ) */
+        .categories { display: flex; gap: 8px; padding: 10px 14px; overflow-x: auto; scrollbar-width: none; background: #0b101a; }
+        .categories::-webkit-scrollbar { display: none; }
+        .cat-chip { background: #141c2b; border: 1px solid var(--border); color: var(--text-gray); padding: 8px 14px; border-radius: 20px; font-size: 12px; font-weight: 700; white-space: nowrap; cursor: pointer; transition: 0.2s; }
+        .cat-chip.active, .cat-chip:hover { background: var(--accent-blue); color: #fff; border-color: var(--accent-blue); box-shadow: 0 0 10px rgba(0,115,255,0.4); }
 
-        .viewport {
-            flex: 1; background: #16161a; border-radius: 14px;
-            border: 1px solid #27272a; position: relative; overflow: hidden;
-            display: flex; flex-direction: column;
-        }
+        /* БАННЕР БОНУСА */
+        .banner { margin: 0 14px 10px; background: linear-gradient(135deg, #0052d4, #4364f7, #6fb1fc); border-radius: 12px; padding: 14px; display: flex; justify-content: space-between; align-items: center; box-shadow: 0 4px 20px rgba(0,115,255,0.3); }
+        .banner-title { font-size: 16px; font-weight: 900; text-transform: uppercase; }
+        .banner-sub { font-size: 11px; opacity: 0.9; }
 
-        /* ===== PLINKO GAME UI ===== */
-        .plinko-screen {
-            display: flex; flex-direction: column; width: 100%; height: 100%; padding: 10px; gap: 8px;
-        }
-        .canvas-wrapper {
-            flex: 1; width: 100%; min-height: 0; background: #0d0d11;
-            border-radius: 10px; position: relative; border: 1px solid #222228;
-        }
-        canvas { position: absolute; top: 0; left: 0; width: 100%; height: 100%; }
+        /* СЕТКА ИГР */
+        .content { flex: 1; overflow-y: auto; padding: 0 14px 20px; }
+        .section-title { font-size: 13px; font-weight: 800; color: var(--text-gray); text-transform: uppercase; margin: 10px 0; display: flex; justify-content: space-between; }
+        .game-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; }
+        .game-card { background: var(--bg-card); border-radius: 12px; border: 1px solid var(--border); overflow: hidden; position: relative; cursor: pointer; transition: 0.2s; height: 110px; display: flex; flex-direction: column; justify-content: flex-end; padding: 10px; }
+        .game-card:hover { transform: translateY(-2px); border-color: var(--accent-blue); box-shadow: 0 4px 15px rgba(0,115,255,0.25); }
+        .game-card.lucky { background: linear-gradient(180deg, rgba(0,0,0,0) 0%, #3d0000 100%), #700000; }
+        .game-card.mines { background: linear-gradient(180deg, rgba(0,0,0,0) 0%, #002b5c 100%), #001530; }
+        .game-card.plinko { background: linear-gradient(180deg, rgba(0,0,0,0) 0%, #3a005c 100%), #1c0030; }
+        .game-card.speed { background: linear-gradient(180deg, rgba(0,0,0,0) 0%, #4a3800 100%), #261d00; }
+        
+        .game-title { font-weight: 900; font-size: 14px; text-transform: uppercase; }
+        .game-tag { position: absolute; top: 8px; right: 8px; background: rgba(0,0,0,0.6); padding: 2px 6px; border-radius: 4px; font-size: 9px; font-weight: 800; color: var(--accent-gold); }
 
-        .controls-panel {
-            background: #1c1c21; padding: 8px; border-radius: 10px;
-            display: flex; flex-direction: column; gap: 8px; border: 1px solid #27272a;
-        }
-        .control-row { display: flex; gap: 8px; align-items: center; justify-content: space-between; }
-        .bet-input-wrap { display: flex; align-items: center; gap: 6px; background: #0d0d11; padding: 4px 8px; border-radius: 6px; }
-        .bet-input-wrap label { font-size: 11px; color: #a1a1aa; }
-        .bet-input-wrap input {
-            width: 60px; background: transparent; border: none; color: #fff;
-            font-weight: 700; text-align: right; outline: none;
-        }
-        .btn-play {
-            flex: 1; background: #f5b342; color: #000; border: none;
-            padding: 10px; border-radius: 8px; font-weight: 800;
-            font-size: 14px; cursor: pointer; text-transform: uppercase;
-            transition: opacity 0.2s, transform 0.1s;
-            will-change: transform;
-        }
-        .btn-play:active { transform: scale(0.97); }
-
-        /* ===== МОДАЛКИ И ШТОРКИ ===== */
-        .backdrop {
-            position: fixed; inset: 0; background: rgba(0,0,0,0.7);
-            opacity: 0; pointer-events: none; transition: opacity 0.25s ease; z-index: 100;
-        }
-        .backdrop.visible { opacity: 1; pointer-events: auto; }
-
-        .drawer {
-            position: fixed; bottom: 0; left: 50%; transform: translate(-50%, 100%);
-            width: 100%; max-width: 480px; background: #16161a;
-            border-radius: 20px 20px 0 0; padding: 20px; border-top: 1px solid #3f3f46;
-            transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1); z-index: 101;
-            will-change: transform;
-        }
-        .drawer.open { transform: translate(-50%, 0); }
-        .drawer-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; }
-        .drawer-title { font-size: 16px; font-weight: 700; color: #aaa; }
-        .btn-close { background: transparent; border: none; color: #fff; font-size: 20px; cursor: pointer; }
+        /* МОДАЛКА ИГРЫ */
+        .modal { position: absolute; inset: 0; background: rgba(0,0,0,0.85); backdrop-filter: blur(5px); display: none; flex-direction: column; justify-content: flex-end; z-index: 100; }
+        .modal.active { display: flex; }
+        .modal-body { background: #0e1420; border-top: 2px solid var(--accent-blue); border-radius: 20px 20px 0 0; padding: 20px; display: flex; flex-direction: column; gap: 15px; }
+        .close-btn { align-self: flex-end; background: transparent; border: none; color: #fff; font-size: 20px; cursor: pointer; }
     </style>
 </head>
 <body>
 
-<div class="app-container">
+<div class="app">
+    <!-- ШАПКА -->
     <header class="header">
-        <div class="brand">TWIN BOL</div>
-        <div class="header-right">
-            <div class="balance-box" id="balanceBtn">
-                <div class="balance-label">Баланс</div>
-                <div class="balance-amount">$<span id="balanceDisplay">1000.00</span></div>
+        <div class="logo">1WIN<span>.TEST</span></div>
+        <div class="user-block">
+            <div class="balance-btn" id="openDeposit">
+                <div style="font-size: 9px; color: var(--text-gray);">БАЛАНС</div>
+                <div class="balance-val">$<span id="bal">1000.00</span></div>
             </div>
-            <button class="burger-btn" id="burgerBtn" aria-label="Меню">
-                <span></span><span></span><span></span>
-            </button>
+            <button class="deposit-btn" id="depBtn">ПОПОЛНИТЬ</button>
         </div>
     </header>
 
-    <div class="body-layout">
-        <aside class="sidebar">
-            <button class="menu-btn active" data-game="plinko">Plinko</button>
-            <button class="menu-btn" data-game="slots">Slots</button>
-            <button class="menu-btn" data-game="mines">Mines</button>
-        </aside>
+    <!-- КАТЕГОРИИ -->
+    <div class="categories">
+        <div class="cat-chip active" onclick="filterCat('all')">🔥 Популярные</div>
+        <div class="cat-chip" onclick="filterCat('fast')">⚡ Быстрые игры</div>
+        <div class="cat-chip" onclick="filterCat('slots')">🎰 Слоты</div>
+        <div class="cat-chip" onclick="filterCat('live')">🎥 Live Казино</div>
+    </div>
 
-        <main class="viewport" id="viewport">
-            <div class="plinko-screen">
-                <div class="canvas-wrapper" id="canvasWrapper">
-                    <canvas id="plinkoCanvas"></canvas>
-                </div>
-                <div class="controls-panel">
-                    <div class="control-row">
-                        <div class="bet-input-wrap">
-                            <label for="betAmount">Ставка:</label>
-                            <input type="number" id="betAmount" value="10" min="1" step="1">
-                        </div>
-                        <button class="btn-play" id="dropBallBtn">Запуск</button>
-                    </div>
-                </div>
+    <!-- БАННЕР -->
+    <div class="banner">
+        <div>
+            <div class="banner-title">Бонус +500%</div>
+            <div class="banner-sub">На первый депозит для теста</div>
+        </div>
+        <button class="deposit-btn" style="background: #fff; color: #000;" onclick="addBonus()">Взять</button>
+    </div>
+
+    <!-- ИГРЫ -->
+    <div class="content">
+        <div class="section-title">
+            <span>Быстрые игры 1win</span>
+            <span style="color: var(--accent-blue); cursor: pointer;">Все (4)</span>
+        </div>
+        
+        <div class="game-grid">
+            <div class="game-card lucky" onclick="launchGame('Lucky Jet')">
+                <span class="game-tag">TOP</span>
+                <div class="game-title">Lucky Jet</div>
             </div>
-        </main>
+            <div class="game-card mines" onclick="launchGame('Mines')">
+                <span class="game-tag">X100</span>
+                <div class="game-title">Mines</div>
+            </div>
+            <div class="game-card plinko" onclick="launchGame('Plinko')">
+                <span class="game-tag">HOT</span>
+                <div class="game-title">Plinko</div>
+            </div>
+            <div class="game-card speed" onclick="launchGame('Speed & Cash')">
+                <span class="game-tag">NEW</span>
+                <div class="game-title">Speed & Cash</div>
+            </div>
+        </div>
     </div>
-</div>
 
-<div class="backdrop" id="backdrop"></div>
-
-<div class="drawer" id="balanceDrawer">
-    <div class="drawer-header">
-        <span class="drawer-title">Управление балансом</span>
-        <button class="btn-close" id="closeDrawerBtn">✕</button>
+    <!-- МОДАЛКА СТАВОК/ИГРЫ -->
+    <div class="modal" id="gameModal">
+        <div class="modal-body">
+            <button class="close-btn" onclick="closeModal()">✕</button>
+            <h2 id="modalTitle" style="text-transform: uppercase;">ИГРА</h2>
+            <p style="font-size: 13px; color: var(--text-gray);">Демо-эмулятор сессии. Баланс списывается локально.</p>
+            <button class="deposit-btn" style="padding: 14px;" onclick="placeBet()">Сделать ставку $10</button>
+        </div>
     </div>
-    <p style="margin-bottom: 15px; color: #888; font-size: 14px;">Тестовый пополняемый счет:</p>
-    <button class="btn-play" id="addFundsBtn" style="width: 100%;">Пополнить на $500</button>
 </div>
 
 <script>
-// ================================================================
-// 1. STATE MANAGEMENT (Управление состоянием)
-// ================================================================
-class StateManager {
-    constructor(initialBalance = 1000) {
-        this.balance = initialBalance;
-        this.listeners = [];
-    }
-    subscribe(listener) { this.listeners.push(listener); }
-    notify() { this.listeners.forEach(fn => fn(this.balance)); }
-    
-    add(amount) {
-        this.balance += amount;
-        this.notify();
-    }
-    sub(amount) {
-        if (this.balance >= amount) {
-            this.balance -= amount;
-            this.notify();
-            return true;
-        }
-        return false;
-    }
-}
-const AppState = new StateManager(1000);
+    let balance = 1000.00;
+    const balEl = document.getElementById('bal');
+    const modal = document.getElementById('gameModal');
+    const modalTitle = document.getElementById('modalTitle');
 
-// ================================================================
-// 2. PLINKO PHYSICS ENGINE (Физический движок 60 FPS Canvas)
-// ================================================================
-class PlinkoEngine {
-    constructor(canvas, wrapper) {
-        this.canvas = canvas;
-        this.wrapper = wrapper;
-        this.ctx = canvas.getContext('2d');
-        
-        this.rows = 8;
-        this.pegs = [];
-        this.balls = [];
-        this.slots = [5, 2, 0.5, 0.2, 0.5, 2, 5]; // Множители
-        
-        this.initResizing();
-        this.buildBoard();
-        this.loop = this.loop.bind(this);
-        requestAnimationFrame(this.loop);
+    function updateBalance(val) {
+        balance += val;
+        balEl.textContent = balance.toFixed(2);
     }
 
-    initResizing() {
-        const resize = () => {
-            this.width = this.canvas.width = this.wrapper.clientWidth;
-            this.height = this.canvas.height = this.wrapper.clientHeight;
-            this.buildBoard();
-        };
-        window.addEventListener('resize', resize);
-        resize();
+    function addBonus() {
+        updateBalance(500);
+        alert('Бонус +$500 зачислен!');
     }
 
-    buildBoard() {
-        this.pegs = [];
-        const spacingX = this.width / (this.rows + 2);
-        const spacingY = (this.height - 60) / this.rows;
+    function launchGame(name) {
+        modalTitle.textContent = name;
+        modal.classList.add('active');
+    }
 
-        for (let r = 0; r < this.rows; r++) {
-            const count = r + 3;
-            const startX = (this.width - (count - 1) * spacingX) / 2;
-            const y = 40 + r * spacingY;
+    function closeModal() {
+        modal.classList.remove('active');
+    }
 
-            for (let c = 0; c < count; c++) {
-                this.pegs.push({ x: startX + c * spacingX, y: y, r: 4 });
-            }
+    function placeBet() {
+        if (balance < 10) return alert('Недостаточно средств!');
+        updateBalance(-10);
+        const win = Math.random() > 0.5;
+        if(win) {
+            const prize = 25;
+            updateBalance(prize);
+            alert(`Выиграш +$${prize}!`);
+        } else {
+            alert('Ставка не сыграла.');
         }
     }
 
-    dropBall(onFinish) {
-        const startX = this.width / 2 + (Math.random() * 4 - 2);
-        this.balls.push({
-            x: startX,
-            y: 15,
-            vx: (Math.random() - 0.5) * 1.5,
-            vy: 1,
-            r: 6,
-            onFinish
-        });
+    function filterCat(cat) {
+        document.querySelectorAll('.cat-chip').forEach(c => c.classList.remove('active'));
+        event.target.classList.add('active');
     }
 
-    update() {
-        const gravity = 0.2;
-        const bounce = 0.5;
-
-        for (let i = this.balls.length - 1; i >= 0; i--) {
-            let b = this.balls[i];
-            b.vy += gravity;
-            b.x += b.vx;
-            b.y += b.vy;
-
-            // Столкновения с колышками
-            for (let p of this.pegs) {
-                let dx = b.x - p.x;
-                let dy = b.y - p.y;
-                let dist = Math.hypot(dx, dy);
-                if (dist < b.r + p.r) {
-                    let angle = Math.atan2(dy, dx);
-                    let speed = Math.hypot(b.vx, b.vy) * bounce;
-                    b.vx = Math.cos(angle) * speed + (Math.random() - 0.5) * 0.5;
-                    b.vy = Math.sin(angle) * speed;
-                    b.x = p.x + Math.cos(angle) * (b.r + p.r);
-                    b.y = p.y + Math.sin(angle) * (b.r + p.r);
-                }
-            }
-
-            // Достижение дна (слотов)
-            if (b.y >= this.height - 30) {
-                const slotWidth = this.width / this.slots.length;
-                let slotIdx = Math.floor(b.x / slotWidth);
-                slotIdx = Math.max(0, Math.min(this.slots.length - 1, slotIdx));
-                
-                b.onFinish(this.slots[slotIdx]);
-                this.balls.splice(i, 1);
-            }
-        }
-    }
-
-    draw() {
-        this.ctx.clearRect(0, 0, this.width, this.height);
-
-        // Отрисовка колышков
-        this.ctx.fillStyle = '#f5b342';
-        for (let p of this.pegs) {
-            this.ctx.beginPath();
-            this.ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
-            this.ctx.fill();
-        }
-
-        // Отрисовка шаров
-        this.ctx.fillStyle = '#ef4444';
-        for (let b of this.balls) {
-            this.ctx.beginPath();
-            this.ctx.arc(b.x, b.y, b.r, 0, Math.PI * 2);
-            this.ctx.fill();
-        }
-
-        // Отрисовка слотов множителей
-        const slotWidth = this.width / this.slots.length;
-        this.ctx.font = 'bold 11px system-ui';
-        this.ctx.textAlign = 'center';
-        for (let i = 0; i < this.slots.length; i++) {
-            this.ctx.fillStyle = '#222228';
-            this.ctx.fillRect(i * slotWidth + 2, this.height - 24, slotWidth - 4, 20);
-            this.ctx.fillStyle = '#a1a1aa';
-            this.ctx.fillText(`x${this.slots[i]}`, i * slotWidth + slotWidth / 2, this.height - 10);
-        }
-    }
-
-    loop() {
-        this.update();
-        this.draw();
-        requestAnimationFrame(this.loop);
-    }
-}
-
-// ================================================================
-// 3. UI CONTROLLER (Связка интерфейса и событий)
-// ================================================================
-document.addEventListener('DOMContentLoaded', () => {
-    // Подписка UI на изменение состояния
-    const balanceDisplay = document.getElementById('balanceDisplay');
-    AppState.subscribe(newBalance => {
-        balanceDisplay.textContent = newBalance.toFixed(2);
-    });
-
-    // Модальное окно баланса
-    const drawer = document.getElementById('balanceDrawer');
-    const backdrop = document.getElementById('backdrop');
-    const toggleDrawer = (open) => {
-        drawer.classList.toggle('open', open);
-        backdrop.classList.toggle('visible', open);
-    };
-    
-    document.getElementById('balanceBtn').onclick = () => toggleDrawer(true);
-    document.getElementById('closeDrawerBtn').onclick = () => toggleDrawer(false);
-    backdrop.onclick = () => toggleDrawer(false);
-
-    document.getElementById('addFundsBtn').onclick = () => {
-        AppState.add(500);
-        toggleDrawer(false);
-    };
-
-    // Инициализация Plinko
-    const canvas = document.getElementById('plinkoCanvas');
-    const wrapper = document.getElementById('canvasWrapper');
-    const plinko = new PlinkoEngine(canvas, wrapper);
-
-    // Запуск игры
-    const dropBtn = document.getElementById('dropBallBtn');
-    dropBtn.onclick = () => {
-        const betInput = document.getElementById('betAmount');
-        const bet = parseFloat(betInput.value) || 0;
-
-        if (bet <= 0) return alert('Введите корректную ставку');
-        if (!AppState.sub(bet)) return alert('Недостаточно средств!');
-
-        plinko.dropBall((multiplier) => {
-            const win = bet * multiplier;
-            if (win > 0) AppState.add(win);
-        });
-    };
-});
+    document.getElementById('depBtn').onclick = () => updateBalance(100);
 </script>
 </body>
 </html>
