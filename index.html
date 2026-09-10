@@ -3,329 +3,172 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>1WIN - Portal & Lucky Jet</title>
+    <title>1WIN - Lucky Jet Engine</title>
     <style>
         :root {
             --bg-main: #090d14;
-            --bg-card: #121926;
             --accent-blue: #0073ff;
             --accent-green: #00c853;
             --accent-gold: #ffb800;
-            --text-gray: #7e8b9b;
-            --border: #1e283a;
-
-            /* Lucky Jet палитра */
+            
+            /* Lucky Jet Theme */
             --lj-bg: #0d0c1d;
             --lj-card: #16142a;
-            --lj-card-hover: #211e3d;
             --lj-border: #262248;
             --lj-purple: #753bf2;
             --lj-purple-btn: linear-gradient(135deg, #7c3aed, #5b21b6);
             --lj-orange-btn: linear-gradient(135deg, #f59e0b, #d97706);
-            --lj-green-btn: linear-gradient(135deg, #10b981, #059669);
             --lj-red-btn: linear-gradient(135deg, #ef4444, #b91c1c);
         }
 
-        * { margin:0; padding:0; box-sizing:border-box; font-family: system-ui, -apple-system, sans-serif; -webkit-tap-highlight-color: transparent; }
+        * { margin:0; padding:0; box-sizing:border-box; font-family: system-ui, sans-serif; -webkit-tap-highlight-color: transparent; user-select: none; }
         html, body { width: 100%; height: 100%; background: #000; color: #fff; overflow: hidden; }
 
-        .app-view {
-            width: 100%; height: 100vh; max-width: 1000px;
-            margin: 0 auto; display: flex; flex-direction: column;
-            position: relative; background: var(--bg-main);
-        }
+        .app-view { width: 100%; height: 100vh; max-width: 1000px; margin: 0 auto; display: flex; flex-direction: column; position: relative; background: var(--bg-main); }
 
-        /* ===== ЭКРАН 1: ЛОББИ КАЗИНО ===== */
+        /* ===== ЭКРАН 1: ЛОББИ ===== */
         .lobby-screen { display: flex; flex-direction: column; width: 100%; height: 100%; }
-        .header {
-            display: flex; justify-content: space-between; align-items: center;
-            padding: 10px 16px; background: #0e1420; border-bottom: 1px solid var(--border);
-        }
+        .header { display: flex; justify-content: space-between; align-items: center; padding: 12px 16px; background: #0e1420; border-bottom: 1px solid #1e283a; }
         .logo { font-size: 20px; font-weight: 900; font-style: italic; }
         .logo span { color: var(--accent-blue); }
         .user-block { display: flex; align-items: center; gap: 10px; }
-        .balance-btn {
-            background: #162030; border: 1px solid var(--border);
-            padding: 5px 12px; border-radius: 8px; text-align: right;
-        }
-        .balance-val { color: var(--accent-gold); font-weight: 800; font-size: 14px; }
-        .deposit-btn {
-            background: linear-gradient(135deg, var(--accent-green), #009624);
-            border: none; color: #fff; font-weight: 800; padding: 8px 14px;
-            border-radius: 8px; font-size: 12px; cursor: pointer;
-        }
-        .lobby-content { flex: 1; overflow-y: auto; padding: 16px; }
-        .game-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); gap: 12px; }
-        .game-card {
-            height: 120px; border-radius: 12px; border: 1px solid var(--border);
-            position: relative; cursor: pointer; overflow: hidden;
-            display: flex; align-items: flex-end; padding: 12px;
-            transition: transform 0.2s, box-shadow 0.2s;
-        }
-        .game-card:hover { transform: translateY(-3px); box-shadow: 0 4px 20px rgba(117,59,242,0.4); }
-        .game-card.lucky { background: radial-gradient(circle at top right, #9333ea, #3b0764); border-color: #7e22ce; }
-        .game-title { font-weight: 900; font-size: 16px; text-transform: uppercase; }
+        .balance-btn { background: #162030; border: 1px solid #1e283a; padding: 4px 12px; border-radius: 8px; text-align: right; }
+        .balance-val { color: var(--accent-gold); font-weight: 800; font-size: 15px; }
+        .deposit-btn { background: linear-gradient(135deg, var(--accent-green), #009624); border: none; color: #fff; font-weight: 800; padding: 10px 14px; border-radius: 8px; font-size: 12px; cursor: pointer; }
+        
+        .lobby-content { flex: 1; padding: 16px; }
+        .game-card { height: 140px; border-radius: 16px; border: 1px solid #7e22ce; position: relative; cursor: pointer; background: radial-gradient(circle at top right, #9333ea, #3b0764); display: flex; align-items: flex-end; padding: 14px; transition: 0.2s; }
+        .game-card:active { transform: scale(0.96); }
+        .game-title { font-weight: 900; font-size: 18px; text-transform: uppercase; }
 
         /* ===== ЭКРАН 2: LUCKY JET ===== */
-        .luckyjet-screen {
-            position: absolute; inset: 0; background: var(--lj-bg);
-            display: none; flex-direction: column; z-index: 50;
-        }
+        .luckyjet-screen { position: absolute; inset: 0; background: var(--lj-bg); display: none; flex-direction: column; z-index: 50; }
         .luckyjet-screen.active { display: flex; }
 
-        /* Шапка игры + Активный баланс */
-        .lj-header {
-            height: 52px; padding: 0 14px; display: flex; justify-content: space-between;
-            align-items: center; background: #110e24; border-bottom: 1px solid var(--lj-border);
-            flex-shrink: 0;
-        }
+        /* Шапка */
+        .lj-header { height: 50px; padding: 0 14px; display: flex; justify-content: space-between; align-items: center; background: #110e24; border-bottom: 1px solid var(--lj-border); flex-shrink: 0; }
         .lj-header-left { display: flex; align-items: center; gap: 12px; }
         .lj-fullscreen { background: #1e1b38; border: none; border-radius: 6px; color: #a5a0d6; width: 32px; height: 32px; cursor: pointer; }
-        .lj-logo { font-size: 20px; font-weight: 900; letter-spacing: 0.5px; color: #fff; font-style: italic; }
-
-        .lj-header-right { display: flex; align-items: center; gap: 10px; }
-        .lj-balance-wrap {
-            background: #181533; border: 1px solid #3b336a; border-radius: 8px;
-            padding: 4px 12px; display: flex; flex-direction: column; align-items: flex-end;
-            transition: border-color 0.3s, box-shadow 0.3s;
-        }
-        .lj-balance-wrap.win-glow {
-            border-color: var(--accent-gold);
-            box-shadow: 0 0 15px rgba(255, 184, 0, 0.4);
-        }
+        .lj-logo { font-size: 18px; font-weight: 900; letter-spacing: 0.5px; color: #fff; font-style: italic; }
+        
+        .lj-balance-wrap { background: #181533; border: 1px solid #3b336a; border-radius: 8px; padding: 4px 12px; display: flex; flex-direction: column; align-items: flex-end; transition: 0.3s; }
+        .lj-balance-wrap.win-glow { border-color: var(--accent-gold); box-shadow: 0 0 15px rgba(255,184,0,0.4); }
         .lj-balance-sub { font-size: 9px; color: #8c86be; font-weight: 700; text-transform: uppercase; }
-        .lj-balance-val { font-size: 15px; font-weight: 900; color: var(--accent-gold); }
+        .lj-balance-val { font-size: 14px; font-weight: 900; color: var(--accent-gold); }
+        .lj-icon-btn { background: #3b1124; border: none; border-radius: 6px; color: #f43f5e; width: 32px; height: 32px; font-weight: bold; cursor: pointer; margin-left: 10px; }
 
-        .lj-icon-btn { background: #1e1b38; border: none; border-radius: 6px; color: #a5a0d6; width: 32px; height: 32px; cursor: pointer; }
-        .lj-icon-btn.exit { background: #3b1124; color: #f43f5e; font-weight: bold; }
-
-        /* Лента истории */
-        .lj-history-bar {
-            height: 38px; background: #0f0d21; border-bottom: 1px solid var(--lj-border);
-            display: flex; align-items: center; gap: 6px; padding: 0 10px;
-            overflow-x: auto; scrollbar-width: none; flex-shrink: 0;
-        }
-        .lj-history-bar::-webkit-scrollbar { display: none; }
-        .history-badge {
-            font-size: 11px; font-weight: 800; padding: 3px 8px; border-radius: 6px;
-            white-space: nowrap; animation: badgeIn 0.3s ease-out;
-        }
+        /* История */
+        .lj-history-bar { height: 36px; background: #0f0d21; border-bottom: 1px solid var(--lj-border); display: flex; align-items: center; gap: 6px; padding: 0 10px; overflow-x: auto; scrollbar-width: none; flex-shrink: 0; }
+        .history-badge { font-size: 11px; font-weight: 800; padding: 4px 8px; border-radius: 6px; white-space: nowrap; animation: badgeIn 0.3s ease-out; }
         .history-badge.blue { background: #1e3a8a; color: #60a5fa; }
         .history-badge.purple { background: #581c87; color: #d8b4fe; }
-        @keyframes badgeIn { from { transform: scale(0.6); opacity: 0; } to { transform: scale(1); opacity: 1; } }
+        @keyframes badgeIn { from { transform: scale(0.5); opacity: 0; } to { transform: scale(1); opacity: 1; } }
 
         /* Игровое поле */
-        .lj-main { flex: 1; display: flex; min-height: 0; overflow: hidden; }
-
-        /* Сайдбар ставок */
-        .lj-sidebar {
-            width: 320px; background: var(--lj-card); border-right: 1px solid var(--lj-border);
-            display: flex; flex-direction: column; flex-shrink: 0;
-        }
+        .lj-main { flex: 1; display: flex; min-height: 0; }
+        .lj-sidebar { width: 300px; background: var(--lj-card); border-right: 1px solid var(--lj-border); display: flex; flex-direction: column; flex-shrink: 0; }
         @media(max-width: 768px) { .lj-sidebar { display: none; } }
 
-        .lj-tabs { display: flex; padding: 6px 8px; gap: 4px; background: #110e24; }
-        .lj-tab {
-            flex: 1; text-align: center; padding: 6px; font-size: 11px; font-weight: 700;
-            color: #7e79a8; border-radius: 6px; cursor: pointer;
-        }
-        .lj-tab.active { background: #221d45; color: #fff; }
-
-        .lj-subtabs {
-            padding: 8px 12px; display: flex; justify-content: space-between;
-            align-items: center; font-size: 11px; color: #7e79a8; border-bottom: 1px solid var(--lj-border);
-        }
-        .lj-subtabs span b { color: #fff; }
-        .prev-round-toggle {
-            background: #211e3d; padding: 3px 8px; border-radius: 12px;
-            font-size: 10px; cursor: pointer; color: #9f9ac7;
-        }
-
         .lj-players-list { flex: 1; overflow-y: auto; padding: 6px; display: flex; flex-direction: column; gap: 4px; }
-        .player-row {
-            display: flex; align-items: center; justify-content: space-between;
-            background: #1b1736; padding: 6px 8px; border-radius: 6px; font-size: 11px;
-        }
-        .player-avatar {
-            width: 24px; height: 24px; border-radius: 6px; background: #4338ca;
-            display: flex; align-items: center; justify-content: center; font-weight: 800; font-size: 9px;
-        }
-        .player-name { flex: 1; margin-left: 8px; color: #a5a0d6; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; max-width: 70px; }
-        .player-bet { color: #fff; font-weight: 700; width: 60px; text-align: right; }
-        .player-pill { background: #26204d; color: #7e79a8; padding: 2px 6px; border-radius: 4px; font-size: 10px; font-weight: 800; width: 45px; text-align: center; }
+        .player-row { display: flex; align-items: center; justify-content: space-between; background: #1b1736; padding: 6px 8px; border-radius: 6px; font-size: 11px; }
+        .player-avatar { width: 22px; height: 22px; border-radius: 6px; background: #4338ca; display: flex; align-items: center; justify-content: center; font-weight: 800; font-size: 9px; }
+        .player-name { flex: 1; margin-left: 8px; color: #a5a0d6; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 60px; }
+        .player-bet { color: #fff; font-weight: 700; width: 50px; text-align: right; }
+        .player-pill { background: #26204d; color: #7e79a8; padding: 2px; border-radius: 4px; font-size: 10px; font-weight: 800; width: 45px; text-align: center; }
         .player-pill.won { background: #1e3a8a; color: #60a5fa; }
-        .player-win { width: 60px; text-align: right; font-weight: 800; color: #a5a0d6; }
-        .player-win.won { color: #60a5fa; }
 
-        /* Сцена полета */
-        .lj-game-stage {
-            flex: 1; display: flex; flex-direction: column; position: relative;
-            background: radial-gradient(circle at center, #1b163a 0%, #0d0c1d 100%);
-            overflow: hidden;
-        }
-        .canvas-container { flex: 1; position: relative; width: 100%; height: 100%; }
+        .lj-game-stage { flex: 1; position: relative; background: radial-gradient(circle at center, #1b163a 0%, #0d0c1d 100%); overflow: hidden; }
         canvas { position: absolute; inset: 0; width: 100%; height: 100%; }
 
-        .multiplier-counter {
-            position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);
-            font-size: 64px; font-weight: 900; color: #a855f7; text-shadow: 0 0 30px rgba(168,85,247,0.6);
-            pointer-events: none;
-        }
+        .multiplier-counter { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); font-size: 64px; font-weight: 900; color: #a855f7; text-shadow: 0 0 30px rgba(168,85,247,0.6); pointer-events: none; }
         .multiplier-counter.crashed { color: #ef4444; text-shadow: 0 0 30px rgba(239,68,68,0.6); }
 
-        .wait-screen {
-            position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);
-            display: none; flex-direction: column; align-items: center; gap: 8px; pointer-events: none;
-        }
+        .wait-screen { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); display: none; flex-direction: column; align-items: center; gap: 8px; }
         .wait-screen.active { display: flex; }
-        .wait-title { font-size: 13px; font-weight: 700; color: #9f9ac7; text-transform: uppercase; }
+        .wait-title { font-size: 13px; font-weight: 700; color: #9f9ac7; }
         .wait-bar { width: 160px; height: 4px; background: #26204d; border-radius: 2px; overflow: hidden; }
         .wait-bar-fill { height: 100%; width: 0%; background: #a855f7; }
 
-        /* Всплывающее уведомление о выигрыше */
-        .win-toast {
-            position: absolute; top: 20%; left: 50%; transform: translate(-50%, -50%) scale(0.8);
-            background: linear-gradient(135deg, #10b981, #059669); padding: 8px 18px; border-radius: 30px;
-            font-weight: 900; font-size: 16px; box-shadow: 0 4px 20px rgba(16,185,129,0.5);
-            opacity: 0; pointer-events: none; transition: 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-            z-index: 60;
-        }
+        .win-toast { position: absolute; top: 20%; left: 50%; transform: translate(-50%, -50%) scale(0.8); background: linear-gradient(135deg, #10b981, #059669); padding: 8px 18px; border-radius: 30px; font-weight: 900; font-size: 16px; opacity: 0; pointer-events: none; transition: 0.3s; z-index: 60; }
         .win-toast.show { opacity: 1; transform: translate(-50%, -50%) scale(1); }
 
-        /* Блок управления ставками */
-        .lj-controls {
-            padding: 10px 14px; background: #110e24; border-top: 1px solid var(--lj-border);
-            display: grid; grid-template-columns: 1fr; gap: 10px;
-        }
-        @media(min-width: 600px) { .lj-controls { grid-template-columns: 1fr 1fr; } }
-
-        .bet-box {
-            background: #181533; border: 1px solid var(--lj-border);
-            border-radius: 12px; padding: 8px 12px; display: flex; flex-direction: column; gap: 8px;
-        }
+        /* Контролы */
+        .lj-controls { padding: 12px; background: #110e24; border-top: 1px solid var(--lj-border); display: flex; justify-content: center; }
+        .bet-box { width: 100%; max-width: 400px; background: #181533; border: 1px solid var(--lj-border); border-radius: 12px; padding: 10px; display: flex; flex-direction: column; gap: 10px; }
+        
         .box-top-row { display: flex; justify-content: space-between; align-items: center; font-size: 11px; }
         .toggle-label { display: flex; align-items: center; gap: 4px; color: #7e79a8; font-weight: 600; cursor: pointer; }
-        .toggle-label input { accent-color: var(--lj-purple); }
-        .auto-input {
-            width: 50px; background: #110e24; border: 1px solid var(--lj-border);
-            color: #fff; font-size: 11px; font-weight: 700; text-align: center; border-radius: 4px; padding: 2px;
-        }
+        .auto-input { width: 50px; background: #110e24; border: 1px solid var(--lj-border); color: #fff; font-size: 12px; font-weight: 700; text-align: center; border-radius: 4px; padding: 4px; }
 
-        .box-main-row { display: flex; gap: 10px; height: 48px; }
-        .amount-selector {
-            flex: 1; display: flex; align-items: center; justify-content: space-between;
-            background: #110e24; border: 1px solid var(--lj-border); border-radius: 8px; padding: 0 4px;
-        }
-        .btn-math {
-            width: 32px; height: 32px; background: #1e1a3d; border: none;
-            color: #a5a0d6; border-radius: 6px; font-weight: 900; font-size: 16px; cursor: pointer;
-        }
-        .amount-value { font-size: 15px; font-weight: 800; color: #fff; width: 60px; text-align: center; }
+        .box-main-row { display: flex; gap: 10px; height: 50px; }
+        .amount-selector { flex: 1; display: flex; align-items: center; justify-content: space-between; background: #110e24; border: 1px solid var(--lj-border); border-radius: 8px; padding: 0 4px; }
+        .btn-math { width: 40px; height: 40px; background: #1e1a3d; border: none; color: #a5a0d6; border-radius: 6px; font-weight: 900; font-size: 18px; cursor: pointer; }
+        .amount-value { font-size: 16px; font-weight: 800; color: #fff; text-align: center; }
 
-        .btn-bet-action {
-            flex: 1; border: none; border-radius: 8px; font-weight: 900; font-size: 15px;
-            color: #fff; text-transform: uppercase; cursor: pointer; transition: 0.15s;
-            display: flex; flex-direction: column; align-items: center; justify-content: center;
-            background: var(--lj-purple-btn); box-shadow: 0 4px 15px rgba(124,58,237,0.4);
-        }
-        .btn-bet-action:active { transform: scale(0.97); }
-        .btn-bet-action.cashout {
-            background: var(--lj-orange-btn); box-shadow: 0 4px 15px rgba(245,158,11,0.4);
-        }
-        .btn-bet-action.queued {
-            background: var(--lj-red-btn); box-shadow: 0 4px 15px rgba(239,68,68,0.4);
-        }
-        .action-sub { font-size: 10px; opacity: 0.85; font-weight: 700; }
+        .btn-bet-action { flex: 1.2; border: none; border-radius: 8px; font-weight: 900; font-size: 15px; color: #fff; cursor: pointer; transition: 0.1s; display: flex; flex-direction: column; align-items: center; justify-content: center; background: var(--lj-purple-btn); }
+        .btn-bet-action:active { transform: scale(0.95); }
+        .btn-bet-action.cashout { background: var(--lj-orange-btn); }
+        .btn-bet-action.queued { background: var(--lj-red-btn); }
+        .action-sub { font-size: 11px; opacity: 0.9; font-weight: 700; }
 
-        .quick-chips { display: flex; gap: 4px; }
-        .chip {
-            flex: 1; background: #1e1b38; border: 1px solid var(--lj-border);
-            border-radius: 4px; padding: 4px 0; font-size: 10px; font-weight: 700;
-            color: #8c86be; cursor: pointer; text-align: center;
-        }
-        .chip:hover { color: #fff; background: #262248; }
+        .quick-chips { display: flex; gap: 6px; }
+        .chip { flex: 1; background: #1e1b38; border: 1px solid var(--lj-border); border-radius: 6px; padding: 6px 0; font-size: 11px; font-weight: 700; color: #8c86be; cursor: pointer; text-align: center; }
+        .chip:active { background: #262248; color: #fff; }
     </style>
 </head>
 <body>
 
 <div class="app-view">
-    <!-- 1. ГЛАВНОЕ ЛОББИ -->
+    <!-- ЛОББИ -->
     <div class="lobby-screen" id="lobbyScreen">
         <header class="header">
             <div class="logo">1WIN<span>.TEST</span></div>
             <div class="user-block">
                 <div class="balance-btn">
-                    <div style="font-size: 9px; color: var(--text-gray);">БАЛАНС</div>
+                    <div style="font-size: 9px; color: #7e8b9b;">БАЛАНС</div>
                     <div class="balance-val">$<span class="balance-num">1000.00</span></div>
                 </div>
-                <button class="deposit-btn" onclick="addFunds(500)">ПОПОЛНИТЬ +$500</button>
+                <button class="deposit-btn" id="btn-add-funds">ПОПОЛНИТЬ</button>
             </div>
         </header>
-
         <div class="lobby-content">
-            <h3 style="margin-bottom: 12px; font-size: 14px; color: var(--text-gray);">БЫСТРЫЕ ИГРЫ</h3>
-            <div class="game-grid">
-                <div class="game-card lucky" onclick="openLuckyJet()">
-                    <div class="game-title">Lucky Jet</div>
-                </div>
+            <h3 style="margin-bottom: 12px; font-size: 14px; color: #7e8b9b;">БЫСТРЫЕ ИГРЫ</h3>
+            <div class="game-card" id="btn-lucky-jet">
+                <div class="game-title">Lucky Jet</div>
             </div>
         </div>
     </div>
 
-    <!-- 2. ОКНО LUCKY JET -->
+    <!-- ИГРА LUCKY JET -->
     <div class="luckyjet-screen" id="luckyJetScreen">
         <div class="lj-header">
             <div class="lj-header-left">
-                <button class="lj-fullscreen" onclick="toggleFullscreen()">⛶</button>
+                <button class="lj-fullscreen" id="btn-fullscreen">⛶</button>
                 <div class="lj-logo">LUCKYJET</div>
             </div>
-            <div class="lj-header-right">
-                <!-- Активный баланс Lucky Jet -->
+            <div style="display:flex; align-items:center;">
                 <div class="lj-balance-wrap" id="ljBalanceWrap">
                     <span class="lj-balance-sub">Баланс</span>
-                    <span class="lj-balance-val">$<span class="balance-num" id="ljBalanceNum">1000.00</span></span>
+                    <span class="lj-balance-val">$<span class="balance-num">1000.00</span></span>
                 </div>
-                <button class="lj-icon-btn exit" onclick="closeLuckyJet()">✕</button>
+                <button class="lj-icon-btn" id="btn-exit-game">✕</button>
             </div>
         </div>
 
-        <div class="lj-history-bar" id="historyBar">
-            <div class="history-badge purple">2.67x</div>
-            <div class="history-badge blue">1.31x</div>
-            <div class="history-badge blue">1.68x</div>
-            <div class="history-badge purple">2.26x</div>
-            <div class="history-badge purple">2.57x</div>
-            <div class="history-badge purple">2.22x</div>
-        </div>
+        <div class="lj-history-bar" id="historyBar"></div>
 
         <div class="lj-main">
             <div class="lj-sidebar">
-                <div class="lj-tabs">
-                    <div class="lj-tab active">Все</div>
-                    <div class="lj-tab">Мои</div>
-                    <div class="lj-tab">Топ</div>
-                </div>
-                <div class="lj-subtabs">
-                    <span>Всего ставок: <b>825</b></span>
-                    <span class="prev-round-toggle">🕒 Пред. раунд</span>
-                </div>
                 <div class="lj-players-list" id="playersList"></div>
             </div>
 
-            <div class="lj-game-stage">
-                <div class="canvas-container" id="canvasContainer">
-                    <canvas id="gameCanvas"></canvas>
-                </div>
-
+            <div class="lj-game-stage" id="canvasContainer">
+                <canvas id="gameCanvas"></canvas>
                 <div class="multiplier-counter" id="multiplierText">x1.00</div>
-
                 <div class="win-toast" id="winToast">+0.00 $</div>
-
                 <div class="wait-screen" id="waitScreen">
-                    <div class="wait-title">ОЖИДАНИЕ СЛЕДУЮЩЕГО РАУНДА</div>
-                    <div class="wait-bar">
-                        <div class="wait-bar-fill" id="waitBarFill"></div>
-                    </div>
+                    <div class="wait-title">ОЖИДАНИЕ РАУНДА</div>
+                    <div class="wait-bar"><div class="wait-bar-fill" id="waitBarFill"></div></div>
                 </div>
             </div>
         </div>
@@ -335,24 +178,24 @@
                 <div class="box-top-row">
                     <label class="toggle-label"><input type="checkbox" id="autoBet"> Автоставка</label>
                     <label class="toggle-label"><input type="checkbox" id="autoCashout"> Автовывод</label>
-                    <input type="text" class="auto-input" id="autoCashVal" value="2.00">
+                    <input type="number" class="auto-input" id="autoCashVal" value="2.00" step="0.1" min="1.1">
                 </div>
                 <div class="box-main-row">
                     <div class="amount-selector">
-                        <button class="btn-math" onclick="changeBet(-1)">-</button>
+                        <button class="btn-math" id="btn-bet-minus">-</button>
                         <span class="amount-value" id="betVal">10</span>
-                        <button class="btn-math" onclick="changeBet(1)">+</button>
+                        <button class="btn-math" id="btn-bet-plus">+</button>
                     </div>
-                    <button class="btn-bet-action" id="actionBtn" onclick="handleActionClick()">
+                    <button class="btn-bet-action" id="actionBtn">
                         <span id="actionTitle">СТАВКА</span>
                         <span class="action-sub" id="actionSub"></span>
                     </button>
                 </div>
                 <div class="quick-chips">
-                    <div class="chip" onclick="addBet(50)">+50</div>
-                    <div class="chip" onclick="addBet(100)">+100</div>
-                    <div class="chip" onclick="addBet(200)">+200</div>
-                    <div class="chip" onclick="addBet(500)">+500</div>
+                    <div class="chip" data-val="50">+50</div>
+                    <div class="chip" data-val="100">+100</div>
+                    <div class="chip" data-val="200">+200</div>
+                    <div class="chip" data-val="500">+500</div>
                 </div>
             </div>
         </div>
@@ -360,66 +203,245 @@
 </div>
 
 <script>
-// ==========================================
-// 1. АКТИВНЫЙ ДИНАМИЧЕСКИЙ БАЛАНС
-// ==========================================
-let balance = 1000.00;
-let displayedBalance = 1000.00;
-let balanceAnimationId = null;
-
-function animateBalanceChange(targetValue) {
-    if (balanceAnimationId) cancelAnimationFrame(balanceAnimationId);
-
-    const startValue = displayedBalance;
-    const diff = targetValue - startValue;
-    const duration = 400;
-    const startTime = performance.now();
-
-    const balanceWrap = document.getElementById('ljBalanceWrap');
-    if (diff > 0) balanceWrap.classList.add('win-glow');
-
-    function tick(now) {
-        const elapsed = now - startTime;
-        const progress = Math.min(1, elapsed / duration);
-        displayedBalance = startValue + diff * progress;
-
-        document.querySelectorAll('.balance-num').forEach(el => {
-            el.textContent = displayedBalance.toFixed(2);
-        });
-
-        if (progress < 1) {
-            balanceAnimationId = requestAnimationFrame(tick);
-        } else {
-            displayedBalance = targetValue;
-            document.querySelectorAll('.balance-num').forEach(el => {
-                el.textContent = displayedBalance.toFixed(2);
-            });
-            setTimeout(() => balanceWrap.classList.remove('win-glow'), 300);
+document.addEventListener('DOMContentLoaded', () => {
+    // 1. СОСТОЯНИЕ БАЛАНСА
+    let balance = 1000.00;
+    
+    function updateBalance(delta) {
+        balance += delta;
+        document.querySelectorAll('.balance-num').forEach(el => el.textContent = balance.toFixed(2));
+        if(delta > 0) {
+            const wrap = document.getElementById('ljBalanceWrap');
+            wrap.classList.add('win-glow');
+            setTimeout(() => wrap.classList.remove('win-glow'), 500);
         }
     }
-    balanceAnimationId = requestAnimationFrame(tick);
-}
 
-function updateBalance(delta) {
-    balance = Math.max(0, balance + delta);
-    animateBalanceChange(balance);
-}
+    // 2. НАВИГАЦИЯ И КЛИКИ
+    document.getElementById('btn-add-funds').addEventListener('click', () => updateBalance(500));
+    
+    const lobby = document.getElementById('lobbyScreen');
+    const game = document.getElementById('luckyJetScreen');
+    
+    document.getElementById('btn-lucky-jet').addEventListener('click', () => {
+        lobby.style.display = 'none';
+        game.classList.add('active');
+        resizeCanvas();
+    });
+    
+    document.getElementById('btn-exit-game').addEventListener('click', () => {
+        game.classList.remove('active');
+        lobby.style.display = 'flex';
+    });
 
-function addFunds(val) {
-    updateBalance(val);
-}
+    document.getElementById('btn-fullscreen').addEventListener('click', () => {
+        if (!document.fullscreenElement) document.documentElement.requestFullscreen().catch(()=>{});
+        else document.exitFullscreen().catch(()=>{});
+    });
 
-// ==========================================
-// 2. УПРАВЛЕНИЕ СТАВКОЙ И КНОПКОЙ (FIXED)
-// ==========================================
-let currentBet = 10;
-let activeBetAmount = 0; // Зафиксированная ставка в раунде
-let userState = 'IDLE';  // IDLE | QUEUED | IN_GAME | CASHED_OUT
+    // 3. УПРАВЛЕНИЕ СТАВКАМИ
+    let currentBet = 10;
+    let activeBetAmount = 0;
+    let userState = 'IDLE'; // IDLE | QUEUED | IN_GAME
+    const betValEl = document.getElementById('betVal');
+    const actionBtn = document.getElementById('actionBtn');
+    const actionTitle = document.getElementById('actionTitle');
+    const actionSub = document.getElementById('actionSub');
 
-const actionBtn = document.getElementById('actionBtn');
-const actionTitle = document.getElementById('actionTitle');
-const actionSub = document.getElementById('actionSub');
+    function modifyBet(val, isAbsolute = false) {
+        if (userState !== 'IDLE') return;
+        currentBet = isAbsolute ? currentBet + val : Math.max(1, currentBet + val);
+        betValEl.textContent = currentBet;
+    }
 
-function changeBet(step) {
-    if (userState === 'IN_GAME' || userState === 'QUEUED') return;
-    c
+    document.getElementById('btn-bet-minus').addEventListener('click', () => modifyBet(-1));
+    document.getElementById('btn-bet-plus').addEventListener('click', () => modifyBet(1));
+    document.querySelectorAll('.chip').forEach(chip => {
+        chip.addEventListener('click', (e) => modifyBet(parseInt(e.target.dataset.val), true));
+    });
+
+    function renderBtn() {
+        actionBtn.className = 'btn-bet-action';
+        if (userState === 'IDLE') {
+            actionTitle.textContent = gameState === 'flying' ? 'ОЖИДАНИЕ' : 'СТАВКА';
+            actionSub.textContent = '';
+        } else if (userState === 'QUEUED') {
+            actionBtn.classList.add('queued');
+            actionTitle.textContent = 'ОТМЕНА';
+            actionSub.textContent = `В очереди: $${activeBetAmount}`;
+        } else if (userState === 'IN_GAME') {
+            actionBtn.classList.add('cashout');
+            actionTitle.textContent = 'ЗАБРАТЬ';
+            actionSub.textContent = `+$${(activeBetAmount * currentMult).toFixed(2)}`;
+        }
+    }
+
+    actionBtn.addEventListener('click', () => {
+        if (userState === 'IDLE') {
+            if (balance < currentBet) return alert('Недостаточно средств!');
+            activeBetAmount = currentBet;
+            updateBalance(-activeBetAmount);
+            userState = 'QUEUED';
+            renderBtn();
+        } else if (userState === 'QUEUED') {
+            updateBalance(activeBetAmount);
+            activeBetAmount = 0;
+            userState = 'IDLE';
+            renderBtn();
+        } else if (userState === 'IN_GAME' && gameState === 'flying') {
+            const winAmount = activeBetAmount * currentMult;
+            updateBalance(winAmount);
+            
+            const toast = document.getElementById('winToast');
+            toast.textContent = `+${winAmount.toFixed(2)} $`;
+            toast.classList.add('show');
+            setTimeout(() => toast.classList.remove('show'), 1500);
+            
+            userState = 'IDLE';
+            renderBtn();
+        }
+    });
+
+    // 4. ДВИЖОК ИГРЫ
+    const canvas = document.getElementById('gameCanvas');
+    const ctx = canvas.getContext('2d');
+    let width, height;
+    function resizeCanvas() { width = canvas.width = canvas.parentElement.clientWidth; height = canvas.height = canvas.parentElement.clientHeight; }
+    window.addEventListener('resize', resizeCanvas);
+
+    let gameState = 'waiting';
+    let crashPoint = 1.0;
+    let currentMult = 1.0;
+    let flightStart = 0;
+    let stars = Array.from({length: 40}, () => ({x: Math.random(), y: Math.random(), s: Math.random()*2+1}));
+
+    function getCrashPoint() {
+        if (Math.random() < 0.04) return 1.00;
+        return Math.max(1.00, Math.floor((0.96 / (1 - Math.random())) * 100) / 100);
+    }
+
+    function addHistory(mult) {
+        const bar = document.getElementById('historyBar');
+        const badge = document.createElement('div');
+        badge.className = `history-badge ${mult >= 2.0 ? 'purple' : 'blue'}`;
+        badge.textContent = mult.toFixed(2) + 'x';
+        bar.insertBefore(badge, bar.firstChild);
+        if (bar.children.length > 15) bar.removeChild(bar.lastChild);
+    }
+
+    function generateBots() {
+        const list = document.getElementById('playersList');
+        list.innerHTML = '';
+        ['Max', 'Alex', 'John', 'Serg', 'Ivan', 'Pro'].forEach(n => {
+            const bet = (Math.random() * 50 + 5).toFixed(2);
+            list.innerHTML += `<div class="player-row" data-exit="${(1.1 + Math.random()*3).toFixed(2)}" data-bet="${bet}">
+                <div class="player-avatar">${n[0]}</div><div class="player-name">${n}</div>
+                <div class="player-bet">${bet} $</div><div class="player-pill">-</div>
+            </div>`;
+        });
+    }
+
+    function startRound() {
+        gameState = 'flying';
+        crashPoint = getCrashPoint();
+        currentMult = 1.0;
+        flightStart = performance.now();
+        document.getElementById('waitScreen').classList.remove('active');
+        document.getElementById('multiplierText').classList.remove('crashed');
+        
+        generateBots();
+
+        const autoBet = document.getElementById('autoBet').checked;
+        if (userState === 'IDLE' && autoBet && balance >= currentBet) {
+            activeBetAmount = currentBet;
+            updateBalance(-activeBetAmount);
+            userState = 'QUEUED';
+        }
+
+        if (userState === 'QUEUED') userState = 'IN_GAME';
+        renderBtn();
+    }
+
+    function endRound() {
+        gameState = 'crashed';
+        document.getElementById('multiplierText').classList.add('crashed');
+        addHistory(currentMult);
+        if (userState === 'IN_GAME') userState = 'IDLE';
+        renderBtn();
+
+        setTimeout(() => {
+            gameState = 'waiting';
+            document.getElementById('multiplierText').textContent = '';
+            document.getElementById('waitScreen').classList.add('active');
+            renderBtn();
+            
+            let waitTime = 5000, startWait = performance.now();
+            let ival = setInterval(() => {
+                let p = ((performance.now() - startWait) / waitTime) * 100;
+                document.getElementById('waitBarFill').style.width = Math.min(100, p) + '%';
+                if (p >= 100) { clearInterval(ival); startRound(); }
+            }, 50);
+        }, 1500);
+    }
+
+    function drawScene(time) {
+        ctx.clearRect(0, 0, width, height);
+        
+        ctx.fillStyle = "rgba(255,255,255,0.4)";
+        stars.forEach(st => {
+            let sx = (st.x * width - (gameState === 'flying' ? time * 0.1 * st.s : 0)) % width;
+            if (sx < 0) sx += width;
+            ctx.beginPath(); ctx.arc(sx, st.y * height, st.s, 0, Math.PI*2); ctx.fill();
+        });
+
+        if (gameState === 'flying') {
+            let elapsed = (time - flightStart) / 1000;
+            currentMult = 1.00 + Math.pow(elapsed * 0.6, 1.75);
+            document.getElementById('multiplierText').textContent = `x${currentMult.toFixed(2)}`;
+            
+            if (userState === 'IN_GAME') renderBtn(); // Обновление потенциального выигрыша
+
+            // Автовывод
+            const autoCash = document.getElementById('autoCashout').checked;
+            const autoVal = parseFloat(document.getElementById('autoCashVal').value) || 2.0;
+            if (autoCash && userState === 'IN_GAME' && currentMult >= autoVal) {
+                actionBtn.click();
+            }
+
+            // Обновление ботов
+            document.querySelectorAll('.player-row').forEach(row => {
+                let exit = parseFloat(row.dataset.exit);
+                let pill = row.querySelector('.player-pill');
+                if (currentMult >= exit && pill.textContent === '-') {
+                    pill.textContent = exit.toFixed(2) + 'x';
+                    pill.classList.add('won');
+                }
+            });
+
+            // Отрисовка героя
+            let p = Math.min(1, elapsed / 10);
+            drawJoe(width * 0.2 + p * width * 0.4, height * 0.7 - p * height * 0.4 + Math.sin(time * 0.005) * 12);
+            
+            if (currentMult >= crashPoint) endRound();
+        } else if (gameState === 'crashed') {
+            drawJoe(width * 1.2, height * -0.2);
+        }
+        requestAnimationFrame(drawScene);
+    }
+
+    function drawJoe(x, y) {
+        ctx.save(); ctx.translate(x, y);
+        ctx.fillStyle = "#f59e0b"; ctx.beginPath(); ctx.arc(-20, 10, 8+Math.random()*5, 0, Math.PI*2); ctx.fill();
+        ctx.fillStyle = "#ef4444"; ctx.beginPath(); ctx.arc(-26, 10, 5+Math.random()*3, 0, Math.PI*2); ctx.fill();
+        ctx.fillStyle = "#6366f1"; ctx.beginPath(); ctx.roundRect(-15, -15, 30, 30, 8); ctx.fill();
+        ctx.fillStyle = "#fbbf24"; ctx.beginPath(); ctx.arc(6, -6, 7, 0, Math.PI*2); ctx.fill();
+        ctx.restore();
+    }
+
+    resizeCanvas();
+    startRound();
+    requestAnimationFrame(drawScene);
+});
+</script>
+</body>
+</html>
